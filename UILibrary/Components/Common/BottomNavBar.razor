@@ -1,0 +1,53 @@
+﻿<MudAppBar Bottom="true"
+           Fixed="true"
+           Dense="false"
+           Color="Color.Dark"
+           Elevation="1">
+
+    <MudStack Row="true"
+              AlignItems="AlignItems.Center"
+              Justify="Justify.SpaceAround"
+              Class="d-flex flex-grow-1">
+
+        <MudIconButton Href="/"
+                       Icon="@Icons.Material.Filled.Dashboard"
+                       Color="@(GetButtonColor("/"))"/>
+
+        <MudIconButton Href="/orders"
+                       Icon="@Icons.Material.Filled.Tag"
+                       Color="@(GetButtonColor("/orders"))"/>
+
+        <MudIconButton Href="/items"
+                       Icon="@Icons.Material.Filled.ViewList"
+                       Color="@(GetButtonColor("/items"))"/>
+
+        <MudIconButton Href="/settings"
+                       Icon="@Icons.Material.Filled.Settings"
+                       Color="@(GetButtonColor("/settings"))"/>
+    </MudStack>
+
+</MudAppBar>
+
+@code {
+
+    protected override void OnInitialized()
+    {
+        NavManager.LocationChanged += OnLocationChanged;
+    }
+
+    private async void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private Color GetButtonColor(string href)
+    {
+        return NavManager.Uri.EndsWith(href, StringComparison.OrdinalIgnoreCase) ? Color.Primary : Color.Inherit;
+    }
+
+    public void Dispose()
+    {
+        NavManager.LocationChanged -= OnLocationChanged;
+    }
+
+}

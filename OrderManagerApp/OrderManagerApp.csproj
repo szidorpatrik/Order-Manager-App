@@ -62,10 +62,18 @@
         <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="$(MauiVersion)"/>
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0"/>
+        <PackageReference Include="MudBlazor" Version="7.15.0" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\DatabaseLibrary\DatabaseLibrary.csproj" />
         <ProjectReference Include="..\UILibrary\UILibrary.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Components\Pages\Dashboard.razor" />
+      <AdditionalFiles Include="Components\Pages\Items.razor" />
+      <AdditionalFiles Include="Components\Pages\Orders.razor" />
+      <AdditionalFiles Include="Components\Pages\Settings.razor" />
     </ItemGroup>
 </Project>
