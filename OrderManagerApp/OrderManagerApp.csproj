@@ -69,11 +69,4 @@
         <ProjectReference Include="..\DatabaseLibrary\DatabaseLibrary.csproj" />
         <ProjectReference Include="..\UILibrary\UILibrary.csproj" />
     </ItemGroup>
-
-    <ItemGroup>
-      <AdditionalFiles Include="Components\Pages\Dashboard.razor" />
-      <AdditionalFiles Include="Components\Pages\Items.razor" />
-      <AdditionalFiles Include="Components\Pages\Orders.razor" />
-      <AdditionalFiles Include="Components\Pages\Settings.razor" />
-    </ItemGroup>
 </Project>
