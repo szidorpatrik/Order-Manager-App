@@ -2,10 +2,18 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:OrderManagerApp"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="OrderManagerApp.MainPage"
              BackgroundColor="{DynamicResource PageBackgroundColor}">
 
-    <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior StatusBarColor="{DynamicResource PageBackgroundColor}" StatusBarStyle="LightContent" />
+    </ContentPage.Behaviors>
+    
+    <BlazorWebView x:Name="blazorWebView" 
+                   HostPage="wwwroot/index.html"
+                   Margin="{OnPlatform Default='0,0,0,0', iOS='0,30,0,0'}"
+                   BackgroundColor="{DynamicResource PageBackgroundColor}">
         <BlazorWebView.RootComponents>
             <RootComponent Selector="#app" ComponentType="{x:Type local:Components.Routes}" />
         </BlazorWebView.RootComponents>

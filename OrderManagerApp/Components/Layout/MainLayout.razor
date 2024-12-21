@@ -1,38 +1,40 @@
 ﻿@inherits LayoutComponentBase
 
-<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" DefaultScrollbar="true"/>
-<MudPopoverProvider/>
-<MudDialogProvider/>
-<MudSnackbarProvider class="mb-15"/>
+<MudThemeProvider @ref="@_mudThemeProvider" @bind-IsDarkMode="@_isDarkMode" DefaultScrollbar="true" />
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider class="mb-15" />
 
 <MudLayout>
-    <MudGrid Spacing="3">
-        <MudItem xs="12">
-            <MudMainContent>
-                <MudContainer>
-                    @Body
-                </MudContainer>
-            </MudMainContent>
-        </MudItem>
-        <MudItem xs="12">
-            <BottomNavBar/>
-        </MudItem>
-    </MudGrid>
+    <MudMainContent Class="d-flex flex-column pt-0" Style="height: 100vh;">
+        <div class="flex-grow-1 d-flex flex-column">
+            <MudContainer Class="flex-grow-1 d-flex pt-3" Style="overflow: auto; width: 100%;">
+                @Body
+            </MudContainer>
+        </div>
+        <div class="d-flex flex-shrink-0 mud-theme-dark">
+            <BottomNavBar />
+        </div>
+    </MudMainContent>
 </MudLayout>
 
+
 @code {
-    private bool             _isDarkMode = true;
+    private bool _isDarkMode = true;
     private MudThemeProvider _mudThemeProvider;
 
-    protected override async Task OnAfterRenderAsync(bool firstRender) {
-        if (firstRender) {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
             _isDarkMode = await _mudThemeProvider.GetSystemPreference();
             await _mudThemeProvider.WatchSystemPreference(OnSystemPreferenceChanged);
             StateHasChanged();
         }
     }
 
-    private Task OnSystemPreferenceChanged(bool newValue) {
+    private Task OnSystemPreferenceChanged(bool newValue)
+    {
         _isDarkMode = newValue;
         StateHasChanged();
         return Task.CompletedTask;

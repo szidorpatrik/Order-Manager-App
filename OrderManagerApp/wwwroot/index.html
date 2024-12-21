@@ -1,13 +1,12 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <title>OrderManagerApp</title>
+    <link rel="icon" type="image/png" href="favicon.png" />
     <base href="/" />
     <link rel="stylesheet" href="css/app.css" />
-    <link rel="stylesheet" href="OrderManagerApp.styles.css" />
-    <link rel="icon" type="image/png" href="favicon.png" />
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
     <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
 </head>
@@ -16,7 +15,17 @@
 
     <div class="status-bar-safe-area"></div>
 
-    <div id="app">Loading...</div>
+    <div id="app">
+        <div id="first-load">
+            <div class="mud-progress-circular mud-primary-text mud-progress-medium mud-progress-indeterminate"
+                 role="progressbar">
+                <svg class="mud-progress-circular-svg" viewBox="22 22 44 44">
+                    <circle class="mud-progress-circular-circle mud-progress-indeterminate" cx="44" cy="44" fill="none"
+                            r="20" stroke-width="3"></circle>
+                </svg>
+            </div>
+        </div>
+    </div>
 
     <div id="blazor-error-ui">
         An unhandled error has occurred.

@@ -1,32 +1,24 @@
-﻿<MudAppBar Bottom="true"
-           Fixed="true"
-           Dense="false"
-           Color="Color.Dark"
-           Elevation="2">
+﻿<MudStack Row="true"
+          AlignItems="AlignItems.Center"
+          Justify="Justify.SpaceAround"
+          Class="d-flex flex-grow-1">
 
-    <MudStack Row="true"
-              AlignItems="AlignItems.Center"
-              Justify="Justify.SpaceAround"
-              Class="d-flex flex-grow-1">
+    <MudIconButton Href="/"
+                   Icon="@Icons.Material.Filled.Dashboard"
+                   Color="@(GetButtonColor("/"))" />
 
-        <MudIconButton Href="/"
-                       Icon="@Icons.Material.Filled.Dashboard"
-                       Color="@(GetButtonColor("/"))"/>
+    <MudIconButton Href="/orders"
+                   Icon="@Icons.Material.Filled.Tag"
+                   Color="@(GetButtonColor("/orders"))" />
 
-        <MudIconButton Href="/orders"
-                       Icon="@Icons.Material.Filled.Tag"
-                       Color="@(GetButtonColor("/orders"))"/>
+    <MudIconButton Href="/items"
+                   Icon="@Icons.Material.Filled.ViewList"
+                   Color="@(GetButtonColor("/items"))" />
 
-        <MudIconButton Href="/items"
-                       Icon="@Icons.Material.Filled.ViewList"
-                       Color="@(GetButtonColor("/items"))"/>
-
-        <MudIconButton Href="/settings"
-                       Icon="@Icons.Material.Filled.Settings"
-                       Color="@(GetButtonColor("/settings"))"/>
-    </MudStack>
-
-</MudAppBar>
+    <MudIconButton Href="/settings"
+                   Icon="@Icons.Material.Filled.Settings"
+                   Color="@(GetButtonColor("/settings"))" />
+</MudStack>
 
 @code {
 
