@@ -17,7 +17,7 @@ public static class MauiProgram {
 			});
 
 		builder.Services.AddLocalization();
-		builder.Services.AddDbContext<Context>();
+		builder.Services.AddSingleton<LiteDbService>();
 
 		builder.Services.AddMauiBlazorWebView();
 		builder.Services.AddMudServices(config => {
