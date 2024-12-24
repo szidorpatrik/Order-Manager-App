@@ -7,8 +7,8 @@
 
 <MudLayout>
     <MudMainContent Class="d-flex flex-column pt-0" Style="height: 100vh;">
-        <div class="flex-grow-1 d-flex flex-column">
-            <MudContainer Class="flex-grow-1 d-flex pt-3" Style="overflow: auto; width: 100%;">
+        <div class="flex-grow-1 d-flex flex-column py-4" style="overflow: auto; width: 100%;">
+            <MudContainer Class="flex-grow-1 d-flex flex-column px-3 gap-3">
                 @Body
             </MudContainer>
         </div>
@@ -21,7 +21,7 @@
 
 @code {
     private bool _isDarkMode = true;
-    private MudThemeProvider _mudThemeProvider;
+    private MudThemeProvider _mudThemeProvider = default!;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

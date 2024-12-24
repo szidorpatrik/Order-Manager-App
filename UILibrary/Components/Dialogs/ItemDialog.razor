@@ -1,0 +1,51 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.subtitle1">
+            @Localizer["EditItem", @Item.Name] 
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <EditForm Model="@localItem" OnValidSubmit="Submit" class="d-flex flex-column gap-3">
+            <DataAnnotationsValidator />
+
+            <MudTextField T="string" Required="true" Label="Name" Immediate="true"
+                          @bind-Value="localItem.Name" For="@(() => localItem.Name)" />
+            <MudTextField T="double" Required="true" Label="Price" Immediate="true"
+                          @bind-Value="localItem.Price" For="@(() => localItem.Price)" />
+
+            <div class="d-flex flex-grow-1 justify-end gap-3">
+                <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Error" Class="" />
+                <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save" Variant="Variant.Outlined" Color="Color.Primary" Class="">Save</MudButton>
+            </div>
+        </EditForm>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [Parameter] public Item Item { get; set; } = default!;
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; } = default!;
+
+    private Item localItem = new();
+
+    protected override void OnInitialized()
+    {
+        // Clone to localItem
+    }
+
+    private void Submit()
+    {
+        //TODO
+        MudDialog.Close();
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    private void Delete()
+    {
+        //TODO
+    }
+}
