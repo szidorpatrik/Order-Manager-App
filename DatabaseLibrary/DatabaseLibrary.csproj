@@ -6,11 +6,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.11"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.11"/>
-        <PackageReference Include="sqlite-net-pcl" Version="1.9.172"/>
-        <PackageReference Include="SQLitePCLRaw.bundle_green" Version="2.1.10"/>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Languages\Languages.csproj" />
     </ItemGroup>
 
 </Project>
