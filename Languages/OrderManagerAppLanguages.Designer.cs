@@ -61,11 +61,38 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new item.
+        /// </summary>
+        public static string AddItem {
+            get {
+                return ResourceManager.GetString("AddItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit {0}.
         /// </summary>
         public static string EditItem {
             get {
                 return ResourceManager.GetString("EditItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} was added.
+        /// </summary>
+        public static string ItemAddedSuccessfully {
+            get {
+                return ResourceManager.GetString("ItemAddedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Something went wrong.
+        /// </summary>
+        public static string SomethingWentWrong {
+            get {
+                return ResourceManager.GetString("SomethingWentWrong", resourceCulture);
             }
         }
         

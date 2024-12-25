@@ -1,9 +1,17 @@
 ﻿@using System.ComponentModel.DataAnnotations
+@inject LiteDbService LiteDb
 
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.subtitle1">
-            @Localizer["EditItem", @Item.Name] 
+            @if (Item.Id is 0)
+            {
+                @Localizer["AddItem"]
+            }
+            else
+            {
+                @Localizer["EditItem", @Item.Name]
+            }
         </MudText>
     </TitleContent>
     <DialogContent>
@@ -16,36 +24,58 @@
                           @bind-Value="localItem.Price" For="@(() => localItem.Price)" />
 
             <div class="d-flex flex-grow-1 justify-end gap-3">
-                <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Error" Class="" />
-                <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save" Variant="Variant.Outlined" Color="Color.Primary" Class="">Save</MudButton>
+                @if (Item.Id is not 0)
+                {
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Error" />
+                }
+                <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save" Variant="Variant.Outlined" Color="Color.Primary">Save</MudButton>
             </div>
         </EditForm>
     </DialogContent>
 </MudDialog>
 
 @code {
-    [Parameter] public Item Item { get; set; } = default!;
+    [Parameter, EditorRequired] public Item Item { get; set; } = default!;
 
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;
 
-    private Item localItem = new();
+    private Item localItem = default!;
 
     protected override void OnInitialized()
     {
         // Clone to localItem
+        localItem = new()
+        {
+            Id = Item.Id,
+            Name = Item.Name,
+            Price = Item.Price
+        };
     }
 
     private void Submit()
     {
-        //TODO
-        MudDialog.Close();
+        //TODO: Implement edit
+        if (Item.Id is 0)
+        {
+            var newItem = LiteDb.AddItem(localItem);
+            if (newItem != Item.Id)
+            {
+                Snackbar.Add(Localizer["ItemAddedSuccessfully", localItem.Name], Severity.Success);
+                MudDialog.Close();
+            }
+            else
+            {
+                Snackbar.Add(Localizer["SomethingWentWrong"], Severity.Error);
+            }
+        }
+
     }
 
     private void Cancel() => MudDialog.Cancel();
 
     private void Delete()
     {
-        //TODO
+        //TODO: Implement deletion
     }
 }

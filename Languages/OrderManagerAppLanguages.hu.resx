@@ -117,8 +117,17 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AddItem" xml:space="preserve">
+    <value>Új tétel</value>
+  </data>
   <data name="EditItem" xml:space="preserve">
     <value>{0} módosítása</value>
+  </data>
+  <data name="ItemAddedSuccessfully" xml:space="preserve">
+    <value>{0} létrehozva</value>
+  </data>
+  <data name="SomethingWentWrong" xml:space="preserve">
+    <value>Váratlan hiba</value>
   </data>
   <data name="ThereAreNoItems" xml:space="preserve">
     <value>Nem találhatóak tételek</value>
