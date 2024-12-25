@@ -36,7 +36,7 @@ namespace Languages {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Languages.OrderManagerAppLanguages", typeof(OrderManagerAppLanguages).Assembly);
@@ -51,7 +51,7 @@ namespace Languages {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,9 +63,18 @@ namespace Languages {
         /// <summary>
         ///   Looks up a localized string similar to Edit {0}.
         /// </summary>
-        internal static string EditItem {
+        public static string EditItem {
             get {
                 return ResourceManager.GetString("EditItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no items.
+        /// </summary>
+        public static string ThereAreNoItems {
+            get {
+                return ResourceManager.GetString("ThereAreNoItems", resourceCulture);
             }
         }
     }

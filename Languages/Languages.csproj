@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <EmbeddedResource Update="OrderManagerAppLanguages.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>OrderManagerAppLanguages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>

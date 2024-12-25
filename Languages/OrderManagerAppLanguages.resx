@@ -120,4 +120,7 @@
   <data name="EditItem" xml:space="preserve">
     <value>Edit {0}</value>
   </data>
+  <data name="ThereAreNoItems" xml:space="preserve">
+    <value>There are no items</value>
+  </data>
 </root>
