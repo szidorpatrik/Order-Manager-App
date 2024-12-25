@@ -7,6 +7,21 @@
     width: 100vw;
 }
 
+.scrollable-text {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    white-space: nowrap;
+    overflow: auto;
+}
+
+.truncated-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80%;
+    display: inline-block;
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
