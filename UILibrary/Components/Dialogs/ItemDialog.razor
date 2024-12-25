@@ -90,7 +90,18 @@
 
     private async Task Delete()
     {
-        //TODO: Implement deletion
+        var deleted = DBService.DeleteItem(Item.Id);
+        if (deleted)
+        {
+            Snackbar.Add(Localizer["ItemDeletedSuccessfully", localItem.Name], Severity.Success);
+            MudDialog.Close();
+        }
+        else
+        {
+            Snackbar.Add(Localizer["SomethingWentWrong"], Severity.Error);
+        }
+
+        await NotifyParent();
     }
 
     private void Cancel() => MudDialog.Cancel();
