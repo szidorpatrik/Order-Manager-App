@@ -88,6 +88,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} was deleted.
+        /// </summary>
+        public static string ItemDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("ItemDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} was updated.
+        /// </summary>
+        public static string ItemUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ItemUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Something went wrong.
         /// </summary>
         public static string SomethingWentWrong {

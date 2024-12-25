@@ -1,9 +1,9 @@
 ﻿@page "/items"
-@inject LiteDbService LiteDb
+@inject LiteDbService DBService
 
 <h1>Items</h1>
 
-@if (!ItemsList.Any())
+@if (!items.Any())
 {
     <div class="d-flex flex-grow-1 align-center justify-center mud-width-full">
         <MudText Typo="Typo.h6">@Localizer["ThereAreNoItems"]</MudText>
@@ -12,30 +12,46 @@
 else
 {
     <div class="d-flex flex-column gap-3">
-        @foreach (var item in ItemsList)
+        @foreach (var item in items)
         {
-            <ItemCard Item="item" />
+            <ItemCard Item="item" OnItemChanged="RefreshItems" />
         }
     </div>
     <div class="d-flex flex-grow-1"></div>
 }
 <div class="d-flex align-center justify-end mud-width-full">
-    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@(()=>OpenItemDialog())" />
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@(() => OpenItemDialog())" />
 </div>
 
 @code {
-    private List<Item> ItemsList = new();
+    private List<Item> items = new();
 
     protected override void OnInitialized()
     {
-        ItemsList = LiteDb.GetItems();
+        RefreshItems();
     }
 
-    private Task OpenItemDialog()
+    private void RefreshItems()
     {
-        var parameter = new DialogParameters { ["Item"] = new Item() };
-        var options = new DialogOptions { CloseOnEscapeKey = true, CloseButton = true, FullWidth = true, Position = DialogPosition.TopCenter };
-        var dialog = DialogService.ShowAsync<ItemDialog>(Localizer["AddItem"], parameter, options);
-        return dialog;
+        items = DBService.GetItems();
+    }
+
+    private async Task OpenItemDialog()
+    {
+        var parameter = new DialogParameters
+            {
+                ["Item"] = new Item(),
+                ["OnItemChanged"] = EventCallback.Factory.Create(this, RefreshItems)
+            };
+
+        var options = new DialogOptions
+            {
+                CloseOnEscapeKey = true,
+                CloseButton = true,
+                FullWidth = true,
+                Position = DialogPosition.TopCenter
+            };
+
+        await DialogService.ShowAsync<ItemDialog>(Localizer["AddItem"], parameter, options);
     }
 }

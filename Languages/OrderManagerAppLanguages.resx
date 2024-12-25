@@ -126,6 +126,12 @@
   <data name="ItemAddedSuccessfully" xml:space="preserve">
     <value>{0} was added</value>
   </data>
+  <data name="ItemDeletedSuccessfully" xml:space="preserve">
+    <value>{0} was deleted</value>
+  </data>
+  <data name="ItemUpdatedSuccessfully" xml:space="preserve">
+    <value>{0} was updated</value>
+  </data>
   <data name="SomethingWentWrong" xml:space="preserve">
     <value>Something went wrong</value>
   </data>

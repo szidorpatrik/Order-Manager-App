@@ -126,6 +126,12 @@
   <data name="ItemAddedSuccessfully" xml:space="preserve">
     <value>{0} létrehozva</value>
   </data>
+  <data name="ItemDeletedSuccessfully" xml:space="preserve">
+    <value>{0} törölve</value>
+  </data>
+  <data name="ItemUpdatedSuccessfully" xml:space="preserve">
+    <value>{0} módosítva</value>
+  </data>
   <data name="SomethingWentWrong" xml:space="preserve">
     <value>Váratlan hiba</value>
   </data>

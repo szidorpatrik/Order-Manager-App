@@ -1,5 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
-@inject LiteDbService LiteDb
+@inject LiteDbService DBService
 
 <MudDialog>
     <TitleContent>
@@ -26,7 +26,7 @@
             <div class="d-flex flex-grow-1 justify-end gap-3">
                 @if (Item.Id is not 0)
                 {
-                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Error" />
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Error" OnClick="Delete" />
                 }
                 <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save" Variant="Variant.Outlined" Color="Color.Primary">Save</MudButton>
             </div>
@@ -37,6 +37,9 @@
 @code {
     [Parameter, EditorRequired] public Item Item { get; set; } = default!;
 
+    [Parameter]
+    public EventCallback OnItemChanged { get; set; }
+
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;
 
@@ -46,19 +49,18 @@
     {
         // Clone to localItem
         localItem = new()
-        {
-            Id = Item.Id,
-            Name = Item.Name,
-            Price = Item.Price
-        };
+            {
+                Id = Item.Id,
+                Name = Item.Name,
+                Price = Item.Price
+            };
     }
 
-    private void Submit()
+    private async Task Submit()
     {
-        //TODO: Implement edit
         if (Item.Id is 0)
         {
-            var newItem = LiteDb.AddItem(localItem);
+            var newItem = DBService.AddItem(localItem);
             if (newItem != Item.Id)
             {
                 Snackbar.Add(Localizer["ItemAddedSuccessfully", localItem.Name], Severity.Success);
@@ -69,13 +71,35 @@
                 Snackbar.Add(Localizer["SomethingWentWrong"], Severity.Error);
             }
         }
+        else
+        {
+            var updated = DBService.UpdateItem(localItem);
+            if (updated)
+            {
+                Snackbar.Add(Localizer["ItemUpdatedSuccessfully", localItem.Name], Severity.Success);
+                MudDialog.Close();
+            }
+            else
+            {
+                Snackbar.Add(Localizer["SomethingWentWrong"], Severity.Error);
+            }
+        }
 
+        await NotifyParent();
+    }
+
+    private async Task Delete()
+    {
+        //TODO: Implement deletion
     }
 
     private void Cancel() => MudDialog.Cancel();
 
-    private void Delete()
+    private async Task NotifyParent()
     {
-        //TODO: Implement deletion
+        if (OnItemChanged.HasDelegate)
+        {
+            await OnItemChanged.InvokeAsync();
+        }
     }
 }
