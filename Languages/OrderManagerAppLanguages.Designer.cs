@@ -70,6 +70,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure about deleting {0}?.
+        /// </summary>
+        public static string AreYouSureToDelete {
+            get {
+                return ResourceManager.GetString("AreYouSureToDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete item.
+        /// </summary>
+        public static string DeleteItem {
+            get {
+                return ResourceManager.GetString("DeleteItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit {0}.
         /// </summary>
         public static string EditItem {
@@ -106,6 +124,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Something went wrong.
         /// </summary>
         public static string SomethingWentWrong {
@@ -120,6 +147,15 @@ namespace Languages {
         public static string ThereAreNoItems {
             get {
                 return ResourceManager.GetString("ThereAreNoItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

@@ -120,6 +120,12 @@
   <data name="AddItem" xml:space="preserve">
     <value>Add new item</value>
   </data>
+  <data name="AreYouSureToDelete" xml:space="preserve">
+    <value>Are you sure about deleting {0}?</value>
+  </data>
+  <data name="DeleteItem" xml:space="preserve">
+    <value>Delete item</value>
+  </data>
   <data name="EditItem" xml:space="preserve">
     <value>Edit {0}</value>
   </data>
@@ -132,10 +138,16 @@
   <data name="ItemUpdatedSuccessfully" xml:space="preserve">
     <value>{0} was updated</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
   <data name="SomethingWentWrong" xml:space="preserve">
     <value>Something went wrong</value>
   </data>
   <data name="ThereAreNoItems" xml:space="preserve">
     <value>There are no items</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
   </data>
 </root>
