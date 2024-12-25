@@ -2,6 +2,8 @@
 
 namespace DatabaseLibrary {
 	using System;
+	using System.Collections.Generic;
+	using System.Linq;
 
 	public static class LiteDbQueries {
 		// CRUD for Item
@@ -25,10 +27,14 @@ namespace DatabaseLibrary {
 			return collection.FindById(itemId);
 		}
 
+		public static List<Item> GetItems(this LiteDbService service) {
+			var collection = service.GetDatabase().GetCollection<Item>("Items");
+			return collection.FindAll().ToList();
+		}
+
 		// CRUD for Order
 		public static int AddOrder(this LiteDbService service, Order order) {
-			if (service.Orders.Exists(o => o.OrderNumber == order.OrderNumber))
-			{
+			if (service.Orders.Exists(o => o.OrderNumber == order.OrderNumber)) {
 				throw new InvalidOperationException($"{order} already exists.");
 			}
 			var collection = service.GetDatabase().GetCollection<Order>("Orders");
