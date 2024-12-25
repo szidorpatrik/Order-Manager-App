@@ -18,9 +18,9 @@
         <EditForm Model="@localItem" OnValidSubmit="Submit" class="d-flex flex-column gap-3">
             <DataAnnotationsValidator />
 
-            <MudTextField T="string" Required="true" Label="Name" Immediate="true"
+            <MudTextField T="string" Required="true" Label="@Localizer["ItemName"]" Immediate="true"
                           @bind-Value="localItem.Name" For="@(() => localItem.Name)" />
-            <MudTextField T="double" Required="true" Label="Price" Immediate="true"
+            <MudTextField T="double" Required="true" Label="@Localizer["Price"]" Immediate="true"
                           @bind-Value="localItem.Price" For="@(() => localItem.Price)" />
 
             <div class="d-flex flex-grow-1 justify-end gap-3">
@@ -30,7 +30,7 @@
                                    Color="Color.Error" OnClick="ConfirmDelete" />
                 }
                 <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save"
-                           Variant="Variant.Outlined" Color="Color.Primary">Save</MudButton>
+                           Variant="Variant.Outlined" Color="Color.Primary">@Localizer["Save"]</MudButton>
             </div>
         </EditForm>
     </DialogContent>

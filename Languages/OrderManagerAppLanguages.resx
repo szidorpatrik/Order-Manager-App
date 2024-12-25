@@ -123,6 +123,9 @@
   <data name="AreYouSureToDelete" xml:space="preserve">
     <value>Are you sure about deleting {0}?</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashboard</value>
+  </data>
   <data name="DeleteItem" xml:space="preserve">
     <value>Delete item</value>
   </data>
@@ -135,11 +138,29 @@
   <data name="ItemDeletedSuccessfully" xml:space="preserve">
     <value>{0} was deleted</value>
   </data>
+  <data name="ItemName" xml:space="preserve">
+    <value>Item name</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Items</value>
+  </data>
   <data name="ItemUpdatedSuccessfully" xml:space="preserve">
     <value>{0} was updated</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings</value>
   </data>
   <data name="SomethingWentWrong" xml:space="preserve">
     <value>Something went wrong</value>

@@ -123,6 +123,9 @@
   <data name="AreYouSureToDelete" xml:space="preserve">
     <value>Biztosan törli a(z) {0}-t?</value>
   </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Irányítópult</value>
+  </data>
   <data name="DeleteItem" xml:space="preserve">
     <value>Tétel törlése</value>
   </data>
@@ -135,11 +138,29 @@
   <data name="ItemDeletedSuccessfully" xml:space="preserve">
     <value>{0} törölve</value>
   </data>
+  <data name="ItemName" xml:space="preserve">
+    <value>Tétel neve</value>
+  </data>
+  <data name="Items" xml:space="preserve">
+    <value>Tételek</value>
+  </data>
   <data name="ItemUpdatedSuccessfully" xml:space="preserve">
     <value>{0} módosítva</value>
   </data>
   <data name="No" xml:space="preserve">
     <value>Nem</value>
+  </data>
+  <data name="Orders" xml:space="preserve">
+    <value>Rendelések</value>
+  </data>
+  <data name="Price" xml:space="preserve">
+    <value>Ár</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Beállítások</value>
   </data>
   <data name="SomethingWentWrong" xml:space="preserve">
     <value>Váratlan hiba</value>
