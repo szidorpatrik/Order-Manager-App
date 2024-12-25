@@ -1,18 +1,21 @@
 ﻿@using Microsoft.Extensions.Localization
 @using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 
+@using Languages
 @using UILibrary
-@using UILibrary.Languages
 @using UILibrary.Components
 @using UILibrary.Components.Common
+@using UILibrary.Components.Cards
+@using UILibrary.Components.Dialogs
 
 @using MudBlazor
 
 @using DatabaseLibrary
 @using DatabaseLibrary.Models
 
-@inject NavigationManager           NavManager
-@inject IStringLocalizer<Resources> Localizer
-@inject IDialogService              DialogService
-@inject ISnackbar                   Snackbar
+@inject IStringLocalizer<OrderManagerAppLanguages> Localizer
+@inject NavigationManager                          NavManager
+@inject IDialogService                             DialogService
+@inject ISnackbar                                  Snackbar

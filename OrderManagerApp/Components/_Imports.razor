@@ -5,11 +5,19 @@
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
 @using Microsoft.AspNetCore.Components.Web.Virtualization
+@using Microsoft.Extensions.Localization
 @using Microsoft.JSInterop
 @using OrderManagerApp
 @using OrderManagerApp.Components
 @using MudBlazor
+@using DatabaseLibrary
+@using DatabaseLibrary.Models
+@using Languages
 @using UILibrary
-@using UILibrary.Languages
 @using UILibrary.Components
 @using UILibrary.Components.Common
+@using UILibrary.Components.Cards
+@using UILibrary.Components.Dialogs
+
+@inject IStringLocalizer<OrderManagerAppLanguages> Localizer
+@inject IDialogService DialogService

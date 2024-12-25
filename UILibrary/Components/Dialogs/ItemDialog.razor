@@ -1,0 +1,134 @@
+﻿@using System.ComponentModel.DataAnnotations
+@inject LiteDbService DBService
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.subtitle1" Class="truncated-text mr-3">
+            @if (Item.Id is 0)
+            {
+                @Localizer["AddItem"]
+            }
+            else
+            {
+                @Localizer["EditItem", @Item.Name]
+            }
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <EditForm Model="@localItem" OnValidSubmit="Submit" class="d-flex flex-column gap-3">
+            <DataAnnotationsValidator />
+
+            <MudTextField T="string" Required="true" Label="@Localizer["ItemName"]" Immediate="true"
+                          @bind-Value="localItem.Name" For="@(() => localItem.Name)" />
+            <MudTextField T="double" Required="true" Label="@Localizer["Price"]" Immediate="true"
+                          @bind-Value="localItem.Price" For="@(() => localItem.Price)" />
+
+            <div class="d-flex flex-grow-1 justify-end gap-3">
+                @if (Item.Id is not 0)
+                {
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"
+                                   Color="Color.Error" OnClick="ConfirmDelete" />
+                }
+                <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save"
+                           Variant="Variant.Outlined" Color="Color.Primary">@Localizer["Save"]</MudButton>
+            </div>
+        </EditForm>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [Parameter, EditorRequired] 
+    public Item Item { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnItemChanged { get; set; }
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; } = default!;
+
+    private Item localItem = default!;
+
+    protected override void OnInitialized()
+    {
+        // Clone to localItem
+        localItem = new()
+            {
+                Id = Item.Id,
+                Name = Item.Name,
+                Price = Item.Price
+            };
+    }
+
+    private async Task Submit()
+    {
+        var success = AddOrUpdateItem(localItem);
+        if (success)
+        {
+            ShowSnackbar(Item.Id is 0
+                ? Localizer["ItemAddedSuccessfully", localItem.Name]
+                : Localizer["ItemUpdatedSuccessfully", localItem.Name], Severity.Success);
+
+            await NotifyParent();
+            CloseDialog();
+        }
+        else
+        {
+            ShowSnackbar(Localizer["SomethingWentWrong"], Severity.Error);
+        }
+    }
+
+    private async Task Delete()
+    {
+        var success = DBService.DeleteItem(localItem.Id);
+        if (success)
+        {
+            ShowSnackbar(Localizer["ItemDeletedSuccessfully", localItem.Name], Severity.Success);
+            await NotifyParent();
+            CloseDialog();
+        }
+        else
+        {
+            ShowSnackbar(Localizer["SomethingWentWrong"], Severity.Error);
+        }
+    }
+
+    private async Task ConfirmDelete()
+    {
+        var confirmed = await DialogService.ShowMessageBox(
+            Localizer["DeleteItem"],
+            Localizer["AreYouSureToDelete", localItem.Name],
+            yesText: Localizer["Yes"],
+            noText: Localizer["No"]);
+
+        if (confirmed is true)
+        {
+            await Delete();
+        }
+    }
+
+    private bool AddOrUpdateItem(Item item)
+    {
+        if (item.Id is 0)
+        {
+            return DBService.AddItem(item) > 0;
+        }
+        return DBService.UpdateItem(item);
+    }
+
+    private async Task NotifyParent()
+    {
+        if (OnItemChanged.HasDelegate)
+        {
+            await OnItemChanged.InvokeAsync();
+        }
+    }
+
+    private void ShowSnackbar(string message, Severity severity)
+        => Snackbar.Add(message, severity);
+
+    private void CloseDialog()
+        => MudDialog.Close();
+
+    private void Cancel() 
+        => MudDialog.Cancel();
+}

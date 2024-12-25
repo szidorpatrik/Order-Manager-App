@@ -68,6 +68,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\DatabaseLibrary\DatabaseLibrary.csproj" />
+        <ProjectReference Include="..\Languages\Languages.csproj" />
         <ProjectReference Include="..\UILibrary\UILibrary.csproj" />
     </ItemGroup>
 </Project>

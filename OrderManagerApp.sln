@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILibrary", "UILibrary\UILi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrderManagerApp", "OrderManagerApp\OrderManagerApp.csproj", "{F08F4B1D-0570-41CA-870D-37618385633B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Languages", "Languages\Languages.csproj", "{348E8909-B820-44BE-BD51-6196F8BFE418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseLibrary.Tests", "DatabaseLibrary.Tests\DatabaseLibrary.Tests.csproj", "{183E73B2-DF1C-4A90-8D2C-82DA48091A06}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,7 +26,16 @@ Global
 		{FF80E556-0AEF-4474-9DA5-7F77D8C31915}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F08F4B1D-0570-41CA-870D-37618385633B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F08F4B1D-0570-41CA-870D-37618385633B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F08F4B1D-0570-41CA-870D-37618385633B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{F08F4B1D-0570-41CA-870D-37618385633B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F08F4B1D-0570-41CA-870D-37618385633B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{348E8909-B820-44BE-BD51-6196F8BFE418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{348E8909-B820-44BE-BD51-6196F8BFE418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{348E8909-B820-44BE-BD51-6196F8BFE418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{348E8909-B820-44BE-BD51-6196F8BFE418}.Release|Any CPU.Build.0 = Release|Any CPU
+		{183E73B2-DF1C-4A90-8D2C-82DA48091A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{183E73B2-DF1C-4A90-8D2C-82DA48091A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{183E73B2-DF1C-4A90-8D2C-82DA48091A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{183E73B2-DF1C-4A90-8D2C-82DA48091A06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

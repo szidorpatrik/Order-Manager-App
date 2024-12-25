@@ -1,7 +1,57 @@
 ﻿@page "/items"
+@inject LiteDbService DBService
 
-<h1>Items</h1>
+<h1>@Localizer["Items"]</h1>
+
+@if (!items.Any())
+{
+    <div class="d-flex flex-grow-1 align-center justify-center mud-width-full">
+        <MudText Typo="Typo.h6">@Localizer["ThereAreNoItems"]</MudText>
+    </div>
+}
+else
+{
+    <div class="d-flex flex-column gap-3">
+        @foreach (var item in items)
+        {
+            <ItemCard Item="item" OnItemChanged="RefreshItems" />
+        }
+    </div>
+    <div class="d-flex flex-grow-1"></div>
+}
+<div class="d-flex align-center justify-end mud-width-full">
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@(() => OpenItemDialog())" />
+</div>
 
 @code {
-    
+    private List<Item> items = new();
+
+    protected override void OnInitialized()
+    {
+        RefreshItems();
+    }
+
+    private void RefreshItems()
+    {
+        items = DBService.GetItems();
+    }
+
+    private async Task OpenItemDialog()
+    {
+        var parameter = new DialogParameters
+            {
+                ["Item"] = new Item(),
+                ["OnItemChanged"] = EventCallback.Factory.Create(this, RefreshItems)
+            };
+
+        var options = new DialogOptions
+            {
+                CloseOnEscapeKey = true,
+                CloseButton = true,
+                FullWidth = true,
+                Position = DialogPosition.TopCenter
+            };
+
+        await DialogService.ShowAsync<ItemDialog>(Localizer["AddItem"], parameter, options);
+    }
 }
