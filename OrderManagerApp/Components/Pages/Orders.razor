@@ -42,8 +42,10 @@ else
     }
     <div class="d-flex flex-grow-1"></div>
 }
-<div class="d-flex align-center justify-end mud-width-full">
-    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@(() => OpenOrderAddDialog())" />
+
+<div class="d-flex align-center justify-end mud-width-full fixed-fab">
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
+            OnClick="@(() => OpenOrderAddDialog())" />
 </div>
 
 @code {

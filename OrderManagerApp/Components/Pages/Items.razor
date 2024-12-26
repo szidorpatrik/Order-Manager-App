@@ -11,16 +11,16 @@
 }
 else
 {
-    <div class="d-flex flex-column gap-3">
+    <div class="d-flex flex-column gap-3 mb-16">
         @foreach (var item in items)
         {
             <ItemCard Item="item" OnItemChanged="RefreshItems" />
         }
     </div>
-    <div class="d-flex flex-grow-1"></div>
 }
-<div class="d-flex align-center justify-end mud-width-full">
-    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@(() => OpenItemDialog())" />
+<div class="d-flex align-center justify-end mud-width-full fixed-fab">
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
+            OnClick="@(() => OpenItemDialog())" />
 </div>
 
 @code {
