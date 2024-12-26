@@ -3,6 +3,15 @@
 
 <div class="d-flex justify-space-between">
     <h1>@Localizer["Orders"]</h1>
+    <div>
+        <label for="collapse-expand-all">
+            <MudText Typo="Typo.overline">@(Localizer[_shouldExpandAll ? "CollapseAll" : "ExpandAll"])</MudText>
+        </label>
+        <MudToggleIconButton Toggled="_shouldExpandAll"
+                             ToggledChanged="ExpandAll"
+                             Icon="@Icons.Material.Filled.ExpandMore"
+                             ToggledIcon="@Icons.Material.Filled.ExpandLess" id="collapse-expand-all" />
+    </div>
 </div>
 
 @if (!_orders.Any())
@@ -40,6 +49,7 @@ else
 @code {
     private List<Order> _orders = new();
     private Dictionary<int, bool> _expandedStates = new();
+    private bool _shouldExpandAll;
 
     protected override void OnInitialized()
     {
@@ -76,3 +86,20 @@ else
 
         await DialogService.ShowAsync<OrderAddDialog>(Localizer["AddOrder"], parameter, options);
     }
+
+    private void ExpandAll()
+    {
+        _shouldExpandAll = !_shouldExpandAll;
+        foreach (var order in _orders)
+        {
+            if (_shouldExpandAll)
+            {
+                _expandedStates[order.Id] = true;
+            }
+            else
+            {
+                _expandedStates[order.Id] = false;
+            }
+        }
+    }
+}
