@@ -97,6 +97,12 @@
 
     private async Task Submit()
     {
+        bool isValid = ValidateForm();
+        if (!isValid)
+        {
+            return;
+        }
+
         try
         {
             _localOrder.DateStart = _dateStart!.Value.Date + _timeStart!.Value;
@@ -118,6 +124,35 @@
         {
             await NotifyParent();
         }
+    }
+
+    private bool ValidateForm()
+    {
+        if (_localOrder.OrderNumber < 0)
+        {
+            ShowSnackbar(Localizer["OrderMustBeGreaterThanZero"], Severity.Error);
+            return false;
+        }
+
+        if (!_dateStart.HasValue || !_timeStart.HasValue)
+        {
+            ShowSnackbar(Localizer["StartDateOrTimeMissing"], Severity.Error);
+            return false;
+        }
+
+        if (!_dateEnd.HasValue || !_timeEnd.HasValue)
+        {
+            ShowSnackbar(Localizer["EndDateOrTimeMissing"], Severity.Error);
+            return false;
+        }
+
+        if (_dateStart > _dateEnd)
+        {
+            ShowSnackbar(Localizer["EndDateMustBeAfterStartDate"], Severity.Error);
+            return false;
+        }
+
+        return true;
     }
 
     private bool AddOrUpdateOrder(Order order)
