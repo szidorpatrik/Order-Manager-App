@@ -70,11 +70,56 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add new order.
+        /// </summary>
+        public static string AddOrder {
+            get {
+                return ResourceManager.GetString("AddOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure about deleting {0}?.
         /// </summary>
         public static string AreYouSureToDelete {
             get {
                 return ResourceManager.GetString("AreYouSureToDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close.
+        /// </summary>
+        public static string Close {
+            get {
+                return ResourceManager.GetString("Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Collapse all.
+        /// </summary>
+        public static string CollapseAll {
+            get {
+                return ResourceManager.GetString("CollapseAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created at: {0}.
+        /// </summary>
+        public static string CreatedAt {
+            get {
+                return ResourceManager.GetString("CreatedAt", resourceCulture);
             }
         }
         
@@ -102,6 +147,42 @@ namespace Languages {
         public static string EditItem {
             get {
                 return ResourceManager.GetString("EditItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date: {0}.
+        /// </summary>
+        public static string EndDate {
+            get {
+                return ResourceManager.GetString("EndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date must be after start date.
+        /// </summary>
+        public static string EndDateMustBeAfterStartDate {
+            get {
+                return ResourceManager.GetString("EndDateMustBeAfterStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date or time is missing.
+        /// </summary>
+        public static string EndDateOrTimeMissing {
+            get {
+                return ResourceManager.GetString("EndDateOrTimeMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Expand all.
+        /// </summary>
+        public static string ExpandAll {
+            get {
+                return ResourceManager.GetString("ExpandAll", resourceCulture);
             }
         }
         
@@ -160,6 +241,33 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to #{0} already exists.
+        /// </summary>
+        public static string OrderAlreadyExists {
+            get {
+                return ResourceManager.GetString("OrderAlreadyExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order must be greater than 0.
+        /// </summary>
+        public static string OrderMustBeGreaterThanZero {
+            get {
+                return ResourceManager.GetString("OrderMustBeGreaterThanZero", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order number.
+        /// </summary>
+        public static string OrderNumber {
+            get {
+                return ResourceManager.GetString("OrderNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Orders.
         /// </summary>
         public static string Orders {
@@ -178,11 +286,56 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        public static string Quantity {
+            get {
+                return ResourceManager.GetString("Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select end date.
+        /// </summary>
+        public static string SelectDateEnd {
+            get {
+                return ResourceManager.GetString("SelectDateEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select start date.
+        /// </summary>
+        public static string SelectDateStart {
+            get {
+                return ResourceManager.GetString("SelectDateStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select start time.
+        /// </summary>
+        public static string SelectTimeEnd {
+            get {
+                return ResourceManager.GetString("SelectTimeEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select end time.
+        /// </summary>
+        public static string SelectTimeStart {
+            get {
+                return ResourceManager.GetString("SelectTimeStart", resourceCulture);
             }
         }
         
@@ -205,11 +358,56 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start date: {0}.
+        /// </summary>
+        public static string StartDate {
+            get {
+                return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start date or time is missing.
+        /// </summary>
+        public static string StartDateOrTimeMissing {
+            get {
+                return ResourceManager.GetString("StartDateOrTimeMissing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There are no items.
         /// </summary>
         public static string ThereAreNoItems {
             get {
                 return ResourceManager.GetString("ThereAreNoItems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There are no orders.
+        /// </summary>
+        public static string ThereAreNoOrders {
+            get {
+                return ResourceManager.GetString("ThereAreNoOrders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start time.
+        /// </summary>
+        public static string TimeEnd {
+            get {
+                return ResourceManager.GetString("TimeEnd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End time.
+        /// </summary>
+        public static string TimeStart {
+            get {
+                return ResourceManager.GetString("TimeStart", resourceCulture);
             }
         }
         
