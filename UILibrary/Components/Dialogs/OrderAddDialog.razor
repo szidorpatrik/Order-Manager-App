@@ -3,19 +3,61 @@
 
 <MudDialog>
     <TitleContent>
-        <MudText Typo="Typo.subtitle1" Class="truncated-text mr-3">
+        <MudText Typo="Typo.subtitle1">
             @Localizer["AddOrder"]
         </MudText>
     </TitleContent>
     <DialogContent>
-        <EditForm Model="@_localOrder" OnValidSubmit="Submit" class="d-flex flex-column gap-3">
+        <EditForm Model="@_localOrder" OnValidSubmit="Submit" class="d-flex flex-column flex-grow-1 pb-4" style="height: 100%;">
             <DataAnnotationsValidator />
 
-            <MudTextField T="int" Required="true" Label="@Localizer["OrderNumber"]" Immediate="true"
-                          @bind-Value="_localOrder.OrderNumber" For="@(() => _localOrder.OrderNumber)" />
+            <div class="d-flex flex-column gap-3">
+                <MudTextField T="int" Label="@Localizer["OrderNumber"]" Immediate="true"
+                              @bind-Value="_localOrder.OrderNumber" For="@(() => _localOrder.OrderNumber)" />
 
+                <div class="d-flex flex-row justify-space-between gap-5">
+                    <MudDatePicker Label="@Localizer["SelectDateStart"]" Context="dateStartPicker"
+                                   PickerVariant="PickerVariant.Dialog"
+                                   @bind-Date="_dateStart" Placeholder="@Localizer["SelectDateStart"]" AutoClose="true">
+                        <PickerActions>
+                            <MudButton OnClick="@(() => dateStartPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
+                        </PickerActions>
+                    </MudDatePicker>
 
-            <div class="d-flex flex-grow-1 justify-end gap-3">
+                    <MudTimePicker Label="@Localizer["TimeStart"]" Placeholder="@Localizer["SelectTimeStart"]"
+                                   PickerVariant="PickerVariant.Dialog"
+                                   @bind-Time="_timeStart" Context="timeStartPicker" AutoClose="true">
+                        <PickerActions>
+                            <MudButton OnClick="@(() => timeStartPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
+                        </PickerActions>
+                    </MudTimePicker>
+                </div>
+
+                <div class="d-flex flex-row justify-space-between gap-5">
+                    <MudDatePicker Label="@Localizer["SelectDateEnd"]" Context="dateEndPicker"
+                                   PickerVariant="PickerVariant.Dialog"
+                                   @bind-Date="_dateEnd" Placeholder="@Localizer["SelectDateEnd"]" AutoClose="true">
+                        <PickerActions>
+                            <MudButton OnClick="@(() => dateEndPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
+                        </PickerActions>
+                    </MudDatePicker>
+
+                    <MudTimePicker Label="@Localizer["TimeEnd"]" Placeholder="@Localizer["SelectTimeEnd"]"
+                                   PickerVariant="PickerVariant.Dialog"
+                                   @bind-Time="_timeEnd" Context="timeEndPicker" AutoClose="true">
+                        <PickerActions>
+                            <MudButton OnClick="@(() => timeEndPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
+                        </PickerActions>
+                    </MudTimePicker>
+                </div>
+
+                @* <MudTextField T="double" Required="true" Label="@Localizer["Quantity"]" Immediate="true"
+                          @bind-Value="_localOrder.q" For="@(() => localOrder.Price)" /> *@
+            </div>
+
+            <div class="d-flex flex-grow-1 justify-end align-end gap-3">
+                <MudButton OnClick="Cancel" Variant="Variant.Outlined">@Localizer["Cancel"]</MudButton>
+
                 <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save"
                            Variant="Variant.Outlined" Color="Color.Primary">@Localizer["Save"]</MudButton>
             </div>
@@ -34,6 +76,11 @@
     private MudDialogInstance MudDialog { get; set; } = default!;
 
     private Order _localOrder = default!;
+    private DateTime? _dateStart = DateTime.Today;
+    private DateTime? _dateEnd = DateTime.Today;
+
+    private TimeSpan? _timeStart = new TimeSpan(DateTime.Now.Hour, 0, 0);
+    private TimeSpan? _timeEnd = new TimeSpan(DateTime.Now.AddHours(1).Hour, 0, 0);
 
     protected override void OnInitialized()
     {
@@ -52,6 +99,9 @@
     {
         try
         {
+            _localOrder.DateStart = _dateStart!.Value.Date + _timeStart!.Value;
+            _localOrder.DateEnd = _dateEnd!.Value.Date + _timeEnd!.Value;
+
             var success = AddOrUpdateOrder(_localOrder);
             if (success)
             {
