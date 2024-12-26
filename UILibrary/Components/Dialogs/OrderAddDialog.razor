@@ -1,0 +1,98 @@
+﻿@using System.ComponentModel.DataAnnotations
+@inject LiteDbService DBService
+
+<MudDialog>
+    <TitleContent>
+        <MudText Typo="Typo.subtitle1" Class="truncated-text mr-3">
+            @Localizer["AddOrder"]
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <EditForm Model="@_localOrder" OnValidSubmit="Submit" class="d-flex flex-column gap-3">
+            <DataAnnotationsValidator />
+
+            <MudTextField T="int" Required="true" Label="@Localizer["OrderNumber"]" Immediate="true"
+                          @bind-Value="_localOrder.OrderNumber" For="@(() => _localOrder.OrderNumber)" />
+
+
+            <div class="d-flex flex-grow-1 justify-end gap-3">
+                <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save"
+                           Variant="Variant.Outlined" Color="Color.Primary">@Localizer["Save"]</MudButton>
+            </div>
+        </EditForm>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [Parameter, EditorRequired]
+    public Order Order { get; set; } = default!;
+
+    [Parameter]
+    public EventCallback OnOrderChanged { get; set; }
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; } = default!;
+
+    private Order _localOrder = default!;
+
+    protected override void OnInitialized()
+    {
+        _localOrder = new()
+            {
+                Id = Order.Id,
+                OrderNumber = Order.OrderNumber,
+                OrderItems = Order.OrderItems,
+                DateCreated = Order.DateCreated,
+                DateStart = Order.DateStart,
+                DateEnd = Order.DateEnd
+            };
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            var success = AddOrUpdateOrder(_localOrder);
+            if (success)
+            {
+                ShowSnackbar(Localizer["OrderAddedSuccessfully", _localOrder], Severity.Success);
+                await NotifyParent();
+                CloseDialog();
+            }
+        }
+        catch (InvalidOperationException ex)
+        {
+            ShowSnackbar(ex.Message, Severity.Error);
+        }
+        finally
+        {
+            await NotifyParent();
+        }
+    }
+
+    private bool AddOrUpdateOrder(Order order)
+    {
+        if (order.Id is 0)
+        {
+            return DBService.AddOrder(order) > 0;
+        }
+        return DBService.UpdateOrder(order);
+    }
+
+    private async Task NotifyParent()
+    {
+        if (OnOrderChanged.HasDelegate)
+        {
+            await OnOrderChanged.InvokeAsync();
+        }
+    }
+
+    private void ShowSnackbar(string message, Severity severity)
+        => Snackbar.Add(message, severity);
+
+    private void CloseDialog()
+        => MudDialog.Close();
+
+    private void Cancel()
+        => MudDialog.Cancel();
+}
