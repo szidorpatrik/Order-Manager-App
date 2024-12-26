@@ -38,6 +38,7 @@ namespace DatabaseLibrary {
 				throw new InvalidOperationException(service.Localizer["OrderAlreadyExists", order.OrderNumber]);
 			}
 			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			order.DateCreated = DateTime.Now;
 			return collection.Insert(order);
 		}
 
