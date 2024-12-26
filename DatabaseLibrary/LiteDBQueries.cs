@@ -61,6 +61,11 @@ namespace DatabaseLibrary {
 			return collection.FindOne(x => x.OrderNumber == orderNumber);
 		}
 
+		public static List<Order> GetOrders(this LiteDbService service) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			return collection.FindAll().ToList();
+		}
+
 		// CRUD for OrderItem
 		public static int AddOrderItem(this LiteDbService service, OrderItem orderItem) {
 			var collection = service.GetDatabase().GetCollection<OrderItem>("OrderItems");
