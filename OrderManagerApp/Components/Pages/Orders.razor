@@ -81,10 +81,10 @@ else
 
         var options = new DialogOptions
             {
+                BackdropClick = false,
+                FullScreen = true,
                 CloseOnEscapeKey = true,
                 CloseButton = true,
-                FullWidth = true,
-                Position = DialogPosition.TopCenter
             };
 
         await DialogService.ShowAsync<OrderAddDialog>(Localizer["AddOrder"], parameter, options);
