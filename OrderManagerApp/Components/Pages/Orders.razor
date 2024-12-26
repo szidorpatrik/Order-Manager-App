@@ -1,7 +1,78 @@
 ﻿@page "/orders"
+@inject LiteDbService DBService
 
-<h1>@Localizer["Orders"]</h1>
+<div class="d-flex justify-space-between">
+    <h1>@Localizer["Orders"]</h1>
+</div>
+
+@if (!_orders.Any())
+{
+    <div class="d-flex flex-grow-1 align-center justify-center mud-width-full">
+        <MudText Typo="Typo.h6">@Localizer["ThereAreNoOrders"]</MudText>
+    </div>
+}
+else
+{
+    @foreach (var order in _orders)
+    {
+        <MudPaper Class="pa-4">
+            <MudStack Spacing="0">
+                <div class="d-flex justify-space-between align-center">
+                    <MudText Typo="Typo.h6">@order</MudText>
+                    <MudToggleIconButton @bind-Toggled="_expandedStates[order.Id]"
+                                         Icon="@Icons.Material.Filled.ExpandMore"
+                                         ToggledIcon="@Icons.Material.Filled.ExpandLess" />
+                </div>
+                <MudCollapse Expanded="_expandedStates[order.Id]">
+                    <MudDivider Class="mt-2 py-1" />
+                    <MudText Typo="Typo.subtitle2">@Localizer["CreatedAt", order.DateCreated.ToLocalTime()]</MudText>
+
+                </MudCollapse>
+            </MudStack>
+        </MudPaper>
+    }
+    <div class="d-flex flex-grow-1"></div>
+}
+<div class="d-flex align-center justify-end mud-width-full">
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" OnClick="@(() => OpenOrderAddDialog())" />
+</div>
 
 @code {
-    
-}
+    private List<Order> _orders = new();
+    private Dictionary<int, bool> _expandedStates = new();
+
+    protected override void OnInitialized()
+    {
+        RefreshOrders();
+    }
+
+    private void RefreshOrders()
+    {
+        _orders = DBService.GetOrders();
+        foreach (var order in _orders)
+        {
+            if (!_expandedStates.ContainsKey(order.Id))
+            {
+                _expandedStates[order.Id] = false;
+            }
+        }
+    }
+
+    private async Task OpenOrderAddDialog()
+    {
+        var parameter = new DialogParameters
+            {
+                ["Order"] = new Order(),
+                ["OnOrderChanged"] = EventCallback.Factory.Create(this, RefreshOrders)
+            };
+
+        var options = new DialogOptions
+            {
+                CloseOnEscapeKey = true,
+                CloseButton = true,
+                FullWidth = true,
+                Position = DialogPosition.TopCenter
+            };
+
+        await DialogService.ShowAsync<OrderAddDialog>(Localizer["AddOrder"], parameter, options);
+    }
