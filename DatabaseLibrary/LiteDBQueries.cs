@@ -35,7 +35,7 @@ namespace DatabaseLibrary {
 		// CRUD for Order
 		public static int AddOrder(this LiteDbService service, Order order) {
 			if (service.Orders.Exists(o => o.OrderNumber == order.OrderNumber)) {
-				throw new InvalidOperationException($"{order} already exists.");
+				throw new InvalidOperationException(service.Localizer["OrderAlreadyExists", order.OrderNumber]);
 			}
 			var collection = service.GetDatabase().GetCollection<Order>("Orders");
 			return collection.Insert(order);

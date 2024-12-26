@@ -11,7 +11,7 @@ namespace DatabaseLibrary {
 		private readonly string fileName = "OrderManagerApp.db";
 		private readonly string _databasePath;
 		private readonly LiteDatabase _database;
-		protected readonly IStringLocalizer Localizer;
+		public readonly IStringLocalizer Localizer;
 
 		public LiteDbService(IStringLocalizer<OrderManagerAppLanguages> localizer, string? databasePath = null) {
 			Localizer = localizer;
