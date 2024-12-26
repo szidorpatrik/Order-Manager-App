@@ -3,15 +3,14 @@
 
 <div class="d-flex justify-space-between">
     <h1>@Localizer["Orders"]</h1>
-    <div>
-        <label for="collapse-expand-all">
-            <MudText Typo="Typo.overline">@(Localizer[_shouldExpandAll ? "CollapseAll" : "ExpandAll"])</MudText>
-        </label>
-        <MudToggleIconButton Toggled="_shouldExpandAll"
-                             ToggledChanged="ExpandAll"
-                             Icon="@Icons.Material.Filled.ExpandMore"
-                             ToggledIcon="@Icons.Material.Filled.ExpandLess" id="collapse-expand-all" />
-    </div>
+
+    @if (_orders.Any())
+    {
+        <MudButton Variant="Variant.Text" EndIcon="@(_shouldExpandAll ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
+                   OnClick="ToggleExpandAll">
+            @(Localizer[_shouldExpandAll ? "CollapseAll" : "ExpandAll"])
+        </MudButton>
+    }
 </div>
 
 @if (!_orders.Any())
@@ -22,25 +21,27 @@
 }
 else
 {
-    @foreach (var order in _orders)
-    {
-        <MudPaper Class="pa-4">
-            <MudStack Spacing="0">
-                <div class="d-flex justify-space-between align-center">
-                    <MudText Typo="Typo.h6">@order</MudText>
-                    <MudToggleIconButton @bind-Toggled="_expandedStates[order.Id]"
-                                         Icon="@Icons.Material.Filled.ExpandMore"
-                                         ToggledIcon="@Icons.Material.Filled.ExpandLess" />
-                </div>
-                <MudCollapse Expanded="_expandedStates[order.Id]">
-                    <MudDivider Class="mt-2 py-1" />
-                    <MudText Typo="Typo.subtitle2">@Localizer["CreatedAt", order.DateCreated.ToLocalTime()]</MudText>
+    <div class="d-flex flex-column gap-3 mb-16">
+        @foreach (var order in _orders)
+        {
+            <MudPaper Class="pa-4">
+                <MudStack Spacing="0">
+                    <div class="d-flex justify-space-between align-center">
+                        <MudText Typo="Typo.h6">@order</MudText>
+                        <MudToggleIconButton Toggled="_expandedStates[order.Id]"
+                                             ToggledChanged="@(() => ToggleExpand(order.Id))"
+                                             Icon="@Icons.Material.Filled.ExpandMore"
+                                             ToggledIcon="@Icons.Material.Filled.ExpandLess" />
+                    </div>
+                    <MudCollapse Expanded="_expandedStates[order.Id]">
+                        <MudDivider Class="my-1" />
 
                 </MudCollapse>
             </MudStack>
         </MudPaper>
     }
     <div class="d-flex flex-grow-1"></div>
+                        <MudText Typo="Typo.caption">@Localizer["CreatedAt", order.DateCreated.ToLocalTime().ToString("g")]</MudText>
 }
 
 <div class="d-flex align-center justify-end mud-width-full fixed-fab">
@@ -89,7 +90,13 @@ else
         await DialogService.ShowAsync<OrderAddDialog>(Localizer["AddOrder"], parameter, options);
     }
 
-    private void ExpandAll()
+    private void ToggleExpand(int id)
+    {
+        _expandedStates[id] = !_expandedStates[id];
+        _shouldExpandAll = _expandedStates.Values.All(value => value);
+    }
+
+    private void ToggleExpandAll()
     {
         _shouldExpandAll = !_shouldExpandAll;
         foreach (var order in _orders)
