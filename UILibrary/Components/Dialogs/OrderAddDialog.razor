@@ -1,4 +1,5 @@
 ﻿@using System.ComponentModel.DataAnnotations
+@using System.Globalization
 @inject LiteDbService DBService
 
 <MudDialog>
@@ -8,10 +9,10 @@
         </MudText>
     </TitleContent>
     <DialogContent>
-        <EditForm Model="@_localOrder" OnValidSubmit="Submit" class="d-flex flex-column flex-grow-1 pb-4" style="height: 100%;">
+        <EditForm Model="@_localOrder" OnValidSubmit="Submit" class="d-flex flex-column flex-grow-1 pb-3" style="height: 100%;">
             <DataAnnotationsValidator />
 
-            <div class="d-flex flex-column gap-3">
+            <div class="d-flex flex-column gap-5">
                 <MudTextField T="int" Label="@Localizer["OrderNumber"]" Immediate="true"
                               @bind-Value="_localOrder.OrderNumber" For="@(() => _localOrder.OrderNumber)" />
 
@@ -51,11 +52,44 @@
                     </MudTimePicker>
                 </div>
 
-                @* <MudTextField T="double" Required="true" Label="@Localizer["Quantity"]" Immediate="true"
-                          @bind-Value="_localOrder.q" For="@(() => localOrder.Price)" /> *@
+                <div class="d-flex flex-grow-1 flex-column justify-space-between gap-3 pb-3">
+                    <MudSelect T="Item" MultiSelection="true"
+                               SelectedValues="_selectedItems"
+                               SelectedValuesChanged="OnSelectedItemsChanged"
+                               AnchorOrigin="Origin.BottomCenter"
+                               MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))">
+                        @foreach (var item in _itemsList)
+                        {
+                            <MudSelectItem T="Item" Value="@item">@item</MudSelectItem>
+                        }
+                    </MudSelect>
+
+                    @foreach (var orderItem in _orderItems)
+                    {
+                        <MudPaper Elevation="2" Class="pa-3">
+                            <div class="d-flex justify-space-between align-center gap-3">
+                                <MudText Class="scrollable-text" Style="font-size: 130%;"><b>@orderItem.Item.Name</b></MudText>
+                                <div class="d-flex flex-row gap-3">
+                                    <MudTextField T="int?" @bind-Value="orderItem.Quantity" Label="@Localizer["Quantity"]" Immediate="true" Style="width: 100px;" />
+                                    <MudIconButton Icon="@Icons.Material.Filled.Delete"
+                                                   Color="Color.Error"
+                                                   OnClick="@(() => RemoveOrderItem(orderItem))" />
+                                </div>
+                            </div>
+                            <MudDivider Class="mt-2 mb-2" />
+                            <MudText Typo="Typo.body2" Class="scrollable-text">
+                                @Localizer["TotalPrice"]:
+                                <b>@GetFormattedPrice(orderItem.Quantity.HasValue ? orderItem.Item.Price * orderItem.Quantity.Value : (double?)null)</b>
+                                @(orderItem.Quantity.HasValue && orderItem.Quantity > 0
+                                    ? $" ({orderItem.Quantity} x {GetFormattedPrice(orderItem.Item.Price)})"
+                                    : null)
+                            </MudText>
+                        </MudPaper>
+                    }
+                </div>
             </div>
 
-            <div class="d-flex flex-grow-1 justify-end align-end gap-3">
+            <div class="d-flex flex-grow-1 justify-end align-end gap-3 pb-1">
                 <MudButton OnClick="Cancel" Variant="Variant.Outlined">@Localizer["Cancel"]</MudButton>
 
                 <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save"
@@ -82,8 +116,13 @@
     private TimeSpan? _timeStart = new TimeSpan(DateTime.Now.Hour, 0, 0);
     private TimeSpan? _timeEnd = new TimeSpan(DateTime.Now.AddHours(1).Hour, 0, 0);
 
+    private List<Item> _itemsList = new();
+    private HashSet<Item> _selectedItems = new();
+    private List<OrderItem> _orderItems = new();
+
     protected override void OnInitialized()
     {
+        _itemsList = DBService.GetItems();
         _localOrder = new()
             {
                 Id = Order.Id,
@@ -105,9 +144,25 @@
 
         try
         {
+            // Set start and end date and time for the order
             _localOrder.DateStart = _dateStart!.Value.Date + _timeStart!.Value;
             _localOrder.DateEnd = _dateEnd!.Value.Date + _timeEnd!.Value;
 
+            // Save all order items to the database
+            foreach (var orderItem in _orderItems)
+            {
+                // Add the order item to the database if it is not already saved
+                if (orderItem.Id == 0)
+                {
+                    var orderItemId = DBService.AddOrderItem(orderItem);
+                    orderItem.Id = orderItemId;
+                }
+            }
+
+            // Associate the saved order items with the order
+            _localOrder.OrderItems = _orderItems.ToArray();
+
+            // Save or update the order in the database
             var success = AddOrUpdateOrder(_localOrder);
             if (success)
             {
@@ -162,6 +217,56 @@
             return DBService.AddOrder(order) > 0;
         }
         return DBService.UpdateOrder(order);
+    }
+
+    private string GetMultiSelectionText(List<string> selectedValues)
+    {
+        var count = selectedValues.Count;
+        var pluralSuffix = count > 1 ? Localizer["PluralSuffix"] : " " + Localizer["SingularSuffix"];
+
+        return Localizer["SelectedItemsMessage", count, pluralSuffix];
+    }
+
+    private void OnSelectedItemsChanged(IEnumerable<Item> selectedItems)
+    {
+        _selectedItems = new HashSet<Item>(selectedItems);
+
+        foreach (var item in _selectedItems)
+        {
+            if (!_orderItems.Any(o => o.Item.Id == item.Id))
+            {
+                _orderItems.Add(new OrderItem
+                    {
+                        Item = item,
+                        Quantity = null
+                    });
+            }
+        }
+
+        var itemsToRemove = _orderItems.Where(o => !_selectedItems.Any(s => s.Id == o.Item.Id)).ToList();
+        foreach (var itemToRemove in itemsToRemove)
+        {
+            _orderItems.Remove(itemToRemove);
+        }
+    }
+
+    private void RemoveOrderItem(OrderItem orderItem)
+    {
+        _selectedItems.Remove(orderItem.Item);
+    }
+
+    private string GetFormattedPrice(double? totalPrice)
+    {
+        if (!totalPrice.HasValue || totalPrice <= 0)
+            return Localizer["N/A"];
+
+        var currentCulture = CultureInfo.CurrentCulture;
+
+        return currentCulture.Name switch
+        {
+            "hu-HU" => totalPrice.Value.ToString("C0", currentCulture),
+            _ => totalPrice.Value.ToString("C", currentCulture)
+        };
     }
 
     private async Task NotifyParent()
