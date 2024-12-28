@@ -237,4 +237,31 @@
   <data name="TimeEnd" xml:space="preserve">
     <value>Start time</value>
   </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration: {0}</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Unit price</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="PluralSuffix" xml:space="preserve">
+    <value>s have</value>
+  </data>
+  <data name="SingularSuffix" xml:space="preserve">
+    <value>has</value>
+  </data>
+  <data name="SelectedItemsMessage" xml:space="preserve">
+    <value>{0} item{1} been selected</value>
+  </data>
+  <data name="DurationFormatDayHourMinutes" xml:space="preserve">
+    <value>{0}d {1}h {2}m</value>
+  </data>
+  <data name="InvalidDuration" xml:space="preserve">
+    <value>Invalid duration</value>
+  </data>
+  <data name="DurationFormatHourMinutes" xml:space="preserve">
+    <value>{0}h {1}m</value>
+  </data>
 </root>

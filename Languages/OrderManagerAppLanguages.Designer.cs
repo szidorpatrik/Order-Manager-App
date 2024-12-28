@@ -142,6 +142,33 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration: {0}.
+        /// </summary>
+        public static string Duration {
+            get {
+                return ResourceManager.GetString("Duration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}d {1}h {2}m.
+        /// </summary>
+        public static string DurationFormatDayHourMinutes {
+            get {
+                return ResourceManager.GetString("DurationFormatDayHourMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}h {1}m.
+        /// </summary>
+        public static string DurationFormatHourMinutes {
+            get {
+                return ResourceManager.GetString("DurationFormatHourMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit {0}.
         /// </summary>
         public static string EditItem {
@@ -183,6 +210,15 @@ namespace Languages {
         public static string ExpandAll {
             get {
                 return ResourceManager.GetString("ExpandAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid duration.
+        /// </summary>
+        public static string InvalidDuration {
+            get {
+                return ResourceManager.GetString("InvalidDuration", resourceCulture);
             }
         }
         
@@ -277,6 +313,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to s have.
+        /// </summary>
+        public static string PluralSuffix {
+            get {
+                return ResourceManager.GetString("PluralSuffix", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Price.
         /// </summary>
         public static string Price {
@@ -322,6 +367,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} item{1} been selected.
+        /// </summary>
+        public static string SelectedItemsMessage {
+            get {
+                return ResourceManager.GetString("SelectedItemsMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select start time.
         /// </summary>
         public static string SelectTimeEnd {
@@ -345,6 +399,15 @@ namespace Languages {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to has.
+        /// </summary>
+        public static string SingularSuffix {
+            get {
+                return ResourceManager.GetString("SingularSuffix", resourceCulture);
             }
         }
         
@@ -408,6 +471,24 @@ namespace Languages {
         public static string TimeStart {
             get {
                 return ResourceManager.GetString("TimeStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total.
+        /// </summary>
+        public static string TotalPrice {
+            get {
+                return ResourceManager.GetString("TotalPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit price.
+        /// </summary>
+        public static string UnitPrice {
+            get {
+                return ResourceManager.GetString("UnitPrice", resourceCulture);
             }
         }
         

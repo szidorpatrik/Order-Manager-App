@@ -220,10 +220,10 @@
     <value>A záró dátumnak a kezdő dátum után kell lennie</value>
   </data>
   <data name="SelectTimeStart" xml:space="preserve">
-    <value>Válassza ki a zárási időt</value>
+    <value>Válassza ki a kezdési időt</value>
   </data>
   <data name="SelectTimeEnd" xml:space="preserve">
-    <value>Válassza ki a kezdési időt</value>
+    <value>Válassza ki a zárási időt</value>
   </data>
   <data name="StartDate" xml:space="preserve">
     <value>Kezdő dátum: {0}</value>
@@ -236,5 +236,32 @@
   </data>
   <data name="TimeEnd" xml:space="preserve">
     <value>Kezdő idő</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Időtartam: {0}</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Egységár</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>Összár</value>
+  </data>
+  <data name="PluralSuffix" xml:space="preserve">
+    <value>ek</value>
+  </data>
+  <data name="SingularSuffix" xml:space="preserve">
+    <value>``</value>
+  </data>
+  <data name="SelectedItemsMessage" xml:space="preserve">
+    <value>{0} tétel lett kiválasztva</value>
+  </data>
+  <data name="DurationFormatDayHourMinutes" xml:space="preserve">
+    <value>{0}n {1}ó {2}p</value>
+  </data>
+  <data name="InvalidDuration" xml:space="preserve">
+    <value>Érvénytelen időtartam</value>
+  </data>
+  <data name="DurationFormatHourMinutes" xml:space="preserve">
+    <value>{0}ó {1}p</value>
   </data>
 </root>
