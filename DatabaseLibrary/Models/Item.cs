@@ -7,7 +7,7 @@ public class Item {
 	public string Name { get; set; }
 	public double Price { get; set; }
 
-	public override string ToString() => Name;
+	public override string ToString() => $"{Name} - {GetFormattedPrice()}";
 
 	public string GetFormattedPrice() {
 		var currentCulture = CultureInfo.CurrentCulture;

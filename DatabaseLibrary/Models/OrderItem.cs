@@ -5,5 +5,11 @@ public class OrderItem {
 	public Item Item { get; set; }
 	public int Quantity { get; set; }
 
-	public override string ToString() => $"{Item.Name} ({Quantity})";
+	public override string ToString() {
+		if (Item == null) {
+			return base.ToString();
+		}
+
+		return $"{Item.Name} ({Quantity})";
+	}
 }
