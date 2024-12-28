@@ -1,4 +1,5 @@
 ﻿@page "/orders"
+@using System.Globalization
 @inject LiteDbService DBService
 
 <div class="d-flex justify-space-between">
@@ -24,7 +25,7 @@ else
     <div class="d-flex flex-column gap-3 mb-16">
         @foreach (var order in _orders)
         {
-            <MudPaper Class="pa-4">
+            <MudPaper Elevation="2" Class="pa-3">
                 <MudStack Spacing="0">
                     <div class="d-flex justify-space-between align-center">
                         <MudText Typo="Typo.h6">@order</MudText>
@@ -39,16 +40,26 @@ else
                         <MudText Typo="Typo.caption">@Localizer["CreatedAt", order.DateCreated.ToLocalTime().ToString("g")]</MudText>
                         <MudDivider Class="my-1" />
 
-                        <MudText Typo="Typo.caption" Class="text-end">
+                        <MudText Typo="Typo.caption">
                             <div>@Localizer["StartDate", order.DateStart.ToLocalTime().ToString("g")]</div>
                             <div>@Localizer["EndDate", order.DateEnd.ToLocalTime().ToString("g")]</div>
+                            <div>@Localizer["Duration", GetDuration(order.DateStart, order.DateEnd)]</div>
                         </MudText>
                         <MudDivider Class="my-1" />
 
                         @foreach (var orderItem in order.OrderItems)
                         {
-                            <div>@orderItem</div>
+                            <MudText Typo="Typo.caption" Class="d-block">
+                                <span>@orderItem.Quantity</span>
+                                <span><b>@orderItem.Item.Name</b></span>
+                                <span>(@(GetFormattedPrice(orderItem.Quantity * orderItem.Item.Price)))</span>
+                            </MudText>
                         }
+                        <MudDivider Class="my-1" />
+
+                        <MudText Typo="Typo.caption">
+                            @Localizer["TotalPrice"]: <b>@(GetFormattedPrice(order.OrderItems.Sum(x => x.Item.Price * x.Quantity)))</b>
+                        </MudText>
                     </MudCollapse>
                 </MudStack>
             </MudPaper>
@@ -100,6 +111,35 @@ else
             };
 
         await DialogService.ShowAsync<OrderAddDialog>(Localizer["AddOrder"], parameter, options);
+    }
+
+    private string GetDuration(DateTime start, DateTime end)
+    {
+        if (start == default || end == default || end < start)
+        {
+            return Localizer["InvalidDuration"];
+        }
+
+        var duration = end - start;
+        if (duration.Days == 0)
+        {
+            return Localizer["DurationFormatHourMinutes", duration.Hours, duration.Minutes];
+        }
+        return Localizer["DurationFormatDayHourMinutes", duration.Days, duration.Hours, duration.Minutes];
+    }
+
+    private string GetFormattedPrice(double? totalPrice)
+    {
+        if (!totalPrice.HasValue || totalPrice <= 0)
+            return Localizer["N/A"];
+
+        var currentCulture = CultureInfo.CurrentCulture;
+
+        return currentCulture.Name switch
+        {
+            "hu-HU" => totalPrice.Value.ToString("C0", currentCulture),
+            _ => totalPrice.Value.ToString("C", currentCulture)
+        };
     }
 
     private void ToggleExpand(int id)
