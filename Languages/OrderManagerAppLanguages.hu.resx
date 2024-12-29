@@ -264,4 +264,22 @@
   <data name="DurationFormatHourMinutes" xml:space="preserve">
     <value>{0}ó {1}p</value>
   </data>
+  <data name="OrderDeletedSuccessfully" xml:space="preserve">
+    <value>A(z) #{0} rendelés törölve</value>
+  </data>
+  <data name="OrderUpdatedSuccessfully" xml:space="preserve">
+    <value>A(z) #{0} rendelés módosítva</value>
+  </data>
+  <data name="EditOrder" xml:space="preserve">
+    <value>{0} rendelés módosítása</value>
+  </data>
+  <data name="OrderCreatedSuccessfully" xml:space="preserve">
+    <value>#{0} rendelés létrehozva</value>
+  </data>
+  <data name="DeleteOrder" xml:space="preserve">
+    <value>Rendelés törlése</value>
+  </data>
+  <data name="AreYouSureToDeleteOrder" xml:space="preserve">
+    <value>Biztosan törli a(z) #{0} rendelést?</value>
+  </data>
 </root>

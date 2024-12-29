@@ -88,6 +88,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure about deleting order #{0}?.
+        /// </summary>
+        public static string AreYouSureToDeleteOrder {
+            get {
+                return ResourceManager.GetString("AreYouSureToDeleteOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -142,6 +151,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete order.
+        /// </summary>
+        public static string DeleteOrder {
+            get {
+                return ResourceManager.GetString("DeleteOrder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration: {0}.
         /// </summary>
         public static string Duration {
@@ -174,6 +192,15 @@ namespace Languages {
         public static string EditItem {
             get {
                 return ResourceManager.GetString("EditItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit order {0}.
+        /// </summary>
+        public static string EditOrder {
+            get {
+                return ResourceManager.GetString("EditOrder", resourceCulture);
             }
         }
         
@@ -286,6 +313,24 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Order #{0} created.
+        /// </summary>
+        public static string OrderCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("OrderCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order #{0} was deleted.
+        /// </summary>
+        public static string OrderDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("OrderDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Order must be greater than 0.
         /// </summary>
         public static string OrderMustBeGreaterThanZero {
@@ -309,6 +354,15 @@ namespace Languages {
         public static string Orders {
             get {
                 return ResourceManager.GetString("Orders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Order #{0} was updated.
+        /// </summary>
+        public static string OrderUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("OrderUpdatedSuccessfully", resourceCulture);
             }
         }
         

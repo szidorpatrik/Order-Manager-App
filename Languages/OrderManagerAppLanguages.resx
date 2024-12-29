@@ -264,4 +264,22 @@
   <data name="DurationFormatHourMinutes" xml:space="preserve">
     <value>{0}h {1}m</value>
   </data>
+  <data name="OrderDeletedSuccessfully" xml:space="preserve">
+    <value>Order #{0} was deleted</value>
+  </data>
+  <data name="OrderUpdatedSuccessfully" xml:space="preserve">
+    <value>Order #{0} was updated</value>
+  </data>
+  <data name="EditOrder" xml:space="preserve">
+    <value>Edit order {0}</value>
+  </data>
+  <data name="OrderCreatedSuccessfully" xml:space="preserve">
+    <value>Order #{0} created</value>
+  </data>
+  <data name="DeleteOrder" xml:space="preserve">
+    <value>Delete order</value>
+  </data>
+  <data name="AreYouSureToDeleteOrder" xml:space="preserve">
+    <value>Are you sure about deleting order #{0}?</value>
+  </data>
 </root>
