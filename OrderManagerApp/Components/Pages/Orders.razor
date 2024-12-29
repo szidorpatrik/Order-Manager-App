@@ -108,12 +108,12 @@ else
 
     private async Task OpenOrderAddDialog()
     {
-        await DialogService.ShowAsync<OrderAddDialog>(Localizer["AddOrder"], GetOrderDialogParameters(new Order()), GetOrderDialogOptions());
+        await DialogService.ShowAsync<OrderDialog>(Localizer["AddOrder"], GetOrderDialogParameters(new Order()), GetOrderDialogOptions());
     }
 
     private async Task OpenOrderEditDialog(Order order)
     {
-        await DialogService.ShowAsync<OrderAddDialog>(Localizer["EditOrder"], GetOrderDialogParameters(order), GetOrderDialogOptions());
+        await DialogService.ShowAsync<OrderDialog>(Localizer["EditOrder"], GetOrderDialogParameters(order), GetOrderDialogOptions());
     }
 
     private DialogParameters GetOrderDialogParameters(Order order)
