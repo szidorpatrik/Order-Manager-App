@@ -1,20 +1,8 @@
-﻿using System.Globalization;
-
-namespace DatabaseLibrary.Models;
+﻿namespace DatabaseLibrary.Models;
 
 public class Item {
 	public int Id { get; set; }
-	public string Name { get; set; }
+	public string Name { get; set; } = string.Empty;
 	public double Price { get; set; }
 
-	public override string ToString() => $"{Name} - {GetFormattedPrice()}";
-
-	public string GetFormattedPrice() {
-		var currentCulture = CultureInfo.CurrentCulture;
-
-		return currentCulture.Name switch {
-			"hu-HU" => Price.ToString("C0", currentCulture),
-			_ => Price.ToString("C", currentCulture)
-		};
-	}
 }

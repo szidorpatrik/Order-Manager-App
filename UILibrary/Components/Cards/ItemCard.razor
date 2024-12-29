@@ -13,7 +13,7 @@
         <MudText Typo="Typo.subtitle1" Class="mr-2">
             @if (Item is not null)
             {
-                @Item.GetFormattedPrice();
+                @Utils.GetFormattedPrice(Localizer, Item.Price);
             }
             else
             {

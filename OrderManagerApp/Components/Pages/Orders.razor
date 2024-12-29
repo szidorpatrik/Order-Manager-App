@@ -29,11 +29,16 @@ else
                 <MudStack Spacing="0">
                     <div class="d-flex justify-space-between align-center">
                         <MudText Typo="Typo.h6">@order</MudText>
-                        <MudToggleIconButton Toggled="_expandedStates[order.Id]"
-                                             ToggledChanged="@(() => ToggleExpand(order.Id))"
-                                             Icon="@Icons.Material.Filled.ExpandMore"
-                                             ToggledIcon="@Icons.Material.Filled.ExpandLess" />
+                        <div class="d-flex gap-2">
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
+                                           OnClick="@(() => OpenOrderEditDialog(order))" />
+                            <MudToggleIconButton Toggled="_expandedStates[order.Id]"
+                                                 ToggledChanged="@(() => ToggleExpand(order.Id))"
+                                                 Icon="@Icons.Material.Filled.ExpandMore"
+                                                 ToggledIcon="@Icons.Material.Filled.ExpandLess" />
+                        </div>
                     </div>
+
                     <MudCollapse Expanded="_expandedStates[order.Id]">
                         <MudDivider Class="my-1" />
 
@@ -58,13 +63,13 @@ else
                                 <MudText Typo="Typo.caption" Class="d-block">
                                     <span>@orderItem.Quantity</span>
                                     <span><b>@orderItem.Item.Name</b></span>
-                                    <span>(@(GetFormattedPrice(orderItem.Quantity * orderItem.Item.Price)))</span>
+                                    <span>(@(Utils.GetFormattedPrice(Localizer, orderItem.Quantity * orderItem.Item.Price)))</span>
                                 </MudText>
                             }
                             <MudDivider Class="my-1" />
 
                             <MudText Typo="Typo.caption">
-                                @Localizer["TotalPrice"]: <b>@(GetFormattedPrice(order.OrderItems.Sum(x => x.Item.Price * x.Quantity)))</b>
+                                @Localizer["TotalPrice"]: <b>@(Utils.GetFormattedPrice(Localizer, order.OrderItems.Sum(x => x.Item.Price * x.Quantity)))</b>
                             </MudText>
                         }
                     </MudCollapse>
@@ -103,21 +108,32 @@ else
 
     private async Task OpenOrderAddDialog()
     {
-        var parameter = new DialogParameters
+        await DialogService.ShowAsync<OrderAddDialog>(Localizer["AddOrder"], GetOrderDialogParameters(new Order()), GetOrderDialogOptions());
+    }
+
+    private async Task OpenOrderEditDialog(Order order)
+    {
+        await DialogService.ShowAsync<OrderAddDialog>(Localizer["EditOrder"], GetOrderDialogParameters(order), GetOrderDialogOptions());
+    }
+
+    private DialogParameters GetOrderDialogParameters(Order order)
+    {
+        return new DialogParameters
             {
-                ["Order"] = new Order(),
+                ["Order"] = order ?? new Order(),
                 ["OnOrderChanged"] = EventCallback.Factory.Create(this, RefreshOrders)
             };
+    }
 
-        var options = new DialogOptions
+    private DialogOptions GetOrderDialogOptions()
+    {
+        return new DialogOptions
             {
                 BackdropClick = false,
                 FullScreen = true,
                 CloseOnEscapeKey = true,
-                CloseButton = true,
+                CloseButton = true
             };
-
-        await DialogService.ShowAsync<OrderAddDialog>(Localizer["AddOrder"], parameter, options);
     }
 
     private string GetDuration(DateTime start, DateTime end)
@@ -133,20 +149,6 @@ else
             return Localizer["DurationFormatHourMinutes", duration.Hours, duration.Minutes];
         }
         return Localizer["DurationFormatDayHourMinutes", duration.Days, duration.Hours, duration.Minutes];
-    }
-
-    private string GetFormattedPrice(double? totalPrice)
-    {
-        if (!totalPrice.HasValue || totalPrice <= 0)
-            return Localizer["N/A"];
-
-        var currentCulture = CultureInfo.CurrentCulture;
-
-        return currentCulture.Name switch
-        {
-            "hu-HU" => totalPrice.Value.ToString("C0", currentCulture),
-            _ => totalPrice.Value.ToString("C", currentCulture)
-        };
     }
 
     private void ToggleExpand(int id)

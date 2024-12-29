@@ -5,15 +5,23 @@
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.subtitle1">
-            @Localizer["AddOrder"]
+            @if (_localOrder.Id == 0)
+            {
+                @Localizer["AddOrder"]
+            }
+            else
+            {
+                @Localizer["EditOrder"]
+            }
         </MudText>
     </TitleContent>
+
     <DialogContent>
         <EditForm Model="@_localOrder" OnValidSubmit="Submit" class="d-flex flex-column flex-grow-1 pb-3" style="height: 100%;">
             <DataAnnotationsValidator />
 
             <div class="d-flex flex-column gap-5">
-                <MudTextField T="int" Label="@Localizer["OrderNumber"]" Immediate="true"
+                <MudTextField T="int" Label="@Localizer["OrderNumber"]" Immediate="true" Disabled="_localOrder.Id != 0"
                               @bind-Value="_localOrder.OrderNumber" For="@(() => _localOrder.OrderNumber)" />
 
                 <div class="d-flex flex-row justify-space-between gap-5">
@@ -60,7 +68,7 @@
                                MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))">
                         @foreach (var item in _itemsList)
                         {
-                            <MudSelectItem T="Item" Value="@item">@item</MudSelectItem>
+                            <MudSelectItem T="Item" Value="@item">@item.Name (@Utils.GetFormattedPrice(Localizer, item.Price))</MudSelectItem>
                         }
                     </MudSelect>
 
@@ -79,9 +87,9 @@
                             <MudDivider Class="mt-2 mb-2" />
                             <MudText Typo="Typo.body2" Class="scrollable-text">
                                 @Localizer["TotalPrice"]:
-                                <b>@GetFormattedPrice(orderItem.Quantity.HasValue ? orderItem.Item.Price * orderItem.Quantity.Value : (double?)null)</b>
+                                <b>@Utils.GetFormattedPrice(Localizer, orderItem.Quantity.HasValue ? orderItem.Item.Price * orderItem.Quantity.Value : (double?)null)</b>
                                 @(orderItem.Quantity.HasValue && orderItem.Quantity > 0
-                                    ? $" ({orderItem.Quantity} x {GetFormattedPrice(orderItem.Item.Price)})"
+                                    ? $" ({orderItem.Quantity} x {Utils.GetFormattedPrice(Localizer, orderItem.Item.Price)})"
                                     : null)
                             </MudText>
                         </MudPaper>
@@ -123,6 +131,7 @@
     protected override void OnInitialized()
     {
         _itemsList = DBService.GetItems();
+
         _localOrder = new()
             {
                 Id = Order.Id,
@@ -132,6 +141,9 @@
                 DateStart = Order.DateStart,
                 DateEnd = Order.DateEnd
             };
+
+        _orderItems = Order.OrderItems.ToList();
+        _selectedItems = new HashSet<Item>(Order.OrderItems.Select(x => x.Item));
     }
 
     private async Task Submit()
@@ -253,20 +265,6 @@
     private void RemoveOrderItem(OrderItem orderItem)
     {
         _selectedItems.Remove(orderItem.Item);
-    }
-
-    private string GetFormattedPrice(double? totalPrice)
-    {
-        if (!totalPrice.HasValue || totalPrice <= 0)
-            return Localizer["N/A"];
-
-        var currentCulture = CultureInfo.CurrentCulture;
-
-        return currentCulture.Name switch
-        {
-            "hu-HU" => totalPrice.Value.ToString("C0", currentCulture),
-            _ => totalPrice.Value.ToString("C", currentCulture)
-        };
     }
 
     private async Task NotifyParent()
