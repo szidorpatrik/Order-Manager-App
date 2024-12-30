@@ -5,92 +5,105 @@
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.subtitle1">
-            @if (_localOrder.Id == 0)
-            {
+            @if (_localOrder.Id == 0) {
                 @Localizer["AddOrder"]
             }
-            else
-            {
+            else {
                 @Localizer["EditOrder", _localOrder]
             }
         </MudText>
     </TitleContent>
 
     <DialogContent>
-        <EditForm Model="@_localOrder" OnValidSubmit="Submit" class="d-flex flex-column flex-grow-1 pb-3" style="height: 100%;">
-            <DataAnnotationsValidator />
+        <EditForm Model="@_localOrder" OnValidSubmit="Submit" class="d-flex flex-column flex-grow-1 pb-3"
+                  style="height: 100%;">
+            <DataAnnotationsValidator/>
 
             <div class="d-flex flex-column gap-5">
-                <MudTextField T="int" Label="@Localizer["OrderNumber"]" Immediate="true" Disabled="_localOrder.Id != 0"
-                @bind-Value="_localOrder.OrderNumber" For="@(() => _localOrder.OrderNumber)" />
+                <MudTextField T="int?" Label="@Localizer["OrderNumber"]" Disabled="_localOrder.Id != 0"
+                              @ref="_orderNumberField"
+                              @bind-Value="_localOrder.OrderNumber"/>
 
                 <div class="d-flex flex-row justify-space-between gap-5">
                     <MudDatePicker Label="@Localizer["SelectDateStart"]" Context="dateStartPicker"
-                    PickerVariant="PickerVariant.Dialog"
-                    @bind-Date="_dateStart" Placeholder="@Localizer["SelectDateStart"]" AutoClose="true">
+                                   PickerVariant="PickerVariant.Dialog"
+                                   @bind-Date="_dateStart" Placeholder="@Localizer["SelectDateStart"]" AutoClose="true">
                         <PickerActions>
-                            <MudButton OnClick="@(() => dateStartPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
+                            <MudButton
+                                OnClick="@(() => dateStartPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
                         </PickerActions>
                     </MudDatePicker>
 
                     <MudTimePicker Label="@Localizer["TimeStart"]" Placeholder="@Localizer["SelectTimeStart"]"
-                    PickerVariant="PickerVariant.Dialog"
-                    @bind-Time="_timeStart" Context="timeStartPicker" AutoClose="true">
+                                   PickerVariant="PickerVariant.Dialog"
+                                   @bind-Time="_timeStart" Context="timeStartPicker" AutoClose="true">
                         <PickerActions>
-                            <MudButton OnClick="@(() => timeStartPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
+                            <MudButton
+                                OnClick="@(() => timeStartPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
                         </PickerActions>
                     </MudTimePicker>
                 </div>
 
                 <div class="d-flex flex-row justify-space-between gap-5">
                     <MudDatePicker Label="@Localizer["SelectDateEnd"]" Context="dateEndPicker"
-                    PickerVariant="PickerVariant.Dialog"
-                    @bind-Date="_dateEnd" Placeholder="@Localizer["SelectDateEnd"]" AutoClose="true">
+                                   PickerVariant="PickerVariant.Dialog"
+                                   @bind-Date="_dateEnd" Placeholder="@Localizer["SelectDateEnd"]" AutoClose="true">
                         <PickerActions>
-                            <MudButton OnClick="@(() => dateEndPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
+                            <MudButton
+                                OnClick="@(() => dateEndPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
                         </PickerActions>
                     </MudDatePicker>
 
                     <MudTimePicker Label="@Localizer["TimeEnd"]" Placeholder="@Localizer["SelectTimeEnd"]"
-                    PickerVariant="PickerVariant.Dialog"
-                    @bind-Time="_timeEnd" Context="timeEndPicker" AutoClose="true">
+                                   PickerVariant="PickerVariant.Dialog"
+                                   @bind-Time="_timeEnd" Context="timeEndPicker" AutoClose="true">
                         <PickerActions>
-                            <MudButton OnClick="@(() => timeEndPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
+                            <MudButton
+                                OnClick="@(() => timeEndPicker.CloseAsync(false))">@Localizer["Close"]</MudButton>
                         </PickerActions>
                     </MudTimePicker>
                 </div>
 
                 <div class="d-flex flex-grow-1 flex-column justify-space-between gap-3 pb-3">
                     <MudSelect T="Item" MultiSelection="true"
-                    SelectedValues="_selectedItems"
-                    SelectedValuesChanged="OnSelectedItemsChanged"
-                    AnchorOrigin="Origin.BottomCenter"
-                    MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))">
-                        @foreach (var item in _itemsList)
-                        {
-                            <MudSelectItem T="Item" Value="@item">@item.Name (@Utils.GetFormattedPrice(Localizer, item.Price))</MudSelectItem>
+                               SelectedValues="_selectedItems"
+                               SelectedValuesChanged="OnSelectedItemsChanged"
+                               AnchorOrigin="Origin.BottomCenter"
+                               MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))">
+                        @if (!_itemsList.Any()) {
+                            <MudButton FullWidth="true"
+                                       OnClick="@(() => NavManager.NavigateTo("/items?open-dialog=true"))">
+                                @Localizer["ListIsEmptyClickHereToAddItem"]
+                            </MudButton>
+                        }
+                        @foreach (var item in _itemsList) {
+                            <MudSelectItem T="Item" Value="@item">
+                                @item.Name (@Utils.GetFormattedPrice(Localizer, item.Price))
+                            </MudSelectItem>
                         }
                     </MudSelect>
 
-                    @foreach (var orderItem in _orderItems)
-                    {
+                    @foreach (var orderItem in _orderItems) {
                         <MudPaper Elevation="2" Class="pa-3">
                             <div class="d-flex justify-space-between align-center gap-3">
-                                <MudText Class="scrollable-text" Style="font-size: 130%;"><b>@orderItem.Item.Name</b></MudText>
+                                <MudText Class="scrollable-text" Style="font-size: 130%;"><b>@orderItem.Item.Name</b>
+                                </MudText>
                                 <div class="d-flex flex-row gap-3">
-                                    <MudTextField T="int?" @bind-Value="orderItem.Quantity" Label="@Localizer["Quantity"]" Immediate="true" Style="width: 100px;" />
+                                    <MudTextField T="int?" @bind-Value="orderItem.Quantity"
+                                                  Label="@Localizer["Quantity"]" Immediate="true"
+                                                  Style="width: 100px;"/>
                                     <MudIconButton Icon="@Icons.Material.Filled.Delete"
-                                    Color="Color.Error"
-                                    OnClick="@(() => RemoveOrderItem(orderItem))" />
+                                                   Color="Color.Error"
+                                                   OnClick="@(() => RemoveOrderItem(orderItem))"/>
                                 </div>
                             </div>
-                            <MudDivider Class="mt-2 mb-2" />
+                            <MudDivider Class="mt-2 mb-2"/>
                             <MudText Typo="Typo.body2" Class="scrollable-text">
                                 @Localizer["TotalPrice"]:
                                 <b>@Utils.GetFormattedPrice(Localizer, orderItem.Quantity.HasValue ? orderItem.Item.Price * orderItem.Quantity.Value : (double?)null)</b>
                                 @(orderItem.Quantity.HasValue && orderItem.Quantity > 0
-                                        ? $" ({orderItem.Quantity} x {Utils.GetFormattedPrice(Localizer, orderItem.Item.Price)})"
-                                        : null)
+                                          ? $" ({orderItem.Quantity} x {Utils.GetFormattedPrice(Localizer, orderItem.Item.Price)})"
+                                          : null)
                             </MudText>
                         </MudPaper>
                     }
@@ -99,18 +112,18 @@
 
             <div class="d-flex flex-grow-1 justify-space-between gap-3 pb-1">
                 <div>
-                    @if (_localOrder.Id != 0)
-                    {
+                    @if (_localOrder.Id != 0) {
                         <MudButton StartIcon="@Icons.Material.Filled.Delete"
-                        Color="Color.Error" Variant="Variant.Outlined"
-                        OnClick="@(() => ConfirmDelete())">Delete</MudButton>
+                                   Color="Color.Error" Variant="Variant.Outlined"
+                                   OnClick="@(() => ConfirmDelete())">Delete
+                        </MudButton>
                     }
                 </div>
                 <div>
                     <MudButton OnClick="Cancel" Variant="Variant.Outlined" Class="mr-2">@Localizer["Cancel"]</MudButton>
 
                     <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save"
-                    Variant="Variant.Outlined" Color="Color.Primary">@Localizer["Save"]</MudButton>
+                               Variant="Variant.Outlined" Color="Color.Primary">@Localizer["Save"]</MudButton>
                 </div>
             </div>
         </EditForm>
@@ -127,55 +140,57 @@
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;
 
-    private Order _localOrder = default!;
-    private DateTime? _dateStart = DateTime.Today;
-    private DateTime? _dateEnd = DateTime.Today;
+    private MudTextField<int?>? _orderNumberField = default!;
+
+    private Order     _localOrder = default!;
+    private DateTime? _dateStart  = DateTime.Today;
+    private DateTime? _dateEnd    = DateTime.Today;
 
     private TimeSpan? _timeStart = new TimeSpan(DateTime.Now.Hour, 0, 0);
-    private TimeSpan? _timeEnd = new TimeSpan(DateTime.Now.Hour, 0, 0);
+    private TimeSpan? _timeEnd   = new TimeSpan(DateTime.Now.Hour, 0, 0);
 
-    private List<Item> _itemsList = new();
-    private HashSet<Item> _selectedItems = new();
-    private List<OrderItem> _orderItems = new();
+    private List<Item>      _itemsList     = new();
+    private HashSet<Item>   _selectedItems = new();
+    private List<OrderItem> _orderItems    = new();
 
-    protected override void OnInitialized()
-    {
+    protected override void OnInitialized() {
         _itemsList = DBService.GetItems();
 
-        _localOrder = new()
-            {
-                Id = Order.Id,
-                OrderNumber = Order.OrderNumber,
-                OrderItems = Order.OrderItems,
-                DateCreated = Order.DateCreated,
-                DateStart = Order.DateStart,
-                DateEnd = Order.DateEnd
-            };
+        _localOrder = new() {
+            Id = Order.Id,
+            OrderNumber = Order.Id != 0 ? Order.OrderNumber : null,
+            OrderItems = Order.OrderItems,
+            DateCreated = Order.DateCreated,
+            DateStart = Order.DateStart,
+            DateEnd = Order.DateEnd
+        };
 
         _orderItems = Order.OrderItems.ToList();
         _selectedItems = new HashSet<Item>(Order.OrderItems.Select(x => x.Item));
     }
 
-    private async Task Submit()
-    {
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender && _localOrder.Id == 0 && _orderNumberField is not null) {
+            await Task.Delay(50);
+            await _orderNumberField.FocusAsync();
+        }
+    }
+
+    private async Task Submit() {
         bool isValid = ValidateForm();
-        if (!isValid)
-        {
+        if (!isValid) {
             return;
         }
 
-        try
-        {
+        try {
             // Set start and end date and time for the order
             _localOrder.DateStart = _dateStart!.Value.Date + _timeStart!.Value;
             _localOrder.DateEnd = _dateEnd!.Value.Date + _timeEnd!.Value;
 
             // Save all order items to the database
-            foreach (var orderItem in _orderItems)
-            {
+            foreach (var orderItem in _orderItems) {
                 // Add the order item to the database if it is not already saved
-                if (orderItem.Id == 0)
-                {
+                if (orderItem.Id == 0) {
                     var orderItemId = DBService.AddOrderItem(orderItem);
                     orderItem.Id = orderItemId;
                 }
@@ -186,54 +201,49 @@
 
             // Save or update the order in the database
             var success = AddOrUpdateOrder(_localOrder);
-            if (!success)
-            {
+            if (!success) {
                 return;
             }
 
-            if (_localOrder.Id == 0)
-            {
+            if (_localOrder.Id == 0) {
                 ShowSnackbar(Localizer["OrderAddedSuccessfully", _localOrder.OrderNumber], Severity.Success);
             }
-            else
-            {
+            else {
                 ShowSnackbar(Localizer["OrderUpdatedSuccessfully", _localOrder.OrderNumber], Severity.Success);
             }
             await NotifyParent();
             CloseDialog();
         }
-        catch (InvalidOperationException ex)
-        {
+        catch (InvalidOperationException ex) {
             ShowSnackbar(ex.Message, Severity.Error);
         }
-        finally
-        {
+        finally {
             await NotifyParent();
         }
     }
 
-    private bool ValidateForm()
-    {
-        if (_localOrder.OrderNumber < 0)
-        {
+    private bool ValidateForm() {
+        if (_localOrder.OrderNumber is null) {
+            ShowSnackbar(Localizer["OrderNumberIsRequired"], Severity.Error);
+            return false;
+        }
+
+        if (_localOrder.OrderNumber < 0) {
             ShowSnackbar(Localizer["OrderMustBeGreaterThanZero"], Severity.Error);
             return false;
         }
 
-        if (!_dateStart.HasValue || !_timeStart.HasValue)
-        {
+        if (!_dateStart.HasValue || !_timeStart.HasValue) {
             ShowSnackbar(Localizer["StartDateOrTimeMissing"], Severity.Error);
             return false;
         }
 
-        if (!_dateEnd.HasValue || !_timeEnd.HasValue)
-        {
+        if (!_dateEnd.HasValue || !_timeEnd.HasValue) {
             ShowSnackbar(Localizer["EndDateOrTimeMissing"], Severity.Error);
             return false;
         }
 
-        if (_dateStart > _dateEnd)
-        {
+        if (_dateStart > _dateEnd) {
             ShowSnackbar(Localizer["EndDateMustBeAfterStartDate"], Severity.Error);
             return false;
         }
@@ -241,84 +251,68 @@
         return true;
     }
 
-    private bool AddOrUpdateOrder(Order order)
-    {
-        if (order.Id is 0)
-        {
+    private bool AddOrUpdateOrder(Order order) {
+        if (order.Id is 0) {
             return DBService.AddOrder(order) > 0;
         }
         return DBService.UpdateOrder(order);
     }
 
-    private string GetMultiSelectionText(List<string> selectedValues)
-    {
+    private string GetMultiSelectionText(List<string> selectedValues) {
         var count = selectedValues.Count;
         var pluralSuffix = count > 1 ? Localizer["PluralSuffix"] : " " + Localizer["SingularSuffix"];
 
         return Localizer["SelectedItemsMessage", count, pluralSuffix];
     }
 
-    private void OnSelectedItemsChanged(IEnumerable<Item> selectedItems)
-    {
+    private void OnSelectedItemsChanged(IEnumerable<Item> selectedItems) {
         _selectedItems = new HashSet<Item>(selectedItems);
 
-        foreach (var item in _selectedItems)
-        {
-            if (!_orderItems.Any(o => o.Item.Id == item.Id))
-            {
-                _orderItems.Add(new OrderItem
-                    {
-                        Item = item,
-                        Quantity = null
-                    });
+        foreach (var item in _selectedItems) {
+            if (!_orderItems.Any(o => o.Item.Id == item.Id)) {
+                _orderItems.Add(new OrderItem {
+                    Item = item,
+                    Quantity = null
+                });
             }
         }
 
         var itemsToRemove = _orderItems.Where(o => !_selectedItems.Any(s => s.Id == o.Item.Id)).ToList();
-        foreach (var itemToRemove in itemsToRemove)
-        {
+        foreach (var itemToRemove in itemsToRemove) {
             _orderItems.Remove(itemToRemove);
         }
     }
 
-    private void RemoveOrderItem(OrderItem orderItem)
-    {
+    private void RemoveOrderItem(OrderItem orderItem) {
         _selectedItems.Remove(orderItem.Item);
     }
 
-    private async Task DeleteOrder()
-    {
+    private async Task DeleteOrder() {
         var isDeleted = DBService.Orders.Delete(_localOrder.Id);
-        if (isDeleted)
-        {
+        if (isDeleted) {
             ShowSnackbar(Localizer["OrderDeletedSuccessfully", _localOrder.OrderNumber], Severity.Success);
             MudDialog.Close();
         }
-        else
-        {
+        else {
             ShowSnackbar(Localizer["SomethingWentWrong"], Severity.Error);
         }
         await NotifyParent();
     }
 
-    private async Task ConfirmDelete()
-    {
+    private async Task ConfirmDelete() {
         var confirmed = await DialogService.ShowMessageBox(
-            Localizer["DeleteOrder"],
-            Localizer["AreYouSureToDeleteOrder", _localOrder.OrderNumber],
-            yesText: Localizer["Yes"],
-            noText: Localizer["No"]);
+        Localizer["DeleteOrder"],
+        Localizer["AreYouSureToDeleteOrder", _localOrder.OrderNumber],
+        yesText: Localizer["Yes"],
+        noText: Localizer["No"]);
 
-        if (confirmed is true)
-        {
+        if (confirmed is true) {
             await DeleteOrder();
         }
     }
 
-    private async Task NotifyParent()
-    {
-        if (OnOrderChanged.HasDelegate)
-        {
+    private async Task NotifyParent() {
+        if (OnOrderChanged.HasDelegate) {
             await OnOrderChanged.InvokeAsync();
         }
     }

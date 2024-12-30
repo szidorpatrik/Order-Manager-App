@@ -5,71 +5,67 @@
 <div class="d-flex justify-space-between">
     <h1>@Localizer["Orders"]</h1>
 
-    @if (_orders.Any())
-    {
-        <MudButton Variant="Variant.Text" EndIcon="@(_shouldExpandAll ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
+    @if (_orders.Any()) {
+        <MudButton Variant="Variant.Text"
+                   EndIcon="@(_shouldExpandAll ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
                    OnClick="ToggleExpandAll">
             @(Localizer[_shouldExpandAll ? "CollapseAll" : "ExpandAll"])
         </MudButton>
     }
 </div>
 
-@if (!_orders.Any())
-{
+@if (!_orders.Any()) {
     <div class="d-flex flex-grow-1 align-center justify-center mud-width-full">
         <MudText Typo="Typo.h6">@Localizer["ThereAreNoOrders"]</MudText>
     </div>
 }
-else
-{
+else {
     <div class="d-flex flex-column gap-3 mb-16">
-        @foreach (var order in _orders)
-        {
+        @foreach (var order in _orders) {
             <MudPaper Elevation="2" Class="pa-3">
                 <MudStack Spacing="0">
                     <div class="d-flex justify-space-between align-center">
                         <MudText Typo="Typo.h6">@order</MudText>
                         <div class="d-flex gap-2">
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
-                                           OnClick="@(() => OpenOrderEditDialog(order))" />
+                                           OnClick="@(() => OpenOrderEditDialog(order))"/>
                             <MudToggleIconButton Toggled="_expandedStates[order.Id]"
                                                  ToggledChanged="@(() => ToggleExpand(order.Id))"
                                                  Icon="@Icons.Material.Filled.ExpandMore"
-                                                 ToggledIcon="@Icons.Material.Filled.ExpandLess" />
+                                                 ToggledIcon="@Icons.Material.Filled.ExpandLess"/>
                         </div>
                     </div>
 
                     <MudCollapse Expanded="_expandedStates[order.Id]">
-                        <MudDivider Class="my-1" />
+                        <MudDivider Class="my-1"/>
 
-                        <MudText Typo="Typo.caption">@Localizer["CreatedAt", order.DateCreated.ToLocalTime().ToString("g")]</MudText>
-                        <MudDivider Class="my-1" />
+                        <MudText
+                            Typo="Typo.caption">@Localizer["CreatedAt", order.DateCreated.ToLocalTime().ToString("g")]</MudText>
+                        <MudDivider Class="my-1"/>
 
                         <MudText Typo="Typo.caption">
                             <div>@Localizer["StartDate", order.DateStart.ToLocalTime().ToString("g")]</div>
                             <div>@Localizer["EndDate", order.DateEnd.ToLocalTime().ToString("g")]</div>
                             <div>@Localizer["Duration", GetDuration(order.DateStart, order.DateEnd)]</div>
                         </MudText>
-                        <MudDivider Class="my-1" />
+                        <MudDivider Class="my-1"/>
 
-                        @if (!order.OrderItems.Any())
-                        {
+                        @if (!order.OrderItems.Any()) {
                             <MudText Typo="Typo.caption"><b>@Localizer["ThereAreNoItems"]</b></MudText>
                         }
-                        else
-                        {
-                            @foreach (var orderItem in order.OrderItems)
-                            {
+                        else {
+                            @foreach (var orderItem in order.OrderItems) {
                                 <MudText Typo="Typo.caption" Class="d-block">
                                     <span>@orderItem.Quantity</span>
                                     <span><b>@orderItem.Item.Name</b></span>
                                     <span>(@(Utils.GetFormattedPrice(Localizer, orderItem.Quantity * orderItem.Item.Price)))</span>
                                 </MudText>
                             }
-                            <MudDivider Class="my-1" />
+                            <MudDivider Class="my-1"/>
 
                             <MudText Typo="Typo.caption">
-                                @Localizer["TotalPrice"]: <b>@(Utils.GetFormattedPrice(Localizer, order.OrderItems.Sum(x => x.Item.Price * x.Quantity)))</b>
+                                @Localizer["TotalPrice"]:
+                                <b>@(Utils.GetFormattedPrice(Localizer, order.OrderItems.Sum(x => x.Item.Price * x.Quantity)))</b>
                             </MudText>
                         }
                     </MudCollapse>
@@ -81,93 +77,75 @@ else
 
 <div class="d-flex align-center justify-end mud-width-full fixed-fab">
     <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-            OnClick="@(() => OpenOrderAddDialog())" />
+            OnClick="@(() => OpenOrderAddDialog())"/>
 </div>
 
 @code {
-    private List<Order> _orders = new();
+    private List<Order>           _orders         = new();
     private Dictionary<int, bool> _expandedStates = new();
-    private bool _shouldExpandAll;
+    private bool                  _shouldExpandAll;
 
-    protected override void OnInitialized()
-    {
+    protected override void OnInitialized() {
         RefreshOrders();
     }
 
-    private void RefreshOrders()
-    {
+    private void RefreshOrders() {
         _orders = DBService.GetOrders();
-        foreach (var order in _orders)
-        {
-            if (!_expandedStates.ContainsKey(order.Id))
-            {
+        foreach (var order in _orders) {
+            if (!_expandedStates.ContainsKey(order.Id)) {
                 _expandedStates[order.Id] = false;
             }
         }
     }
 
-    private async Task OpenOrderAddDialog()
-    {
+    private async Task OpenOrderAddDialog() {
         await DialogService.ShowAsync<OrderDialog>(Localizer["AddOrder"], GetOrderDialogParameters(new Order()), GetOrderDialogOptions());
     }
 
-    private async Task OpenOrderEditDialog(Order order)
-    {
+    private async Task OpenOrderEditDialog(Order order) {
         await DialogService.ShowAsync<OrderDialog>(Localizer["EditOrder"], GetOrderDialogParameters(order), GetOrderDialogOptions());
     }
 
-    private DialogParameters GetOrderDialogParameters(Order order)
-    {
-        return new DialogParameters
-            {
-                ["Order"] = order ?? new Order(),
-                ["OnOrderChanged"] = EventCallback.Factory.Create(this, RefreshOrders)
-            };
+    private DialogParameters GetOrderDialogParameters(Order order) {
+        return new DialogParameters {
+            ["Order"] = order ?? new Order(),
+            ["OnOrderChanged"] = EventCallback.Factory.Create(this, RefreshOrders)
+        };
     }
 
-    private DialogOptions GetOrderDialogOptions()
-    {
-        return new DialogOptions
-            {
-                BackdropClick = false,
-                FullScreen = true,
-                CloseOnEscapeKey = true,
-                CloseButton = true
-            };
+    private DialogOptions GetOrderDialogOptions() {
+        return new DialogOptions {
+            BackdropClick = false,
+            FullScreen = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true
+        };
     }
 
-    private string GetDuration(DateTime start, DateTime end)
-    {
-        if (start == default || end == default || end < start)
-        {
+    private string GetDuration(DateTime start, DateTime end) {
+        if (start == default || end == default || end < start) {
             return Localizer["InvalidDuration"];
         }
 
         var duration = end - start;
-        if (duration.Days == 0)
-        {
+        if (duration.Days == 0) {
             return Localizer["DurationFormatHourMinutes", duration.Hours, duration.Minutes];
         }
         return Localizer["DurationFormatDayHourMinutes", duration.Days, duration.Hours, duration.Minutes];
     }
 
-    private void ToggleExpand(int id)
-    {
+    private void ToggleExpand(int id) {
         _expandedStates[id] = !_expandedStates[id];
         _shouldExpandAll = _expandedStates.Values.All(value => value);
     }
 
-    private void ToggleExpandAll()
-    {
+    private void ToggleExpandAll() {
         _shouldExpandAll = !_shouldExpandAll;
-        foreach (var order in _orders)
-        {
-            if (_shouldExpandAll)
-            {
+        foreach (var order in _orders) {
+            if (_shouldExpandAll) {
                 _expandedStates[order.Id] = true;
             }
-            else
-            {
+            else {
                 _expandedStates[order.Id] = false;
             }
         }

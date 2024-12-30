@@ -3,55 +3,63 @@
 
 <h1>@Localizer["Items"]</h1>
 
-@if (!items.Any())
-{
+@if (!_items.Any()) {
     <div class="d-flex flex-grow-1 align-center justify-center mud-width-full">
         <MudText Typo="Typo.h6">@Localizer["ThereAreNoItems"]</MudText>
     </div>
 }
-else
-{
+else {
     <div class="d-flex flex-column gap-3 mb-16">
-        @foreach (var item in items)
-        {
-            <ItemCard Item="item" OnItemChanged="RefreshItems" />
+        @foreach (var item in _items) {
+            <ItemCard Item="item" OnItemChanged="RefreshItems"/>
         }
     </div>
 }
 <div class="d-flex align-center justify-end mud-width-full fixed-fab">
     <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add"
-            OnClick="@(() => OpenItemDialog())" />
+            OnClick="@(() => OpenItemDialog())"/>
 </div>
 
 @code {
-    private List<Item> items = new();
+    private List<Item> _items = new();
 
-    protected override void OnInitialized()
-    {
+    protected override void OnInitialized() {
         RefreshItems();
     }
 
-    private void RefreshItems()
-    {
-        items = DBService.GetItems();
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender) {
+            var paramValue = GetQueryParam("open-dialog");
+            if (paramValue == "true") {
+                await OpenItemDialog();
+            }
+        }
     }
 
-    private async Task OpenItemDialog()
-    {
-        var parameter = new DialogParameters
-            {
-                ["Item"] = new Item(),
-                ["OnItemChanged"] = EventCallback.Factory.Create(this, RefreshItems)
-            };
+    private void RefreshItems() {
+        _items = DBService.GetItems();
+    }
 
-        var options = new DialogOptions
-            {
-                CloseOnEscapeKey = true,
-                CloseButton = true,
-                FullWidth = true,
-                Position = DialogPosition.TopCenter
-            };
+    private async Task OpenItemDialog() {
+        var parameter = new DialogParameters {
+            ["Item"] = new Item(),
+            ["OnItemChanged"] = EventCallback.Factory.Create(this, RefreshItems)
+        };
+
+        var options = new DialogOptions {
+            BackdropClick = false,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+            FullWidth = true,
+            Position = DialogPosition.TopCenter
+        };
 
         await DialogService.ShowAsync<ItemDialog>(Localizer["AddItem"], parameter, options);
+    }
+
+    string GetQueryParam(string paramName) {
+        var uriBuilder = new UriBuilder(NavManager.Uri);
+        var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+        return q[paramName] ?? "";
     }
 }
