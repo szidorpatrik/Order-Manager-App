@@ -144,8 +144,8 @@
     private DateTime? _dateStart  = DateTime.Today;
     private DateTime? _dateEnd    = DateTime.Today;
 
-    private TimeSpan? _timeStart = new TimeSpan(DateTime.Now.Hour, 0, 0);
-    private TimeSpan? _timeEnd   = new TimeSpan(DateTime.Now.Hour, 0, 0);
+    private TimeSpan? _timeStart = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
+    private TimeSpan? _timeEnd   = new TimeSpan(DateTime.Now.Hour, DateTime.Now.Minute, DateTime.Now.Second);
 
     private List<Item>      _itemsList     = new();
     private HashSet<Item>   _selectedItems = new();
