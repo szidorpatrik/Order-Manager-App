@@ -282,4 +282,19 @@
   <data name="AreYouSureToDeleteOrder" xml:space="preserve">
     <value>Biztosan törli a(z) #{0} rendelést?</value>
   </data>
+  <data name="OrderNumberIsRequired" xml:space="preserve">
+      <value>A rendelés száma nem lehet üres</value>
+  </data>
+  <data name="ItemNameIsRequired" xml:space="preserve">
+      <value>A név nem lehet üres</value>
+  </data>
+  <data name="ItemPriceIsRequired" xml:space="preserve">
+      <value>Az ár nem lehet üres</value>
+  </data>
+  <data name="ItemPriceMustBeGreaterOrEqualToZero" xml:space="preserve">
+      <value>Az árnak legalább 0-nak kell lennie</value>
+  </data>
+  <data name="ListIsEmptyClickHereToAddItem" xml:space="preserve">
+      <value>A lista üres, koppintson ide a tételek létrehozásához</value>
+  </data>
 </root>

@@ -282,4 +282,19 @@
   <data name="AreYouSureToDeleteOrder" xml:space="preserve">
     <value>Are you sure about deleting order #{0}?</value>
   </data>
+  <data name="OrderNumberIsRequired" xml:space="preserve">
+      <value>Order number is required</value>
+  </data>
+  <data name="ItemNameIsRequired" xml:space="preserve">
+      <value>Name is required</value>
+  </data>
+  <data name="ItemPriceIsRequired" xml:space="preserve">
+      <value>Price is required</value>
+  </data>
+  <data name="ItemPriceMustBeGreaterOrEqualToZero" xml:space="preserve">
+      <value>Price must be greater than or equal to 0</value>
+  </data>
+  <data name="ListIsEmptyClickHereToAddItem" xml:space="preserve">
+      <value>List is empty click to add items</value>
+  </data>
 </root>
