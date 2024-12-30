@@ -68,7 +68,7 @@
                     <MudSelect T="Item" MultiSelection="true"
                                SelectedValues="_selectedItems"
                                SelectedValuesChanged="OnSelectedItemsChanged"
-                               AnchorOrigin="Origin.BottomCenter"
+                               AnchorOrigin="Origin.TopCenter" TransformOrigin="Origin.BottomCenter" MaxHeight="250"
                                MultiSelectionTextFunc="@(new Func<List<string>, string>(GetMultiSelectionText))">
                         @if (!_itemsList.Any()) {
                             <MudButton FullWidth="true"
