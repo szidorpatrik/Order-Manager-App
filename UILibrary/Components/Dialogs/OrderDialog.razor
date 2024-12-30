@@ -113,10 +113,8 @@
             <div class="d-flex flex-grow-1 justify-space-between gap-3 pb-1">
                 <div>
                     @if (_localOrder.Id != 0) {
-                        <MudButton StartIcon="@Icons.Material.Filled.Delete"
-                                   Color="Color.Error" Variant="Variant.Outlined"
-                                   OnClick="@(() => ConfirmDelete())">Delete
-                        </MudButton>
+                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"
+                                       Color="Color.Error" OnClick="ConfirmDelete"/>
                     }
                 </div>
                 <div>
@@ -164,6 +162,21 @@
             DateStart = Order.DateStart,
             DateEnd = Order.DateEnd
         };
+
+        if (_localOrder.Id != 0) {
+            _dateStart = _localOrder.DateStart;
+            _dateEnd = _localOrder.DateEnd;
+
+            _timeStart = new TimeSpan(_localOrder.DateStart.Hour,
+                                      _localOrder.DateStart.Minute,
+                                      _localOrder.DateStart.Second
+            );
+
+            _timeEnd = new TimeSpan(_localOrder.DateEnd.Hour,
+                                    _localOrder.DateEnd.Minute,
+                                    _localOrder.DateEnd.Second
+            );
+        }
 
         _orderItems = Order.OrderItems.ToList();
         _selectedItems = new HashSet<Item>(Order.OrderItems.Select(x => x.Item));
