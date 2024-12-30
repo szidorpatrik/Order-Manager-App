@@ -1,4 +1,7 @@
-﻿#if WINDOWS
+﻿using Microsoft.Maui.Controls.PlatformConfiguration.AndroidSpecific;
+using Application=Microsoft.Maui.Controls.Application;
+
+#if WINDOWS
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
 using Windows.Graphics;
@@ -27,5 +30,6 @@ public partial class App : Application {
 #endif
 
 		MainPage = new MainPage();
+		Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
 	}
 }

@@ -35,9 +35,10 @@ namespace DatabaseLibrary {
 		// CRUD for Order
 		public static int AddOrder(this LiteDbService service, Order order) {
 			if (service.Orders.Exists(o => o.OrderNumber == order.OrderNumber)) {
-				throw new InvalidOperationException($"{order} already exists.");
+				throw new InvalidOperationException(service.Localizer["OrderAlreadyExists", order.OrderNumber]);
 			}
 			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			order.DateCreated = DateTime.Now;
 			return collection.Insert(order);
 		}
 
@@ -59,6 +60,11 @@ namespace DatabaseLibrary {
 		public static Order? GetOrderByOrderNumber(this LiteDbService service, int orderNumber) {
 			var collection = service.GetDatabase().GetCollection<Order>("Orders");
 			return collection.FindOne(x => x.OrderNumber == orderNumber);
+		}
+
+		public static List<Order> GetOrders(this LiteDbService service) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			return collection.FindAll().ToList();
 		}
 
 		// CRUD for OrderItem

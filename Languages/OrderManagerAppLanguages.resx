@@ -120,8 +120,23 @@
   <data name="AddItem" xml:space="preserve">
     <value>Add new item</value>
   </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Add new order</value>
+  </data>
   <data name="AreYouSureToDelete" xml:space="preserve">
     <value>Are you sure about deleting {0}?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="CollapseAll" xml:space="preserve">
+    <value>Collapse all</value>
+  </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>Created at: {0}</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
@@ -131,6 +146,9 @@
   </data>
   <data name="EditItem" xml:space="preserve">
     <value>Edit {0}</value>
+  </data>
+  <data name="ExpandAll" xml:space="preserve">
+    <value>Expand all</value>
   </data>
   <data name="ItemAddedSuccessfully" xml:space="preserve">
     <value>{0} was added</value>
@@ -150,11 +168,20 @@
   <data name="No" xml:space="preserve">
     <value>No</value>
   </data>
+  <data name="OrderAlreadyExists" xml:space="preserve">
+    <value>#{0} already exists</value>
+  </data>
+  <data name="OrderNumber" xml:space="preserve">
+    <value>Order number</value>
+  </data>
   <data name="Orders" xml:space="preserve">
     <value>Orders</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Price</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
@@ -168,7 +195,106 @@
   <data name="ThereAreNoItems" xml:space="preserve">
     <value>There are no items</value>
   </data>
+  <data name="ThereAreNoOrders" xml:space="preserve">
+    <value>There are no orders</value>
+  </data>
   <data name="Yes" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="SelectDateStart" xml:space="preserve">
+    <value>Select start date</value>
+  </data>
+  <data name="SelectDateEnd" xml:space="preserve">
+    <value>Select end date</value>
+  </data>
+  <data name="OrderMustBeGreaterThanZero" xml:space="preserve">
+    <value>Order must be greater than 0</value>
+  </data>
+  <data name="StartDateOrTimeMissing" xml:space="preserve">
+    <value>Start date or time is missing</value>
+  </data>
+  <data name="EndDateOrTimeMissing" xml:space="preserve">
+    <value>End date or time is missing</value>
+  </data>
+  <data name="EndDateMustBeAfterStartDate" xml:space="preserve">
+    <value>End date must be after start date</value>
+  </data>
+  <data name="SelectTimeStart" xml:space="preserve">
+    <value>Select end time</value>
+  </data>
+  <data name="SelectTimeEnd" xml:space="preserve">
+    <value>Select start time</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Start date: {0}</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>End date: {0}</value>
+  </data>
+  <data name="TimeStart" xml:space="preserve">
+    <value>End time</value>
+  </data>
+  <data name="TimeEnd" xml:space="preserve">
+    <value>Start time</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Duration: {0}</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Unit price</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="PluralSuffix" xml:space="preserve">
+    <value>s have</value>
+  </data>
+  <data name="SingularSuffix" xml:space="preserve">
+    <value>has</value>
+  </data>
+  <data name="SelectedItemsMessage" xml:space="preserve">
+    <value>{0} item{1} been selected</value>
+  </data>
+  <data name="DurationFormatDayHourMinutes" xml:space="preserve">
+    <value>{0}d {1}h {2}m</value>
+  </data>
+  <data name="InvalidDuration" xml:space="preserve">
+    <value>Invalid duration</value>
+  </data>
+  <data name="DurationFormatHourMinutes" xml:space="preserve">
+    <value>{0}h {1}m</value>
+  </data>
+  <data name="OrderDeletedSuccessfully" xml:space="preserve">
+    <value>Order #{0} was deleted</value>
+  </data>
+  <data name="OrderUpdatedSuccessfully" xml:space="preserve">
+    <value>Order #{0} was updated</value>
+  </data>
+  <data name="EditOrder" xml:space="preserve">
+    <value>Edit order {0}</value>
+  </data>
+  <data name="OrderCreatedSuccessfully" xml:space="preserve">
+    <value>Order #{0} created</value>
+  </data>
+  <data name="DeleteOrder" xml:space="preserve">
+    <value>Delete order</value>
+  </data>
+  <data name="AreYouSureToDeleteOrder" xml:space="preserve">
+    <value>Are you sure about deleting order #{0}?</value>
+  </data>
+  <data name="OrderNumberIsRequired" xml:space="preserve">
+      <value>Order number is required</value>
+  </data>
+  <data name="ItemNameIsRequired" xml:space="preserve">
+      <value>Name is required</value>
+  </data>
+  <data name="ItemPriceIsRequired" xml:space="preserve">
+      <value>Price is required</value>
+  </data>
+  <data name="ItemPriceMustBeGreaterOrEqualToZero" xml:space="preserve">
+      <value>Price must be greater than or equal to 0</value>
+  </data>
+  <data name="ListIsEmptyClickHereToAddItem" xml:space="preserve">
+      <value>List is empty click to add items</value>
   </data>
 </root>
