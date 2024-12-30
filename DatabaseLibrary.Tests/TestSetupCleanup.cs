@@ -1,4 +1,9 @@
-﻿namespace DatabaseLibrary.Tests {
+﻿using Languages;
+using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
+namespace DatabaseLibrary.Tests {
 	public abstract class TestSetupCleanup {
 		protected LiteDbService LiteDbService;
 		private string        _tempDatabasePath;
@@ -15,7 +20,12 @@
 
 			_tempDatabasePath = Path.Combine(tempDatabaseDirectory, "TestDB_OrderManagerApp.db");
 
-			LiteDbService = new LiteDbService(null, tempDatabaseDirectory);
+			ResourceManagerStringLocalizerFactory factory = new(
+				Options.Create(new LocalizationOptions()),
+				LoggerFactory.Create(_ => { })
+			);
+			
+			LiteDbService = new LiteDbService(new StringLocalizer<OrderManagerAppLanguages>(factory), tempDatabaseDirectory);
 		}
 
 		[TestCleanup]
