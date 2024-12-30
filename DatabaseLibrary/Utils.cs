@@ -1,5 +1,4 @@
-﻿
-using Languages;
+﻿using Languages;
 using Microsoft.Extensions.Localization;
 using System.Globalization;
 
@@ -13,7 +12,7 @@ namespace DatabaseLibrary {
 
 			return currentCulture.Name switch {
 				"hu-HU" => totalPrice.Value.ToString("C0", currentCulture),
-				_ => totalPrice.Value.ToString("C", currentCulture)
+				_       => totalPrice.Value.ToString("C", currentCulture)
 			};
 		}
 	}
