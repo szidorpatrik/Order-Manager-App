@@ -21,10 +21,9 @@ public static class MauiProgram {
 
 		builder.Services.AddMauiBlazorWebView();
 		builder.Services.AddMudServices(config => {
-			config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomEnd;
-
+			config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomLeft;
 			config.SnackbarConfiguration.PreventDuplicates = true;
-			config.SnackbarConfiguration.ShowCloseIcon = true;
+			config.SnackbarConfiguration.ShowCloseIcon = false;
 			config.SnackbarConfiguration.VisibleStateDuration = 2500;
 			config.SnackbarConfiguration.HideTransitionDuration = 250;
 			config.SnackbarConfiguration.ShowTransitionDuration = 250;
