@@ -91,7 +91,9 @@
                                 <div class="d-flex flex-row gap-3">
                                     <MudTextField T="int?" @bind-Value="orderItem.Quantity"
                                                   Label="@Localizer["Quantity"]" Immediate="true"
-                                                  Style="width: 100px;"/>
+                                                  Style="width: 100px;"
+                                                  InputMode="InputMode.numeric"
+                                                  Clearable="true"/>
                                     <MudIconButton Icon="@Icons.Material.Filled.Delete"
                                                    Color="Color.Error"
                                                    OnClick="@(() => RemoveOrderItem(orderItem))"/>
@@ -118,8 +120,6 @@
                     }
                 </div>
                 <div>
-                    <MudButton OnClick="Cancel" Variant="Variant.Outlined" Class="mr-2">@Localizer["Cancel"]</MudButton>
-
                     <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save"
                                Variant="Variant.Outlined" Color="Color.Primary">@Localizer["Save"]</MudButton>
                 </div>

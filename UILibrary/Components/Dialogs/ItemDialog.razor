@@ -18,10 +18,12 @@
             <DataAnnotationsValidator/>
 
             <MudTextField T="string" Label="@Localizer["ItemName"]" Immediate="true"
-                          @ref="_itemNameField"
+                          @ref="_itemNameField" Clearable="true"
                           @bind-Value="_localItem.Name"/>
-            
+
             <MudTextField T="double?" Label="@Localizer["Price"]" Immediate="true"
+                          @ref="_itemPriceField" Clearable="true"
+                          InputMode="InputMode.numeric"
                           @bind-Value="_localItem.Price"/>
 
             <div class="d-flex flex-grow-1 justify-end gap-3">
@@ -46,7 +48,8 @@
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;
 
-    private MudTextField<string?>? _itemNameField = default!;
+    private MudTextField<string?>? _itemNameField  = default!;
+    private MudTextField<double?>? _itemPriceField = default!;
 
     private Item _localItem = null!;
 
