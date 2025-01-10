@@ -96,6 +96,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ascending.
+        /// </summary>
+        public static string Ascending {
+            get {
+                return ResourceManager.GetString("Ascending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -213,6 +222,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Descending.
+        /// </summary>
+        public static string Descending {
+            get {
+                return ResourceManager.GetString("Descending", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Duration: {0}.
         /// </summary>
         public static string Duration {
@@ -245,6 +263,15 @@ namespace Languages {
         public static string DurationFormatMinutes {
             get {
                 return ResourceManager.GetString("DurationFormatMinutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duration.
+        /// </summary>
+        public static string DurationLabel {
+            get {
+                return ResourceManager.GetString("DurationLabel", resourceCulture);
             }
         }
         
@@ -308,6 +335,15 @@ namespace Languages {
         public static string ExpandAll {
             get {
                 return ResourceManager.GetString("ExpandAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide filters.
+        /// </summary>
+        public static string HideFilters {
+            get {
+                return ResourceManager.GetString("HideFilters", resourceCulture);
             }
         }
         
@@ -654,6 +690,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show filters.
+        /// </summary>
+        public static string ShowFilters {
+            get {
+                return ResourceManager.GetString("ShowFilters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to has.
         /// </summary>
         public static string SingularSuffix {
@@ -668,6 +713,15 @@ namespace Languages {
         public static string SomethingWentWrong {
             get {
                 return ResourceManager.GetString("SomethingWentWrong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sort by.
+        /// </summary>
+        public static string SortBy {
+            get {
+                return ResourceManager.GetString("SortBy", resourceCulture);
             }
         }
         

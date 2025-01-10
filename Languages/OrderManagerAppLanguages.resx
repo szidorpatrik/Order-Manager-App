@@ -360,4 +360,22 @@
   <data name="TotalRevenueThisMonth" xml:space="preserve">
       <value>Total revenue this month</value>
   </data>
+  <data name="DurationLabel" xml:space="preserve">
+      <value>Duration</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+      <value>Ascending</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+      <value>Descending</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+      <value>Sort by</value>
+  </data>
+  <data name="ShowFilters" xml:space="preserve">
+      <value>Show filters</value>
+  </data>
+  <data name="HideFilters" xml:space="preserve">
+      <value>Hide filters</value>
+  </data>
 </root>

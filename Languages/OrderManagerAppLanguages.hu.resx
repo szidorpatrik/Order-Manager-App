@@ -360,4 +360,22 @@
   <data name="TotalRevenueThisMonth" xml:space="preserve">
       <value>Aktuális hónap bevétele</value>
   </data>
+  <data name="DurationLabel" xml:space="preserve">
+      <value>Időtartam</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+      <value>Növekvő</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+      <value>Csökkenő</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+      <value>Rendezés</value>
+  </data>
+  <data name="ShowFilters" xml:space="preserve">
+      <value>Szűrők megjelenítése</value>
+  </data>
+  <data name="HideFilters" xml:space="preserve">
+      <value>Szűrők elrejtése</value>
+  </data>
 </root>
