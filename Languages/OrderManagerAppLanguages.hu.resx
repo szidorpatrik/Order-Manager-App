@@ -120,8 +120,23 @@
   <data name="AddItem" xml:space="preserve">
     <value>Új tétel</value>
   </data>
+  <data name="AddOrder" xml:space="preserve">
+    <value>Új rendelés</value>
+  </data>
   <data name="AreYouSureToDelete" xml:space="preserve">
     <value>Biztosan törli a(z) {0}-t?</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Mégse</value>
+  </data>
+  <data name="Close" xml:space="preserve">
+    <value>Bezárás</value>
+  </data>
+  <data name="CollapseAll" xml:space="preserve">
+    <value>Összes bezárása</value>
+  </data>
+  <data name="CreatedAt" xml:space="preserve">
+    <value>Létrehozva: {0}</value>
   </data>
   <data name="Dashboard" xml:space="preserve">
     <value>Irányítópult</value>
@@ -131,6 +146,9 @@
   </data>
   <data name="EditItem" xml:space="preserve">
     <value>{0} módosítása</value>
+  </data>
+  <data name="ExpandAll" xml:space="preserve">
+    <value>Összes kibontása</value>
   </data>
   <data name="ItemAddedSuccessfully" xml:space="preserve">
     <value>{0} létrehozva</value>
@@ -150,11 +168,20 @@
   <data name="No" xml:space="preserve">
     <value>Nem</value>
   </data>
+  <data name="OrderAlreadyExists" xml:space="preserve">
+    <value>#{0} rendelés már létezik</value>
+  </data>
+  <data name="OrderNumber" xml:space="preserve">
+    <value>Rendelés száma</value>
+  </data>
   <data name="Orders" xml:space="preserve">
     <value>Rendelések</value>
   </data>
   <data name="Price" xml:space="preserve">
     <value>Ár</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Mennyiség</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Mentés</value>
@@ -168,7 +195,106 @@
   <data name="ThereAreNoItems" xml:space="preserve">
     <value>Nem találhatóak tételek</value>
   </data>
+  <data name="ThereAreNoOrders" xml:space="preserve">
+    <value>Nem találhatóak rendelések</value>
+  </data>
   <data name="Yes" xml:space="preserve">
     <value>Igen</value>
+  </data>
+  <data name="SelectDateStart" xml:space="preserve">
+    <value>Kezdési dátum kiválasztása</value>
+  </data>
+  <data name="SelectDateEnd" xml:space="preserve">
+    <value>Zárási dátum kiválasztása</value>
+  </data>
+  <data name="OrderMustBeGreaterThanZero" xml:space="preserve">
+    <value>Rendelés számának nagyobbnak kell lennie, mint 0</value>
+  </data>
+  <data name="StartDateOrTimeMissing" xml:space="preserve">
+    <value>Hiányzik a kezdő dátum vagy idő</value>
+  </data>
+  <data name="EndDateOrTimeMissing" xml:space="preserve">
+    <value>Hiányzik a zárási dátum vagy idő</value>
+  </data>
+  <data name="EndDateMustBeAfterStartDate" xml:space="preserve">
+    <value>A záró dátumnak a kezdő dátum után kell lennie</value>
+  </data>
+  <data name="SelectTimeStart" xml:space="preserve">
+    <value>Válassza ki a kezdési időt</value>
+  </data>
+  <data name="SelectTimeEnd" xml:space="preserve">
+    <value>Válassza ki a zárási időt</value>
+  </data>
+  <data name="StartDate" xml:space="preserve">
+    <value>Kezdő dátum: {0}</value>
+  </data>
+  <data name="EndDate" xml:space="preserve">
+    <value>Záró dátum: {0}</value>
+  </data>
+  <data name="TimeStart" xml:space="preserve">
+    <value>Záró idő</value>
+  </data>
+  <data name="TimeEnd" xml:space="preserve">
+    <value>Kezdő idő</value>
+  </data>
+  <data name="Duration" xml:space="preserve">
+    <value>Időtartam: {0}</value>
+  </data>
+  <data name="UnitPrice" xml:space="preserve">
+    <value>Egységár</value>
+  </data>
+  <data name="TotalPrice" xml:space="preserve">
+    <value>Összár</value>
+  </data>
+  <data name="PluralSuffix" xml:space="preserve">
+    <value>ek</value>
+  </data>
+  <data name="SingularSuffix" xml:space="preserve">
+    <value>``</value>
+  </data>
+  <data name="SelectedItemsMessage" xml:space="preserve">
+    <value>{0} tétel lett kiválasztva</value>
+  </data>
+  <data name="DurationFormatDayHourMinutes" xml:space="preserve">
+    <value>{0}n {1}ó {2}p</value>
+  </data>
+  <data name="InvalidDuration" xml:space="preserve">
+    <value>Érvénytelen időtartam</value>
+  </data>
+  <data name="DurationFormatHourMinutes" xml:space="preserve">
+    <value>{0}ó {1}p</value>
+  </data>
+  <data name="OrderDeletedSuccessfully" xml:space="preserve">
+    <value>A(z) #{0} rendelés törölve</value>
+  </data>
+  <data name="OrderUpdatedSuccessfully" xml:space="preserve">
+    <value>A(z) #{0} rendelés módosítva</value>
+  </data>
+  <data name="EditOrder" xml:space="preserve">
+    <value>{0} rendelés módosítása</value>
+  </data>
+  <data name="OrderCreatedSuccessfully" xml:space="preserve">
+    <value>#{0} rendelés létrehozva</value>
+  </data>
+  <data name="DeleteOrder" xml:space="preserve">
+    <value>Rendelés törlése</value>
+  </data>
+  <data name="AreYouSureToDeleteOrder" xml:space="preserve">
+    <value>Biztosan törli a(z) #{0} rendelést?</value>
+  </data>
+  <data name="OrderNumberIsRequired" xml:space="preserve">
+      <value>A rendelés száma nem lehet üres</value>
+  </data>
+  <data name="ItemNameIsRequired" xml:space="preserve">
+      <value>A név nem lehet üres</value>
+  </data>
+  <data name="ItemPriceIsRequired" xml:space="preserve">
+      <value>Az ár nem lehet üres</value>
+  </data>
+  <data name="ItemPriceMustBeGreaterOrEqualToZero" xml:space="preserve">
+      <value>Az árnak legalább 0-nak kell lennie</value>
+  </data>
+  <data name="ListIsEmptyClickHereToAddItem" xml:space="preserve">
+      <value>A lista üres, koppintson ide a tételek létrehozásához</value>
   </data>
 </root>

@@ -1,45 +1,49 @@
 ﻿<MudPaper Elevation="2" Class="d-flex flex-grow-1 justify-space-between align-center pa-3">
     <MudText Typo="Typo.subtitle1" Class="scrollable-text mr-3">
-        @if (Item is not null)
-        {
-            @Item.Name
-        }
-        else
-        {
-            @Localizer[defaultName]
-        }
+        <b>
+            @if (Item is not null) {
+                @Item.Name
+            }
+            else {
+                @Localizer[defaultName]
+            }
+        </b>
     </MudText>
     <div class="d-flex flex-row flex-grow-0 align-center">
         <MudText Typo="Typo.subtitle1" Class="mr-2">
-            @if (Item is not null)
-            {
-                @Item.GetFormattedPrice();
+            @if (Item is not null) {
+                @Utils.GetFormattedPrice(Localizer, Item.Price)
             }
-            else
-            {
+            else {
                 @defaultPrice
             }
         </MudText>
         <MudIconButton Icon="@Icons.Material.Filled.Edit"
                        Color="Color.Primary"
-                       OnClick="@(() => OpenEditDialog())" />
+                       OnClick="@(() => OpenEditDialog())"/>
     </div>
 </MudPaper>
 
 @code {
-    [Parameter] public Item Item { get; set; } = default!;
+    [Parameter] public Item          Item          { get; set; } = default!;
     [Parameter] public EventCallback OnItemChanged { get; set; }
 
-    private string defaultName = "Placeholder";
+    private string defaultName  = "Placeholder";
     private double defaultPrice = 100.99;
 
-    private async Task OpenEditDialog()
-    {
-        var parameter = new DialogParameters { 
-            ["Item"] = Item ,
+    private async Task OpenEditDialog() {
+        var parameter = new DialogParameters {
+            ["Item"] = Item,
             ["OnItemChanged"] = OnItemChanged
         };
-        var options = new DialogOptions { CloseOnEscapeKey = true, CloseButton = true, FullWidth = true, Position = DialogPosition.TopCenter };
+
+        var options = new DialogOptions {
+            BackdropClick = false,
+            CloseOnEscapeKey = true,
+            CloseButton = true,
+            FullWidth = true,
+            Position = DialogPosition.TopCenter
+        };
 
         await DialogService.ShowAsync<ItemDialog>(Item is not null ? Item.Name : defaultName, parameter, options);
     }

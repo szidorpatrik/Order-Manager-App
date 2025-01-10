@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseLibrary", "DatabaseLibrary\DatabaseLibrary.csproj", "{C23EF344-D6BA-40CF-87EE-3581B435031A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UILibrary", "UILibrary\UILibrary.csproj", "{FF80E556-0AEF-4474-9DA5-7F77D8C31915}"
@@ -29,6 +32,7 @@ Global
 		{F08F4B1D-0570-41CA-870D-37618385633B}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{F08F4B1D-0570-41CA-870D-37618385633B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F08F4B1D-0570-41CA-870D-37618385633B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F08F4B1D-0570-41CA-870D-37618385633B}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{348E8909-B820-44BE-BD51-6196F8BFE418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{348E8909-B820-44BE-BD51-6196F8BFE418}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{348E8909-B820-44BE-BD51-6196F8BFE418}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -37,5 +41,8 @@ Global
 		{183E73B2-DF1C-4A90-8D2C-82DA48091A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{183E73B2-DF1C-4A90-8D2C-82DA48091A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{183E73B2-DF1C-4A90-8D2C-82DA48091A06}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

@@ -1,20 +1,14 @@
-﻿using System.Globalization;
-
-namespace DatabaseLibrary.Models;
+﻿namespace DatabaseLibrary.Models;
 
 public class Item {
-	public int Id { get; set; }
-	public string Name { get; set; }
-	public double Price { get; set; }
+	public int     Id    { get; set; }
+	public string  Name  { get; set; } = string.Empty;
+	public double? Price { get; set; } = 0;
 
-	public override string ToString() => Name;
-
-	public string GetFormattedPrice() {
-		var currentCulture = CultureInfo.CurrentCulture;
-
-		return currentCulture.Name switch {
-			"hu-HU" => Price.ToString("C0", currentCulture),
-			_ => Price.ToString("C", currentCulture)
-		};
+	public override bool Equals(object? obj) {
+		if (obj is not Item other) return false;
+		return Id == other.Id;
 	}
+
+	public override int GetHashCode() => Id.GetHashCode();
 }

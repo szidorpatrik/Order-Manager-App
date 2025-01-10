@@ -1,33 +1,35 @@
 ﻿@using System.ComponentModel.DataAnnotations
+@using MudBlazor.Extensions
 @inject LiteDbService DBService
 
 <MudDialog>
     <TitleContent>
         <MudText Typo="Typo.subtitle1" Class="truncated-text mr-3">
-            @if (Item.Id is 0)
-            {
+            @if (Item.Id is 0) {
                 @Localizer["AddItem"]
             }
-            else
-            {
+            else {
                 @Localizer["EditItem", @Item.Name]
             }
         </MudText>
     </TitleContent>
     <DialogContent>
-        <EditForm Model="@localItem" OnValidSubmit="Submit" class="d-flex flex-column gap-3">
-            <DataAnnotationsValidator />
+        <EditForm Model="@_localItem" OnValidSubmit="Submit" class="d-flex flex-column gap-3">
+            <DataAnnotationsValidator/>
 
-            <MudTextField T="string" Required="true" Label="@Localizer["ItemName"]" Immediate="true"
-                          @bind-Value="localItem.Name" For="@(() => localItem.Name)" />
-            <MudTextField T="double" Required="true" Label="@Localizer["Price"]" Immediate="true"
-                          @bind-Value="localItem.Price" For="@(() => localItem.Price)" />
+            <MudTextField T="string" Label="@Localizer["ItemName"]" Immediate="true"
+                          @ref="_itemNameField" Clearable="true"
+                          @bind-Value="_localItem.Name"/>
+
+            <MudTextField T="double?" Label="@Localizer["Price"]" Immediate="true"
+                          @ref="_itemPriceField" Clearable="true"
+                          InputMode="InputMode.numeric"
+                          @bind-Value="_localItem.Price"/>
 
             <div class="d-flex flex-grow-1 justify-end gap-3">
-                @if (Item.Id is not 0)
-                {
+                @if (Item.Id is not 0) {
                     <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"
-                                   Color="Color.Error" OnClick="ConfirmDelete" />
+                                   Color="Color.Error" OnClick="ConfirmDelete"/>
                 }
                 <MudButton ButtonType="ButtonType.Submit" StartIcon="@Icons.Material.Filled.Save"
                            Variant="Variant.Outlined" Color="Color.Primary">@Localizer["Save"]</MudButton>
@@ -37,7 +39,7 @@
 </MudDialog>
 
 @code {
-    [Parameter, EditorRequired] 
+    [Parameter, EditorRequired]
     public Item Item { get; set; } = default!;
 
     [Parameter]
@@ -46,79 +48,100 @@
     [CascadingParameter]
     private MudDialogInstance MudDialog { get; set; } = default!;
 
-    private Item localItem = default!;
+    private MudTextField<string?>? _itemNameField  = default!;
+    private MudTextField<double?>? _itemPriceField = default!;
 
-    protected override void OnInitialized()
-    {
+    private Item _localItem = null!;
+
+    protected override void OnInitialized() {
         // Clone to localItem
-        localItem = new()
-            {
-                Id = Item.Id,
-                Name = Item.Name,
-                Price = Item.Price
-            };
+        _localItem = new Item {
+            Id = Item.Id,
+            Name = Item.Name,
+            Price = Item.Id != 0 ? Item.Price : null
+        };
     }
 
-    private async Task Submit()
-    {
-        var success = AddOrUpdateItem(localItem);
-        if (success)
-        {
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        if (firstRender && _localItem.Id == 0 && _itemNameField is not null) {
+            await Task.Delay(50);
+            await _itemNameField.FocusAsync();
+        }
+    }
+
+    private async Task Submit() {
+        var isValid = ValidateForm();
+
+        if (!isValid) {
+            return;
+        }
+
+        var success = AddOrUpdateItem(_localItem);
+        if (success) {
             ShowSnackbar(Item.Id is 0
-                ? Localizer["ItemAddedSuccessfully", localItem.Name]
-                : Localizer["ItemUpdatedSuccessfully", localItem.Name], Severity.Success);
+                             ? Localizer["ItemAddedSuccessfully", _localItem.Name]
+                             : Localizer["ItemUpdatedSuccessfully", _localItem.Name],
+                         Severity.Success);
 
             await NotifyParent();
             CloseDialog();
         }
-        else
-        {
+        else {
             ShowSnackbar(Localizer["SomethingWentWrong"], Severity.Error);
         }
     }
 
-    private async Task Delete()
-    {
-        var success = DBService.DeleteItem(localItem.Id);
-        if (success)
-        {
-            ShowSnackbar(Localizer["ItemDeletedSuccessfully", localItem.Name], Severity.Success);
+    private async Task Delete() {
+        var success = DBService.DeleteItem(_localItem.Id);
+        if (success) {
+            ShowSnackbar(Localizer["ItemDeletedSuccessfully", _localItem.Name], Severity.Success);
             await NotifyParent();
             CloseDialog();
         }
-        else
-        {
+        else {
             ShowSnackbar(Localizer["SomethingWentWrong"], Severity.Error);
         }
     }
 
-    private async Task ConfirmDelete()
-    {
+    private async Task ConfirmDelete() {
         var confirmed = await DialogService.ShowMessageBox(
-            Localizer["DeleteItem"],
-            Localizer["AreYouSureToDelete", localItem.Name],
-            yesText: Localizer["Yes"],
-            noText: Localizer["No"]);
+        Localizer["DeleteItem"],
+        Localizer["AreYouSureToDelete", _localItem.Name],
+        yesText: Localizer["Yes"],
+        noText: Localizer["No"]);
 
-        if (confirmed is true)
-        {
+        if (confirmed is true) {
             await Delete();
         }
     }
 
-    private bool AddOrUpdateItem(Item item)
-    {
-        if (item.Id is 0)
-        {
+    private bool AddOrUpdateItem(Item item) {
+        if (item.Id is 0) {
             return DBService.AddItem(item) > 0;
         }
         return DBService.UpdateItem(item);
     }
 
-    private async Task NotifyParent()
-    {
-        if (OnItemChanged.HasDelegate)
-        {
+    private bool ValidateForm() {
+        if (string.IsNullOrWhiteSpace(_localItem.Name)) {
+            ShowSnackbar(Localizer["ItemNameIsRequired"], Severity.Error);
+            return false;
+        }
+
+        if (_localItem.Price is null) {
+            ShowSnackbar(Localizer["ItemPriceIsRequired"], Severity.Error);
+            return false;
+        }
+
+        if (_localItem.Price is null) {
+            ShowSnackbar(Localizer["ItemPriceMustBeGreaterOrEqualToZero"], Severity.Error);
+            return false;
+        }
+        return true;
+    }
+
+    private async Task NotifyParent() {
+        if (OnItemChanged.HasDelegate) {
             await OnItemChanged.InvokeAsync();
         }
     }
@@ -128,7 +151,4 @@
 
     private void CloseDialog()
         => MudDialog.Close();
-
-    private void Cancel() 
-        => MudDialog.Cancel();
 }
