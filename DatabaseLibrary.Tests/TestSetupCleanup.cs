@@ -3,41 +3,24 @@ using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace DatabaseLibrary.Tests {
-	public abstract class TestSetupCleanup {
-		protected LiteDbService LiteDbService;
-		private string        _tempDatabasePath;
+namespace DatabaseLibrary.Tests;
 
-		[TestInitialize]
-		public void Setup()
-		{
-			var tempDatabaseDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "TestDb_OrderManagerApp");
+public abstract class TestSetupCleanup {
+	protected LiteDbService LiteDbService = null!;
 
-			if (!Directory.Exists(tempDatabaseDirectory))
-			{
-				Directory.CreateDirectory(tempDatabaseDirectory);
-			}
+	[TestInitialize]
+	public void Setup() {
+		ResourceManagerStringLocalizerFactory factory = new(
+			Options.Create(new LocalizationOptions()),
+			LoggerFactory.Create(_ => { })
+		);
 
-			_tempDatabasePath = Path.Combine(tempDatabaseDirectory, "TestDB_OrderManagerApp.db");
+		LiteDbService = new LiteDbService(new StringLocalizer<OrderManagerAppLanguages>(factory), Path.GetTempPath());
+	}
 
-			ResourceManagerStringLocalizerFactory factory = new(
-				Options.Create(new LocalizationOptions()),
-				LoggerFactory.Create(_ => { })
-			);
-			
-			LiteDbService = new LiteDbService(new StringLocalizer<OrderManagerAppLanguages>(factory), tempDatabaseDirectory);
-		}
-
-		[TestCleanup]
-		public void Cleanup()
-		{
-			LiteDbService.GetDatabase().Dispose();
-
-			var tempDatabaseDirectory = Path.GetDirectoryName(_tempDatabasePath);
-			if (tempDatabaseDirectory != null && Directory.Exists(tempDatabaseDirectory))
-			{
-				Directory.Delete(tempDatabaseDirectory, recursive: true);
-			}
-		}
+	[TestCleanup]
+	public void Cleanup() {
+		LiteDbService.Dispose();
+		File.Delete(Path.GetTempPath() + "OrderManagerApp.db");
 	}
 }
