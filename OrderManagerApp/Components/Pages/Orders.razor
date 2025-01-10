@@ -4,15 +4,6 @@
 
 <div class="d-flex justify-space-between">
     <h1>@Localizer["Orders"]</h1>
-
-    @if (_orders.Any()) {
-        <MudButton Variant="Variant.Text"
-                   EndIcon="@(_shouldExpandAll ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
-                   OnClick="ToggleExpandAll"
-                   Style="text-transform:none;">
-            @(Localizer[_shouldExpandAll ? "CollapseAll" : "ExpandAll"])
-        </MudButton>
-    }
 </div>
 
 @if (!_orders.Any()) {
@@ -23,91 +14,7 @@
 else {
     <div class="d-flex flex-column gap-3 mb-16">
         @foreach (var order in _orders) {
-            <MudPaper Elevation="2" Class="@GetPaperStyle(order)">
-                <MudStack Spacing="0">
-                    <div class="d-flex justify-space-between align-center gap-2">
-                        <MudText Typo="Typo.h6">@order</MudText>
-                        <div class="d-flex">
-                            @if (order.IsPending) {
-                                <MudButton EndIcon="@Icons.Material.Filled.Check" IconSize="Size.Large"
-                                           IconColor="Color.Success"
-                                           Size="Size.Small" Style="text-transform:none;" Class="mr-2"
-                                           OnClick="@(() => CompleteOrder(order))">
-                                    @Localizer["MarkAsCompleted"]
-                                </MudButton>
-
-                                <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
-                                               OnClick="@(() => OpenOrderEditDialog(order))"/>
-                            }
-                            <MudToggleIconButton Toggled="_expandedStates[order.Id]"
-                                                 ToggledChanged="@(() => ToggleExpand(order.Id))"
-                                                 Icon="@Icons.Material.Filled.ExpandMore"
-                                                 ToggledIcon="@Icons.Material.Filled.ExpandLess"/>
-                        </div>
-                    </div>
-
-                    <MudCollapse Expanded="_expandedStates[order.Id]">
-                        <MudDivider Class="my-1"/>
-
-                        <MudText Typo="Typo.caption">
-                            @Localizer["CreatedAt", order.DateCreated.ToLocalTime().ToString("g")]
-                        </MudText>
-                        <MudFlexBreak/>
-
-                        <MudText Typo="Typo.caption">
-                            @Localizer["Status"]:
-                            @if (order.IsCompleted) {
-                                @Localizer["Completed"]
-                            }
-                            else if (order.IsPending) {
-                                @Localizer["Pending"]
-                            }
-                            else if (order.IsCanceled) {
-                                @Localizer["Canceled"]
-                            }
-                        </MudText>
-                        <MudDivider Class="my-1"/>
-
-                        <MudText Typo="Typo.caption" Class="d-block">
-                            @Localizer["StartDate", order.DateStart.ToLocalTime().ToString("g")]</MudText>
-                        <MudText Typo="Typo.caption" Class="d-block">
-                            @Localizer["EndDate", order.DateEnd.ToLocalTime().ToString("g")]</MudText>
-                        <MudDivider Class="my-1"/>
-                        
-                        @if (!order.IsCanceled) {
-                            <MudText Typo="Typo.caption" Class="d-block">
-                                @Localizer["CompletedDate", order.IsPending ? "-" : order.DateCompleted.ToLocalTime().ToString("g")]</MudText>
-                        }
-                        else {
-                            <MudText Typo="Typo.caption" Class="d-block">
-                                @Localizer["CanceledDate", order.DateCanceled.ToLocalTime().ToString("g")]</MudText>
-                        }
-                        
-                        <MudText Typo="Typo.caption" Class="d-block">
-                            @Localizer["Duration", GetDurationFormatted(order.Duration)]</MudText>
-                        <MudDivider Class="my-1"/>
-
-                        @if (!order.OrderItems.Any()) {
-                            <MudText Typo="Typo.caption"><b>@Localizer["ThereAreNoItems"]</b></MudText>
-                        }
-                        else {
-                            @foreach (var orderItem in order.OrderItems) {
-                                <MudText Typo="Typo.caption" Class="d-block">
-                                    <span>@orderItem.Quantity</span>
-                                    <span><b>@orderItem.Item.Name</b></span>
-                                    <span>(@(Utils.GetFormattedPrice(Localizer, orderItem.Quantity * orderItem.Item.Price)))</span>
-                                </MudText>
-                            }
-                            <MudDivider Class="my-1"/>
-
-                            <MudText Typo="Typo.caption">
-                                @Localizer["TotalPrice"]:
-                                <b>@(Utils.GetFormattedPrice(Localizer, order.OrderItems.Sum(x => x.Item.Price * x.Quantity)))</b>
-                            </MudText>
-                        }
-                    </MudCollapse>
-                </MudStack>
-            </MudPaper>
+            <OrderCard @key="order.Id" Order="order" OnOrderChange="RefreshOrders"/>
         }
     </div>
 }
@@ -118,9 +25,7 @@ else {
 </div>
 
 @code {
-    private List<Order>           _orders         = new();
-    private Dictionary<int, bool> _expandedStates = new();
-    private bool                  _shouldExpandAll;
+    private List<Order> _orders = new();
 
     protected override void OnInitialized() {
         RefreshOrders();
@@ -128,19 +33,10 @@ else {
 
     private void RefreshOrders() {
         _orders = DBService.GetOrders();
-        foreach (var order in _orders) {
-            if (!_expandedStates.ContainsKey(order.Id)) {
-                _expandedStates[order.Id] = false;
-            }
-        }
     }
 
     private async Task OpenOrderAddDialog() {
         await DialogService.ShowAsync<OrderDialog>(Localizer["AddOrder"], GetOrderDialogParameters(new Order()), GetOrderDialogOptions());
-    }
-
-    private async Task OpenOrderEditDialog(Order order) {
-        await DialogService.ShowAsync<OrderDialog>(Localizer["EditOrder"], GetOrderDialogParameters(order), GetOrderDialogOptions());
     }
 
     private DialogParameters GetOrderDialogParameters(Order order) {
@@ -157,64 +53,5 @@ else {
             CloseOnEscapeKey = true,
             CloseButton = true
         };
-    }
-
-    private void CompleteOrder(Order order) {
-        order.IsCompleted = true;
-        order.DateCompleted = DateTime.Now;
-
-        var result = DBService.UpdateOrder(order);
-        if (result) {
-            Snackbar.Add(Localizer["OrderMarkedAsCompleted", order.OrderNumber], Severity.Success);
-        }
-        else {
-            Snackbar.Add(Localizer["SomethingWentWrong"], Severity.Error);
-        }
-    }
-
-    private string GetDurationFormatted(TimeSpan duration) {
-        if (duration == TimeSpan.MinValue) {
-            return "-";
-        }
-
-        return duration.Days switch {
-            0 when duration.Hours is 0 => Localizer["DurationFormatMinutes", duration.Minutes],
-            0                          => Localizer["DurationFormatHourMinutes", duration.Hours, duration.Minutes],
-            _                          => Localizer["DurationFormatDayHourMinutes", duration.Days, duration.Hours, duration.Minutes]
-        };
-
-    }
-
-    private void ToggleExpand(int id) {
-        _expandedStates[id] = !_expandedStates[id];
-        _shouldExpandAll = _expandedStates.Values.All(value => value);
-    }
-
-    private void ToggleExpandAll() {
-        _shouldExpandAll = !_shouldExpandAll;
-        foreach (var order in _orders) {
-            if (_shouldExpandAll) {
-                _expandedStates[order.Id] = true;
-            }
-            else {
-                _expandedStates[order.Id] = false;
-            }
-        }
-    }
-
-    private string GetPaperStyle(Order order) {
-        StringBuilder builder = new("pa-3 border-l-4 border-solid");
-
-        if (order.IsCompleted) {
-            builder.Append(" mud-border-success");
-        }
-        else if (order.IsCanceled) {
-            builder.Append(" mud-border-secondary");
-        }
-        else {
-            builder.Append(" mud-border-warning");
-        }
-
-        return builder.ToString();
     }
 }
