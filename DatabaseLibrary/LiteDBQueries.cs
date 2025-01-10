@@ -87,5 +87,116 @@ namespace DatabaseLibrary {
 			var collection = service.GetDatabase().GetCollection<OrderItem>("OrderItems");
 			return collection.FindById(orderItemId);
 		}
+
+		// Other
+		public static int GetOrdersCount(this LiteDbService service) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			return collection.Count();
+		}
+
+		public static List<Order> GetCompletedOrders(this LiteDbService service) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			return collection.FindAll().Where(x => x.IsCompleted).ToList();
+		}
+
+		public static List<Order> GetIncompletedOrders(this LiteDbService service) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			return collection.FindAll().Where(x => !x.IsCompleted).ToList();
+		}
+
+		public static List<Order> GetCanceledOrders(this LiteDbService service) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			return collection.FindAll().Where(x => x.IsCanceled).ToList();
+		}
+
+		/// <summary>
+		/// Calculates the total price of all active (non-canceled) orders in the database.
+		/// Optionally filters the orders by the specified month.
+		/// </summary>
+		/// <param name="service">The instance of <see cref="LiteDbService"/> used to access the database.</param>
+		/// <param name="month">
+		/// An optional <see cref="DateTime"/> parameter to filter orders by a specific month.
+		/// If not specified, calculates the total price of all active orders regardless of month.
+		/// </param>
+		/// <returns>
+		/// A <see cref="double"/> representing the total price of all active orders for the specified month or all months.
+		/// Returns 0 if there are no active orders or if the order items have invalid quantities or prices.
+		/// </returns>
+		public static double GetTotalPrice(this LiteDbService service, DateTime? month = null) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			var activeOrders = collection.Find(x => !x.IsCanceled);
+
+			// Filter orders by the specified month if provided
+			if (month.HasValue) {
+				activeOrders = activeOrders.Where(order =>
+					                                  order.DateCreated.Month == month.Value.Month &&
+					                                  order.DateCreated.Year == month.Value.Year);
+			}
+
+			return (double)activeOrders
+				.SelectMany(order => order.OrderItems)
+				.Where(orderItem => orderItem is { Item: not null, Quantity: > 0 })
+				.Sum(orderItem => orderItem.Quantity * orderItem.Item.Price)!;
+		}
+
+		/// <summary>
+		/// Calculates the total price of all completed orders in the database.
+		/// Optionally filters the orders by the specified month.
+		/// </summary>
+		/// <param name="service">The instance of <see cref="LiteDbService"/> used to access the database.</param>
+		/// <param name="month">
+		/// An optional <see cref="DateTime"/> parameter to filter orders by a specific month.
+		/// If not specified, calculates the total price of all completed orders regardless of month.
+		/// </param>
+		/// <returns>
+		/// A <see cref="double"/> representing the total price of all completed orders for the specified month or all months.
+		/// Returns 0 if there are no completed orders or if the order items have invalid quantities or prices.
+		/// </returns>
+		public static double GetTotalPriceOfCompleted(this LiteDbService service, DateTime? month = null) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			var completedOrders = collection.Find(x => x.IsCompleted);
+
+			// Filter orders by the specified month if provided
+			if (month.HasValue) {
+				completedOrders = completedOrders.Where(order =>
+					                                        order.DateCompleted.Month == month.Value.Month &&
+					                                        order.DateCompleted.Year == month.Value.Year);
+			}
+
+			return (double)completedOrders
+				.SelectMany(order => order.OrderItems)
+				.Where(orderItem => orderItem is { Item: not null, Quantity: > 0 })
+				.Sum(orderItem => orderItem.Quantity * orderItem.Item.Price)!;
+		}
+
+		/// <summary>
+		/// Calculates the total price of all pending orders in the database.
+		/// Optionally filters the orders by the specified month.
+		/// </summary>
+		/// <param name="service">The instance of <see cref="LiteDbService"/> used to access the database.</param>
+		/// <param name="month">
+		/// An optional <see cref="DateTime"/> parameter to filter orders by a specific month.
+		/// If not specified, calculates the total price of all pending orders regardless of month.
+		/// </param>
+		/// <returns>
+		/// A <see cref="double"/> representing the total price of all pending orders for the specified month or all months.
+		/// Returns 0 if there are no pending orders or if the order items have invalid quantities or prices.
+		/// </returns>
+		public static double GetTotalPriceOfPending(this LiteDbService service, DateTime? month = null) {
+			var collection = service.GetDatabase().GetCollection<Order>("Orders");
+			var pendingOrders = collection.Find(x => x.IsPending);
+
+			// Filter orders by the specified month if provided
+			if (month.HasValue) {
+				pendingOrders = pendingOrders.Where(order =>
+					                                    order.DateCreated.Month == month.Value.Month &&
+					                                    order.DateCreated.Year == month.Value.Year);
+			}
+
+			return (double)pendingOrders
+				.SelectMany(order => order.OrderItems)
+				.Where(orderItem => orderItem is { Item: not null, Quantity: > 0 })
+				.Sum(orderItem => orderItem.Quantity * orderItem.Item.Price)!;
+		}
 	}
 }
