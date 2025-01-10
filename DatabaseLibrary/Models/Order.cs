@@ -31,7 +31,7 @@ public class Order {
 	/// Ensure that <see cref="DateStart"/> is properly initialized before accessing this property.
 	/// </remarks>
 	public TimeSpan Duration => GetDuration();
-	
+
 	public override string ToString() => $"#{OrderNumber}";
 
 	/// <summary>
@@ -50,12 +50,10 @@ public class Order {
 	/// If <see cref="DateStart"/> is not set, the calculation may yield unexpected results.
 	/// </remarks>
 	private TimeSpan GetDuration() {
-		if (IsCanceled) {
+		if (IsCanceled)
 			return TimeSpan.MinValue;
-		}
-		if (IsCompleted) {
+		if (IsCompleted)
 			return DateCompleted - DateStart;
-		}
 		return DateTime.Now - DateStart;
 	}
 }

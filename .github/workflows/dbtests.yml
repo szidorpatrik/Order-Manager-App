@@ -1,0 +1,37 @@
+name: Database Unit Tests
+
+on:
+  push:
+    paths:
+      - '**.cs'
+      - '**.csproj'
+      - '**.sln'
+  pull_request:
+    paths:
+      - '**.cs'
+      - '**.csproj'
+      - '**.sln'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+        working-directory: DatabaseLibrary.Tests
+
+      - name: Build
+        run: dotnet build --no-restore
+        working-directory: DatabaseLibrary.Tests
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+        working-directory: DatabaseLibrary.Tests
