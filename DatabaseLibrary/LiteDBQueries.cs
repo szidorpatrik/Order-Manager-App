@@ -124,7 +124,7 @@ namespace DatabaseLibrary {
 		/// </returns>
 		public static double GetTotalPrice(this LiteDbService service, DateTime? month = null) {
 			var collection = service.GetDatabase().GetCollection<Order>("Orders");
-			var activeOrders = collection.Find(x => !x.IsCanceled);
+			var activeOrders = collection.FindAll().Where(x => !x.IsCanceled);
 
 			// Filter orders by the specified month if provided
 			if (month.HasValue) {
@@ -154,7 +154,7 @@ namespace DatabaseLibrary {
 		/// </returns>
 		public static double GetTotalPriceOfCompleted(this LiteDbService service, DateTime? month = null) {
 			var collection = service.GetDatabase().GetCollection<Order>("Orders");
-			var completedOrders = collection.Find(x => x.IsCompleted);
+			var completedOrders = collection.FindAll().Where(x => x.IsCompleted);
 
 			// Filter orders by the specified month if provided
 			if (month.HasValue) {
@@ -184,7 +184,7 @@ namespace DatabaseLibrary {
 		/// </returns>
 		public static double GetTotalPriceOfPending(this LiteDbService service, DateTime? month = null) {
 			var collection = service.GetDatabase().GetCollection<Order>("Orders");
-			var pendingOrders = collection.Find(x => x.IsPending);
+			var pendingOrders = collection.FindAll().Where(x => x.IsPending);
 
 			// Filter orders by the specified month if provided
 			if (month.HasValue) {

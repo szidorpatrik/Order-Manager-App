@@ -232,10 +232,10 @@
     <value>End date: {0}</value>
   </data>
   <data name="TimeStart" xml:space="preserve">
-    <value>End time</value>
+      <value>Start time</value>
   </data>
   <data name="TimeEnd" xml:space="preserve">
-    <value>Start time</value>
+      <value>End time</value>
   </data>
   <data name="Duration" xml:space="preserve">
     <value>Duration: {0}</value>
@@ -283,18 +283,81 @@
     <value>Are you sure about deleting order #{0}?</value>
   </data>
   <data name="OrderNumberIsRequired" xml:space="preserve">
-      <value>Order number is required</value>
+    <value>Order number is required</value>
   </data>
   <data name="ItemNameIsRequired" xml:space="preserve">
-      <value>Name is required</value>
+    <value>Name is required</value>
   </data>
   <data name="ItemPriceIsRequired" xml:space="preserve">
-      <value>Price is required</value>
+    <value>Price is required</value>
   </data>
   <data name="ItemPriceMustBeGreaterOrEqualToZero" xml:space="preserve">
-      <value>Price must be greater than or equal to 0</value>
+    <value>Price must be greater than or equal to 0</value>
   </data>
   <data name="ListIsEmptyClickHereToAddItem" xml:space="preserve">
-      <value>List is empty click to add items</value>
+    <value>List is empty click to add items</value>
+  </data>
+  <data name="TotalOrders" xml:space="preserve">
+    <value>Total orders</value>
+  </data>
+  <data name="PendingOrders" xml:space="preserve">
+    <value>Pending orders</value>
+  </data>
+  <data name="CanceledOrders" xml:space="preserve">
+    <value>Canceled orders</value>
+  </data>
+  <data name="CompletedOrders" xml:space="preserve">
+    <value>Completed orders</value>
+  </data>
+  <data name="CompletedDate" xml:space="preserve">
+      <value>Completion date: {0}</value>
+  </data>
+  <data name="CanceledDate" xml:space="preserve">
+    <value>Canceled at: {0}</value>
+  </data>
+  <data name="OrderMarkedAsCompleted" xml:space="preserve">
+    <value>Order #{0} marked as completed</value>
+  </data>
+  <data name="MarkAsCompleted" xml:space="preserve">
+      <value>Mark as completed</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+      <value>Completed</value>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+      <value>Canceled</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+      <value>Pending</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+      <value>Status</value>
+  </data>
+  <data name="DurationFormatMinutes" xml:space="preserve">
+      <value>{0}m</value>
+  </data>
+  <data name="EndTimeMustBeAfterStartTime" xml:space="preserve">
+      <value>End time must be after start time</value>
+  </data>
+  <data name="TotalRevenue" xml:space="preserve">
+      <value>Total revenue</value>
+  </data>
+  <data name="NoComparisonAvailable" xml:space="preserve">
+      <value>No comparison available</value>
+  </data>
+  <data name="RevenueUpBy" xml:space="preserve">
+      <value>Revenue up by {0}%</value>
+  </data>
+  <data name="RevenueDownBy" xml:space="preserve">
+      <value>Revenue down by {0}%</value>
+  </data>
+  <data name="RevenueSame" xml:space="preserve">
+      <value>Same revenue</value>
+  </data>
+  <data name="PendingRevenue" xml:space="preserve">
+      <value>Pending revenue</value>
+  </data>
+  <data name="TotalRevenueThisMonth" xml:space="preserve">
+      <value>Total revenue this month</value>
   </data>
 </root>
