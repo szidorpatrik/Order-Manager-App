@@ -7,7 +7,7 @@ using System.IO;
 namespace DatabaseLibrary {
 	using Microsoft.Extensions.Localization;
 
-	public class LiteDbService {
+	public sealed class LiteDbService : IDisposable {
 		private readonly string           fileName = "OrderManagerApp.db";
 		private readonly string           _databasePath;
 		private readonly LiteDatabase     _database;
@@ -24,5 +24,7 @@ namespace DatabaseLibrary {
 		public ILiteCollection<OrderItem> OrderItems => _database.GetCollection<OrderItem>("OrderItems");
 
 		public LiteDatabase GetDatabase() => _database;
+
+		public void Dispose() => _database.Dispose();
 	}
 }
