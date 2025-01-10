@@ -74,7 +74,7 @@ public static class LiteDbQueries {
 	/// </returns>
 	public static double GetTotalPrice(this LiteDbService service, DateTime? month = null) {
 		ILiteCollection<Order> collection = service.Orders;
-		IEnumerable<Order>? activeOrders = collection.Find(x => !x.IsCanceled);
+		IEnumerable<Order>? activeOrders = collection.FindAll().Where(x => !x.IsCanceled);
 
 		// Filter orders by the specified month if provided
 		if (month is { } date)
@@ -101,7 +101,7 @@ public static class LiteDbQueries {
 	/// </returns>
 	public static double GetTotalPriceOfCompleted(this LiteDbService service, DateTime? month = null) {
 		ILiteCollection<Order> collection = service.Orders;
-		IEnumerable<Order>? completedOrders = collection.Find(x => x.IsCompleted);
+		IEnumerable<Order>? completedOrders = collection.FindAll().Where(x => x.IsCompleted);
 
 		// Filter orders by the specified month if provided
 		if (month is { } date)
@@ -128,7 +128,7 @@ public static class LiteDbQueries {
 	/// </returns>
 	public static double GetTotalPriceOfPending(this LiteDbService service, DateTime? month = null) {
 		ILiteCollection<Order> collection = service.Orders;
-		IEnumerable<Order>? pendingOrders = collection.Find(x => x.IsPending);
+		IEnumerable<Order>? pendingOrders = collection.FindAll().Where(x => x.IsPending);
 
 		// Filter orders by the specified month if provided
 		if (month is { } date)
