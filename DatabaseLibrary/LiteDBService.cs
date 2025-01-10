@@ -1,30 +1,39 @@
-﻿using DatabaseLibrary.Models;
+﻿using System;
+using System.IO;
+using System.Reflection;
+using DatabaseLibrary.Models;
 using Languages;
 using LiteDB;
-using System;
-using System.IO;
+using Microsoft.Extensions.Localization;
 
-namespace DatabaseLibrary {
-	using Microsoft.Extensions.Localization;
+namespace DatabaseLibrary;
 
-	public sealed class LiteDbService : IDisposable {
-		private readonly string           fileName = "OrderManagerApp.db";
-		private readonly string           _databasePath;
-		private readonly LiteDatabase     _database;
-		public readonly  IStringLocalizer Localizer;
+public sealed class LiteDbService : IDisposable {
+	internal LiteDatabase Database { get; }
 
-		public LiteDbService(IStringLocalizer<OrderManagerAppLanguages> localizer, string? databasePath = null) {
-			Localizer = localizer;
-			_databasePath = Path.Combine(databasePath ?? Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), fileName);
-			_database = new LiteDatabase(_databasePath);
-		}
+	public string DatabaseFile { get; }
 
-		public ILiteCollection<Item>      Items      => _database.GetCollection<Item>("Items");
-		public ILiteCollection<Order>     Orders     => _database.GetCollection<Order>("Orders");
-		public ILiteCollection<OrderItem> OrderItems => _database.GetCollection<OrderItem>("OrderItems");
+	public IStringLocalizer Localizer { get; }
 
-		public LiteDatabase GetDatabase() => _database;
+	public ILiteCollection<Item> Items => Database.GetCollection<Item>("Items");
 
-		public void Dispose() => _database.Dispose();
+	public ILiteCollection<Order> Orders => Database.GetCollection<Order>("Orders");
+
+	public ILiteCollection<OrderItem> OrderItems => Database.GetCollection<OrderItem>("OrderItems");
+
+	public LiteDbService(IStringLocalizer<OrderManagerAppLanguages> localizer, string dbFile) {
+		Database = new LiteDatabase(dbFile);
+		DatabaseFile = dbFile;
+		Localizer = localizer;
 	}
+
+	public LiteDbService(IStringLocalizer<OrderManagerAppLanguages> localizer) {
+		string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+		string file = Assembly.GetExecutingAssembly().GetName().Name + ".db";
+		DatabaseFile = Path.Combine(appData, file);
+		Database = new LiteDatabase(DatabaseFile);
+		Localizer = localizer;
+	}
+
+	public void Dispose() => Database.Dispose();
 }

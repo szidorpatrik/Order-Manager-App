@@ -15,12 +15,13 @@ public abstract class TestSetupCleanup {
 			LoggerFactory.Create(_ => { })
 		);
 
-		LiteDbService = new LiteDbService(new StringLocalizer<OrderManagerAppLanguages>(factory), Path.GetTempPath());
+		LiteDbService = new LiteDbService(new StringLocalizer<OrderManagerAppLanguages>(factory), Path.GetTempFileName());
 	}
 
 	[TestCleanup]
 	public void Cleanup() {
+		string db = LiteDbService.DatabaseFile;
 		LiteDbService.Dispose();
-		File.Delete(Path.GetTempPath() + "OrderManagerApp.db");
+		File.Delete(db);
 	}
 }

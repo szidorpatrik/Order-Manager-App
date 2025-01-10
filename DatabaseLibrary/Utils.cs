@@ -1,19 +1,18 @@
-﻿using Languages;
+﻿using System.Globalization;
+using Languages;
 using Microsoft.Extensions.Localization;
-using System.Globalization;
 
-namespace DatabaseLibrary {
-	public static class Utils {
-		public static string GetFormattedPrice(IStringLocalizer<OrderManagerAppLanguages> Localizer, double? totalPrice) {
-			if (!totalPrice.HasValue || totalPrice <= 0)
-				return Localizer["N/A"];
+namespace DatabaseLibrary;
 
-			var currentCulture = CultureInfo.CurrentCulture;
+public static class Utils {
+	public static string GetFormattedPrice(IStringLocalizer<OrderManagerAppLanguages> localizer, double? totalPrice) {
+		if (totalPrice is null or <= 0)
+			return localizer["N/A"];
 
-			return currentCulture.Name switch {
-				"hu-HU" => totalPrice.Value.ToString("C0", currentCulture),
-				_       => totalPrice.Value.ToString("C", currentCulture)
-			};
-		}
+		CultureInfo currentCulture = CultureInfo.CurrentCulture;
+		return currentCulture.Name switch {
+			"hu-HU" => totalPrice.Value.ToString("C0", currentCulture),
+			_       => totalPrice.Value.ToString("C", currentCulture)
+		};
 	}
 }
