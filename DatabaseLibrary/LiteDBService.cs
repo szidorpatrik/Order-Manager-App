@@ -9,20 +9,20 @@ using Microsoft.Extensions.Localization;
 namespace DatabaseLibrary;
 
 public sealed class LiteDbService : IDisposable {
-	internal LiteDatabase Database { get; }
+	private readonly LiteDatabase _database;
 
 	public string DatabaseFile { get; }
 
 	public IStringLocalizer Localizer { get; }
 
-	public ILiteCollection<Item> Items => Database.GetCollection<Item>("Items");
+	public ILiteCollection<Item> Items => _database.GetCollection<Item>("Items");
 
-	public ILiteCollection<Order> Orders => Database.GetCollection<Order>("Orders");
+	public ILiteCollection<Order> Orders => _database.GetCollection<Order>("Orders");
 
-	public ILiteCollection<OrderItem> OrderItems => Database.GetCollection<OrderItem>("OrderItems");
+	public ILiteCollection<OrderItem> OrderItems => _database.GetCollection<OrderItem>("OrderItems");
 
 	public LiteDbService(IStringLocalizer<OrderManagerAppLanguages> localizer, string dbFile) {
-		Database = new LiteDatabase(dbFile);
+		_database = new LiteDatabase(dbFile);
 		DatabaseFile = dbFile;
 		Localizer = localizer;
 	}
@@ -31,9 +31,9 @@ public sealed class LiteDbService : IDisposable {
 		string appData = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
 		string file = Assembly.GetExecutingAssembly().GetName().Name + ".db";
 		DatabaseFile = Path.Combine(appData, file);
-		Database = new LiteDatabase(DatabaseFile);
+		_database = new LiteDatabase(DatabaseFile);
 		Localizer = localizer;
 	}
 
-	public void Dispose() => Database.Dispose();
+	public void Dispose() => _database.Dispose();
 }
