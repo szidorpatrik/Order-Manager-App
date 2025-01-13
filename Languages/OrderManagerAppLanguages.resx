@@ -298,16 +298,16 @@
     <value>List is empty click to add items</value>
   </data>
   <data name="TotalOrders" xml:space="preserve">
-    <value>Total orders</value>
+      <value>Total</value>
   </data>
   <data name="PendingOrders" xml:space="preserve">
-    <value>Pending orders</value>
+      <value>Pending</value>
   </data>
   <data name="CanceledOrders" xml:space="preserve">
-    <value>Canceled orders</value>
+      <value>Canceled</value>
   </data>
   <data name="CompletedOrders" xml:space="preserve">
-    <value>Completed orders</value>
+      <value>Completed</value>
   </data>
   <data name="CompletedDate" xml:space="preserve">
       <value>Completion date: {0}</value>
@@ -392,5 +392,8 @@
   </data>
   <data name="EndDateLabel" xml:space="preserve">
       <value>End date</value>
+  </data>
+  <data name="View" xml:space="preserve">
+      <value>View</value>
   </data>
 </root>

@@ -71,7 +71,7 @@
             else {
                 @foreach (var orderItem in Order.OrderItems) {
                     <MudText Typo="Typo.caption" Class="d-block">
-                        <span>@orderItem.Quantity</span>
+                        <span>@(orderItem.Quantity)x</span>
                         <span><b>@orderItem.Item.Name</b></span>
                         <span>(@(Utils.GetFormattedPrice(Localizer, orderItem.Quantity * orderItem.Item.Price)))</span>
                     </MudText>

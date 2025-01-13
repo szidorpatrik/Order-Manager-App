@@ -298,16 +298,16 @@
     <value>A lista üres, koppintson ide a tételek létrehozásához</value>
   </data>
   <data name="TotalOrders" xml:space="preserve">
-    <value>Rendelések száma</value>
+      <value>Összesen</value>
   </data>
   <data name="PendingOrders" xml:space="preserve">
-    <value>Függőben lévő rendelések</value>
+      <value>Függőben lévő</value>
   </data>
   <data name="CanceledOrders" xml:space="preserve">
-    <value>Törölt rendelések</value>
+      <value>Törölt</value>
   </data>
   <data name="CompletedOrders" xml:space="preserve">
-    <value>Teljesített rendelések</value>
+      <value>Teljesített</value>
   </data>
   <data name="CompletedDate" xml:space="preserve">
     <value>Teljesítés ideje: {0}</value>
@@ -392,5 +392,8 @@
   </data>
   <data name="EndDateLabel" xml:space="preserve">
       <value>Záró dátum</value>
+  </data>
+  <data name="View" xml:space="preserve">
+      <value>Megtekintés</value>
   </data>
 </root>

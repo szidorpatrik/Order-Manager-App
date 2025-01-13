@@ -141,7 +141,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Canceled orders.
+        ///   Looks up a localized string similar to Canceled.
         /// </summary>
         public static string CanceledOrders {
             get {
@@ -195,7 +195,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Completed orders.
+        ///   Looks up a localized string similar to Completed.
         /// </summary>
         public static string CompletedOrders {
             get {
@@ -591,7 +591,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pending orders.
+        ///   Looks up a localized string similar to Pending.
         /// </summary>
         public static string PendingOrders {
             get {
@@ -834,7 +834,7 @@ namespace Languages {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total orders.
+        ///   Looks up a localized string similar to Total.
         /// </summary>
         public static string TotalOrders {
             get {
@@ -875,6 +875,15 @@ namespace Languages {
         public static string UnitPrice {
             get {
                 return ResourceManager.GetString("UnitPrice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View.
+        /// </summary>
+        public static string View {
+            get {
+                return ResourceManager.GetString("View", resourceCulture);
             }
         }
         
