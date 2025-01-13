@@ -146,19 +146,19 @@ else {
         return sortField switch {
             "OrderNumber"   => SortOrders(orders, order => order.OrderNumber),
             "Duration"      => SortOrders(orders, order => order.Duration),
-            "DateCreated"   => SortOrders(orders, order => order.DateCreated),
-            "DateCompleted" => SortOrders(orders, order => order.DateCompleted),
-            "DateCanceled"  => SortOrders(orders, order => order.DateCanceled),
-            "DateStart"     => SortOrders(orders, order => order.DateStart),
-            "DateEnd"       => SortOrders(orders, order => order.DateEnd),
+            "CreatedDate"   => SortOrders(orders, order => order.DateCreated),
+            "CompletedDate" => SortOrders(orders, order => order.DateCompleted),
+            "CanceledDate"  => SortOrders(orders, order => order.DateCanceled),
+            "StartDate"     => SortOrders(orders, order => order.DateStart),
+            "EndDate"       => SortOrders(orders, order => order.DateEnd),
             _               => orders
         };
     }
 
-    private List<Order> SortOrders<TKey>(List<Order> orders, Func<Order, TKey> keySelector) {
+    private List<Order> SortOrders<TKey>(List<Order> orders, Func<Order, TKey?> keySelector) {
         return _isSortAscending
-            ? orders.OrderBy(keySelector).ToList()
-            : orders.OrderByDescending(keySelector).ToList();
+            ? orders.OrderBy(order => keySelector(order) ?? default).ToList()
+            : orders.OrderByDescending(order => keySelector(order) ?? default).ToList();
     }
 
     private void PaginateOrders(int page) {
