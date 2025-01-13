@@ -132,6 +132,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Canceled date.
+        /// </summary>
+        public static string CanceledDateLabel {
+            get {
+                return ResourceManager.GetString("CanceledDateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Canceled orders.
         /// </summary>
         public static string CanceledOrders {
@@ -177,6 +186,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completion date.
+        /// </summary>
+        public static string CompletedDateLabel {
+            get {
+                return ResourceManager.GetString("CompletedDateLabel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Completed orders.
         /// </summary>
         public static string CompletedOrders {
@@ -191,6 +209,15 @@ namespace Languages {
         public static string CreatedAt {
             get {
                 return ResourceManager.GetString("CreatedAt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Created date.
+        /// </summary>
+        public static string CreatedDateLabel {
+            get {
+                return ResourceManager.GetString("CreatedDateLabel", resourceCulture);
             }
         }
         
@@ -299,6 +326,15 @@ namespace Languages {
         public static string EndDate {
             get {
                 return ResourceManager.GetString("EndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End date.
+        /// </summary>
+        public static string EndDateLabel {
+            get {
+                return ResourceManager.GetString("EndDateLabel", resourceCulture);
             }
         }
         
@@ -731,6 +767,15 @@ namespace Languages {
         public static string StartDate {
             get {
                 return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start date.
+        /// </summary>
+        public static string StartDateLabel {
+            get {
+                return ResourceManager.GetString("StartDateLabel", resourceCulture);
             }
         }
         
