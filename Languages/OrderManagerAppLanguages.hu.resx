@@ -396,4 +396,28 @@
   <data name="View" xml:space="preserve">
       <value>Megtekintés</value>
   </data>
+  <data name="Language" xml:space="preserve">
+      <value>Nyelv</value>
+  </data>
+  <data name="OrdersShown" xml:space="preserve">
+      <value>Rendelések száma</value>
+  </data>
+  <data name="HowManyOrdersShouldBeShown" xml:space="preserve">
+      <value>Hány rendelés legyen megjelenítve</value>
+  </data>
+  <data name="LocalizationWillChangeAfterRestartingTheApp" xml:space="preserve">
+      <value>A nyelv alkalmazás újraindítása után megváltozik </value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+      <value>Téma</value>
+  </data>
+  <data name="SystemDefault" xml:space="preserve">
+      <value>Automatikus</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+      <value>Sötét</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+      <value>Világos</value>
+  </data>
 </root>

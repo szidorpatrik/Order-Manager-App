@@ -1,7 +1,66 @@
 ﻿@page "/settings"
+@using System.Globalization
+@inject NavigationManager NavManager
 
 <h1>@Localizer["Settings"]</h1>
 
+<div class="d-flex flex-column gap-3">
+    <MudSelect T="CultureInfo" Variant="Variant.Outlined" @bind-Value="SelectedCulture" Label="@Localizer["Language"]">
+        @foreach (CultureInfo culture in _cultures) {
+            <MudSelectItem T="CultureInfo" Value="culture">@culture.DisplayName</MudSelectItem>
+        }
+    </MudSelect>
+
+    <MudSelect T="AppTheme" Variant="Variant.Outlined" @bind-Value="SelectedTheme" Label="@Localizer["Theme"]">
+        <MudSelectItem T="AppTheme" Value="@AppTheme.Unspecified">@Localizer["SystemDefault"]</MudSelectItem>
+        <MudSelectItem T="AppTheme" Value="@AppTheme.Light">@Localizer["Light"]</MudSelectItem>
+        <MudSelectItem T="AppTheme" Value="@AppTheme.Dark">@Localizer["Dark"]</MudSelectItem>
+    </MudSelect>
+
+    <MudSelect T="int" Variant="Variant.Outlined" @bind-Value="SelectedOrderPageSize" Label="@Localizer["OrdersShown"]"
+               HelperText="@Localizer["HowManyOrdersShouldBeShown"]">
+        @foreach (int pageSize in _pageSizes) {
+            <MudSelectItem T="int" Value="pageSize">@pageSize</MudSelectItem>
+        }
+    </MudSelect>
+</div>
+
 @code {
-    
+    private readonly CultureInfo[] _cultures = [
+        new("en-US"),
+        new("hu-HU")
+    ];
+
+    private CultureInfo SelectedCulture {
+        get => new (Preferences.Get("Language", "en-US"));
+        set {
+            if (CultureInfo.CurrentCulture == value) return;
+
+            Preferences.Set("Language", value.Name);
+            Snackbar.Add(Localizer["LocalizationWillChangeAfterRestartingTheApp"], Severity.Info);
+        }
+    }
+
+    private readonly int[] _pageSizes = [
+        5, 10, 15, 20, 30, 50
+    ];
+
+    private int SelectedOrderPageSize {
+        get => Preferences.Get("OrderPageSize", 10);
+        set {
+            if (Equals(SelectedOrderPageSize, value)) return;
+
+            Preferences.Set("OrderPageSize", value);
+        }
+    }
+
+    private AppTheme SelectedTheme {
+        get => Application.Current!.UserAppTheme;
+        set {
+            if (Application.Current!.UserAppTheme == value) return;
+
+            App.SetAppTheme(value);
+            NavManager.NavigateTo(NavManager.Uri, true);
+        }
+    }
 }

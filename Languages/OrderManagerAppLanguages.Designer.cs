@@ -222,6 +222,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dark.
+        /// </summary>
+        public static string Dark {
+            get {
+                return ResourceManager.GetString("Dark", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dashboard.
         /// </summary>
         public static string Dashboard {
@@ -384,6 +393,15 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to How many orders should be shown.
+        /// </summary>
+        public static string HowManyOrdersShouldBeShown {
+            get {
+                return ResourceManager.GetString("HowManyOrdersShouldBeShown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid duration.
         /// </summary>
         public static string InvalidDuration {
@@ -465,11 +483,38 @@ namespace Languages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Light.
+        /// </summary>
+        public static string Light {
+            get {
+                return ResourceManager.GetString("Light", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to List is empty click to add items.
         /// </summary>
         public static string ListIsEmptyClickHereToAddItem {
             get {
                 return ResourceManager.GetString("ListIsEmptyClickHereToAddItem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Localization will change after restarting the app.
+        /// </summary>
+        public static string LocalizationWillChangeAfterRestartingTheApp {
+            get {
+                return ResourceManager.GetString("LocalizationWillChangeAfterRestartingTheApp", resourceCulture);
             }
         }
         
@@ -569,6 +614,15 @@ namespace Languages {
         public static string Orders {
             get {
                 return ResourceManager.GetString("Orders", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Orders shown.
+        /// </summary>
+        public static string OrdersShown {
+            get {
+                return ResourceManager.GetString("OrdersShown", resourceCulture);
             }
         }
         
@@ -794,6 +848,24 @@ namespace Languages {
         public static string Status {
             get {
                 return ResourceManager.GetString("Status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Auto.
+        /// </summary>
+        public static string SystemDefault {
+            get {
+                return ResourceManager.GetString("SystemDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Theme.
+        /// </summary>
+        public static string Theme {
+            get {
+                return ResourceManager.GetString("Theme", resourceCulture);
             }
         }
         
