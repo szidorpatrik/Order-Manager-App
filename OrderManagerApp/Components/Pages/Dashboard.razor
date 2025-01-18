@@ -38,7 +38,7 @@
             <MudText Typo="Typo.h6" Align="Align.Center">@Localizer["PendingOrders"]</MudText>
             <MudSpacer/>
             <MudText Typo="Typo.h4" Align="Align.Center"
-                     Color="Color.Warning">@DBService.GetIncompletedOrders().Count</MudText>
+                     Color="Color.Warning">@DBService.GetPendingOrders().Count</MudText>
             <MudButton Color="Color.Warning" Class="mt-2" OnClick="@(() => ViewOrders("pending"))"
                        EndIcon="@Icons.Material.Filled.KeyboardArrowRight">
                 @Localizer["View"]

@@ -55,7 +55,7 @@ public static class LiteDbQueries {
 
 	public static List<Order> GetCompletedOrders(this LiteDbService service) => service.Orders.FindAll().Where(x => x.IsCompleted).ToList();
 
-	public static List<Order> GetIncompletedOrders(this LiteDbService service) => service.Orders.FindAll().Where(x => !x.IsCompleted).ToList();
+	public static List<Order> GetPendingOrders(this LiteDbService service) => service.Orders.FindAll().Where(x => x.IsPending).ToList();
 
 	public static List<Order> GetCanceledOrders(this LiteDbService service) => service.Orders.FindAll().Where(x => x.IsCanceled).ToList();
 
