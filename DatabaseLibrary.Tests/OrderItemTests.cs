@@ -43,6 +43,7 @@ namespace DatabaseLibrary.Tests {
 
 			Assert.IsTrue(isUpdated);
 			var updatedOrderItem = LiteDbService.GetOrderItemById(id);
+			Assert.IsNotNull(updatedOrderItem);
 			Assert.AreEqual(5, updatedOrderItem.Quantity);
 		}
 

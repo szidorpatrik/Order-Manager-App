@@ -2,14 +2,12 @@
 
 namespace DatabaseLibrary.Tests;
 
-using System.Collections;
-
 internal static class DummyDb {
 	internal static double[] GetItemPrices() {
 		return [4.99, 8.99, 9.99, 14.99, 19.99, 24.99, 49.99];
 	}
 
-	internal static IEnumerable<Order> GetOrders() {
+	internal static Order[] GetOrders() {
 		double[] itemPrices = GetItemPrices();
 
 		Order order1 = new() {

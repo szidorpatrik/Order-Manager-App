@@ -34,6 +34,7 @@ namespace DatabaseLibrary.Tests {
 
 			Assert.IsTrue(isUpdated);
 			var updatedOrder = LiteDbService.GetOrderById(id);
+			Assert.IsNotNull(updatedOrder);
 			Assert.AreEqual(789, updatedOrder.OrderNumber);
 		}
 
@@ -154,7 +155,7 @@ namespace DatabaseLibrary.Tests {
 
 			var retrievedOrders = LiteDbService.GetOrders();
 			Assert.IsNotNull(retrievedOrders);
-			Assert.AreEqual(orders.Count(), retrievedOrders.Count);
+			Assert.AreEqual(orders.Length, retrievedOrders.Count);
 		}
 
 		[TestMethod]
@@ -164,7 +165,7 @@ namespace DatabaseLibrary.Tests {
 				LiteDbService.AddOrder(order);
 			}
 
-			Assert.AreEqual(orders.Count(), LiteDbService.GetOrdersCount());
+			Assert.AreEqual(orders.Length, LiteDbService.GetOrdersCount());
 		}
 
 		[TestMethod]
@@ -174,7 +175,7 @@ namespace DatabaseLibrary.Tests {
 				LiteDbService.AddOrder(order);
 			}
 
-			var totalPrice = (double)orders.Where(x => !x.IsCanceled).Sum(o => o.OrderItems.Select(oi => oi.Item.Price).Sum());
+			var totalPrice = orders.Where(x => !x.IsCanceled).Sum(o => o.OrderItems.Select(oi => oi.Item.Price).Sum());
 			Assert.AreEqual(totalPrice, LiteDbService.GetTotalPrice());
 		}
 
@@ -185,7 +186,7 @@ namespace DatabaseLibrary.Tests {
 				LiteDbService.AddOrder(order);
 			}
 
-			var totalPrice = (double)orders.Where(x => x.IsCompleted).Sum(o => o.OrderItems.Select(oi => oi.Item.Price).Sum());
+			var totalPrice = orders.Where(x => x.IsCompleted).Sum(o => o.OrderItems.Select(oi => oi.Item.Price).Sum());
 			Assert.AreEqual(totalPrice, LiteDbService.GetTotalPriceOfCompleted());
 		}
 
@@ -196,7 +197,7 @@ namespace DatabaseLibrary.Tests {
 				LiteDbService.AddOrder(order);
 			}
 
-			var totalPrice = (double)orders.Where(x => x.IsPending).Sum(o => o.OrderItems.Select(oi => oi.Item.Price).Sum());
+			var totalPrice = orders.Where(x => x.IsPending).Sum(o => o.OrderItems.Select(oi => oi.Item.Price).Sum());
 			Assert.AreEqual(totalPrice, LiteDbService.GetTotalPriceOfPending());
 		}
 	}
