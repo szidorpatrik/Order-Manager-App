@@ -25,7 +25,7 @@
         <ApplicationTitle>OrderManagerApp</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.companyname.ordermanagerapp</ApplicationId>
+        <ApplicationId>com.szpta.ordermanagerapp</ApplicationId>
 
         <!-- Versions -->
         <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
