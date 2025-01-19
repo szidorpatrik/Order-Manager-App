@@ -1,7 +1,124 @@
 ﻿@page "/"
+@inject LiteDbService     DBService
+@inject NavigationManager NavManager
 
 <h1>@Localizer["Dashboard"]</h1>
 
+<MudGrid Spacing="2" Class="mt-1">
+    <MudItem xs="6" lg="3">
+        <MudPaper Elevation="2" Class="d-flex flex-grow-1 flex-column align-center pa-3" Style="height: 100%;">
+            <MudText Typo="Typo.h6" Align="Align.Center">@Localizer["TotalOrders"]</MudText>
+            <MudSpacer/>
+            <MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Primary">@DBService.GetOrdersCount()</MudText>
+            <MudButton Color="Color.Primary" Class="mt-2" OnClick="ViewOrders"
+                       EndIcon="@Icons.Material.Filled.KeyboardArrowRight">
+                @Localizer["View"]
+            </MudButton>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="6" lg="3">
+        <MudPaper Elevation="2" Class="d-flex flex-grow-1 flex-column align-center pa-3" Style="height: 100%;">
+            <MudText Typo="Typo.h6" Align="Align.Center">@Localizer["CompletedOrders"]</MudText>
+            <MudSpacer/>
+            <MudText Typo="Typo.h4" Align="Align.Center"
+                     Color="Color.Success">@DBService.GetCompletedOrders().Count</MudText>
+            <MudButton Color="Color.Success" Class="mt-2" OnClick="@(() => ViewOrders("completed"))"
+                       EndIcon="@Icons.Material.Filled.KeyboardArrowRight">
+                @Localizer["View"]
+            </MudButton>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="6" lg="3">
+        <MudPaper Elevation="2" Class="d-flex flex-grow-1 flex-column align-center pa-3" Style="height: 100%;">
+            <MudText Typo="Typo.h6" Align="Align.Center">@Localizer["PendingOrders"]</MudText>
+            <MudSpacer/>
+            <MudText Typo="Typo.h4" Align="Align.Center"
+                     Color="Color.Warning">@DBService.GetPendingOrders().Count</MudText>
+            <MudButton Color="Color.Warning" Class="mt-2" OnClick="@(() => ViewOrders("pending"))"
+                       EndIcon="@Icons.Material.Filled.KeyboardArrowRight">
+                @Localizer["View"]
+            </MudButton>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="6" lg="3">
+        <MudPaper Elevation="2" Class="d-flex flex-grow-1 flex-column align-center pa-3" Style="height: 100%;">
+            <MudText Typo="Typo.h6" Align="Align.Center">@Localizer["CanceledOrders"]</MudText>
+            <MudSpacer/>
+            <MudText Typo="Typo.h4" Align="Align.Center"
+                     Color="Color.Error">@DBService.GetCanceledOrders().Count</MudText>
+            <MudButton Color="Color.Error" Class="mt-2" OnClick="@(() => ViewOrders("canceled"))"
+                       EndIcon="@Icons.Material.Filled.KeyboardArrowRight">
+                @Localizer["View"]
+            </MudButton>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" lg="6" Class="mt-2">
+        <MudPaper Elevation="2" Class="pa-3 d-flex flex-column align-center justify-center" Style="height: 100%;">
+            <MudText Typo="Typo.h6" Align="Align.Center">@Localizer["TotalRevenueThisMonth"]</MudText>
+            <MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Success">
+                @Utils.GetFormattedPrice(Localizer, DBService.GetTotalPriceOfCompleted(_currentMonth))
+            </MudText>
+            <MudText Typo="Typo.body2" Align="Align.Center" Color="Color.Primary">
+                @GetRevenueComparisonText(
+                 DBService.GetTotalPriceOfCompleted(_currentMonth),
+                 DBService.GetTotalPriceOfCompleted(_lastMonth)
+                 )
+            </MudText>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" lg="6">
+        <MudPaper Elevation="2" Class="pa-3 d-flex flex-column align-center justify-center" Style="height: 100%;">
+            <MudText Typo="Typo.h6" Align="Align.Center">@Localizer["TotalRevenue"]</MudText>
+            <MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Success">
+                @Utils.GetFormattedPrice(Localizer, DBService.GetTotalPriceOfCompleted())
+            </MudText>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" lg="6">
+        <MudPaper Elevation="2" Class="pa-3 d-flex flex-column align-center justify-center" Style="height: 100%;">
+            <MudText Typo="Typo.h6" Align="Align.Center">@Localizer["PendingRevenue"]</MudText>
+            <MudText Typo="Typo.h4" Align="Align.Center" Color="Color.Warning">
+                @Utils.GetFormattedPrice(Localizer, DBService.GetTotalPriceOfPending())
+            </MudText>
+        </MudPaper>
+    </MudItem>
+</MudGrid>
+
 @code {
-    
+    private DateTime _currentMonth;
+    private DateTime _lastMonth;
+
+    protected override void OnInitialized() {
+        _currentMonth = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        _lastMonth = _currentMonth.AddMonths(-1);
+    }
+
+    private void ViewOrders() {
+        NavManager.NavigateTo("/orders");
+    }
+
+    private void ViewOrders(string param) {
+        NavManager.NavigateTo($"/orders?status={param}");
+    }
+
+    private string GetRevenueComparisonText(double currentMonthRevenue, double lastMonthRevenue) {
+        if (lastMonthRevenue == 0) {
+            return Localizer["NoComparisonAvailable"];
+        }
+
+        var difference = currentMonthRevenue - lastMonthRevenue;
+        var percentageChange = (difference / lastMonthRevenue) * 100;
+
+        return difference switch {
+            > 0 => Localizer["RevenueUpBy", Math.Round(percentageChange, 2)],
+            < 0 => Localizer["RevenueDownBy", Math.Round(Math.Abs(percentageChange), 2)],
+            _   => Localizer["RevenueSame"]
+        };
+    }
 }

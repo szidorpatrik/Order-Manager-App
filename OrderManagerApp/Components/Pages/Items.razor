@@ -2,7 +2,7 @@
 @inject LiteDbService DBService
 @inject NavigationManager NavManager
 
-<h1>@Localizer["Items"]</h1>
+<h1 class="mb-3">@Localizer["Items"]</h1>
 
 @if (!_items.Any()) {
     <div class="d-flex flex-grow-1 align-center justify-center mud-width-full">
@@ -12,7 +12,7 @@
 else {
     <div class="d-flex flex-column gap-3 mb-16">
         @foreach (var item in _items) {
-            <ItemCard Item="item" OnItemChanged="RefreshItems"/>
+            <ItemCard @key="item.Id" Item="item" OnItemChanged="RefreshItems"/>
         }
     </div>
 }

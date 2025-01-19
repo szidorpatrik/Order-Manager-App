@@ -9,6 +9,8 @@ using Windows.Graphics;
 
 namespace OrderManagerApp;
 
+using System.Globalization;
+
 public partial class App : Application {
 	public App() {
 		InitializeComponent();
@@ -29,7 +31,30 @@ public partial class App : Application {
         });
 #endif
 
+		ApplyLocalization();
+		ApplyTheme();
+
 		MainPage = new MainPage();
-		Current.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+		Current?.On<Microsoft.Maui.Controls.PlatformConfiguration.Android>().UseWindowSoftInputModeAdjust(WindowSoftInputModeAdjust.Resize);
+	}
+
+	private void ApplyLocalization() {
+		string language = Preferences.Get("Language", "en-US");
+		CultureInfo culture = new(language);
+
+		Thread.CurrentThread.CurrentCulture = culture;
+		Thread.CurrentThread.CurrentUICulture = culture;
+		CultureInfo.DefaultThreadCurrentCulture = culture;
+		CultureInfo.DefaultThreadCurrentUICulture = culture;
+	}
+
+	private void ApplyTheme() {
+		Current!.UserAppTheme = Enum.Parse<AppTheme>(Preferences.Get("AppTheme", "Unspecified"));
+	}
+
+	public static void SetAppTheme(AppTheme theme)
+	{
+		Current!.UserAppTheme = theme;
+		Preferences.Set("AppTheme", theme.ToString());
 	}
 }

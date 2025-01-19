@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <!-- 
-    Microsoft ResX Schema 
-    
+  <!--
+    Microsoft ResX Schema
+
     Version 2.0
-    
-    The primary goals of this format is to allow a simple XML format 
-    that is mostly human readable. The generation and parsing of the 
-    various data types are done through the TypeConverter classes 
+
+    The primary goals of this format is to allow a simple XML format
+    that is mostly human readable. The generation and parsing of the
+    various data types are done through the TypeConverter classes
     associated with the data types.
-    
+
     Example:
-    
+
     ... ado.net/XML headers & schema ...
     <resheader name="resmimetype">text/microsoft-resx</resheader>
     <resheader name="version">2.0</resheader>
@@ -26,36 +26,36 @@
         <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
         <comment>This is a comment</comment>
     </data>
-                
-    There are any number of "resheader" rows that contain simple 
+
+    There are any number of "resheader" rows that contain simple
     name/value pairs.
-    
-    Each data row contains a name, and value. The row also contains a 
-    type or mimetype. Type corresponds to a .NET class that support 
-    text/value conversion through the TypeConverter architecture. 
-    Classes that don't support this are serialized and stored with the 
+
+    Each data row contains a name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class that support
+    text/value conversion through the TypeConverter architecture.
+    Classes that don't support this are serialized and stored with the
     mimetype set.
-    
-    The mimetype is used for serialized objects, and tells the 
-    ResXResourceReader how to depersist the object. This is currently not 
+
+    The mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist the object. This is currently not
     extensible. For a given mimetype the value must be set accordingly:
-    
-    Note - application/x-microsoft.net.object.binary.base64 is the format 
-    that the ResXResourceWriter will generate, however the reader can 
+
+    Note - application/x-microsoft.net.object.binary.base64 is the format
+    that the ResXResourceWriter will generate, however the reader can
     read any of the formats listed below.
-    
+
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
             : and then encoded with base64 encoding.
-    
+
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with 
+    value   : The object must be serialized with
             : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
             : and then encoded with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array 
+    value   : The object must be serialized into a byte array
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
@@ -232,10 +232,10 @@
     <value>End date: {0}</value>
   </data>
   <data name="TimeStart" xml:space="preserve">
-    <value>End time</value>
+      <value>Start time</value>
   </data>
   <data name="TimeEnd" xml:space="preserve">
-    <value>Start time</value>
+      <value>End time</value>
   </data>
   <data name="Duration" xml:space="preserve">
     <value>Duration: {0}</value>
@@ -283,18 +283,141 @@
     <value>Are you sure about deleting order #{0}?</value>
   </data>
   <data name="OrderNumberIsRequired" xml:space="preserve">
-      <value>Order number is required</value>
+    <value>Order number is required</value>
   </data>
   <data name="ItemNameIsRequired" xml:space="preserve">
-      <value>Name is required</value>
+    <value>Name is required</value>
   </data>
   <data name="ItemPriceIsRequired" xml:space="preserve">
-      <value>Price is required</value>
+    <value>Price is required</value>
   </data>
   <data name="ItemPriceMustBeGreaterOrEqualToZero" xml:space="preserve">
-      <value>Price must be greater than or equal to 0</value>
+    <value>Price must be greater than or equal to 0</value>
   </data>
   <data name="ListIsEmptyClickHereToAddItem" xml:space="preserve">
-      <value>List is empty click to add items</value>
+    <value>List is empty click to add items</value>
+  </data>
+  <data name="TotalOrders" xml:space="preserve">
+      <value>Total</value>
+  </data>
+  <data name="PendingOrders" xml:space="preserve">
+      <value>Pending</value>
+  </data>
+  <data name="CanceledOrders" xml:space="preserve">
+      <value>Canceled</value>
+  </data>
+  <data name="CompletedOrders" xml:space="preserve">
+      <value>Completed</value>
+  </data>
+  <data name="CompletedDate" xml:space="preserve">
+      <value>Completion date: {0}</value>
+  </data>
+  <data name="CanceledDate" xml:space="preserve">
+    <value>Canceled at: {0}</value>
+  </data>
+  <data name="OrderMarkedAsCompleted" xml:space="preserve">
+    <value>Order #{0} marked as completed</value>
+  </data>
+  <data name="MarkAsCompleted" xml:space="preserve">
+      <value>Mark as completed</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+      <value>Completed</value>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+      <value>Canceled</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+      <value>Pending</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+      <value>Status</value>
+  </data>
+  <data name="DurationFormatMinutes" xml:space="preserve">
+      <value>{0}m</value>
+  </data>
+  <data name="EndTimeMustBeAfterStartTime" xml:space="preserve">
+      <value>End time must be after start time</value>
+  </data>
+  <data name="TotalRevenue" xml:space="preserve">
+      <value>Total revenue</value>
+  </data>
+  <data name="NoComparisonAvailable" xml:space="preserve">
+      <value>No comparison available</value>
+  </data>
+  <data name="RevenueUpBy" xml:space="preserve">
+      <value>Revenue up by {0}%</value>
+  </data>
+  <data name="RevenueDownBy" xml:space="preserve">
+      <value>Revenue down by {0}%</value>
+  </data>
+  <data name="RevenueSame" xml:space="preserve">
+      <value>Same revenue</value>
+  </data>
+  <data name="PendingRevenue" xml:space="preserve">
+      <value>Pending revenue</value>
+  </data>
+  <data name="TotalRevenueThisMonth" xml:space="preserve">
+      <value>Total revenue this month</value>
+  </data>
+  <data name="DurationLabel" xml:space="preserve">
+      <value>Duration</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+      <value>Ascending</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+      <value>Descending</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+      <value>Sort by</value>
+  </data>
+  <data name="ShowFilters" xml:space="preserve">
+      <value>Show filters</value>
+  </data>
+  <data name="HideFilters" xml:space="preserve">
+      <value>Hide filters</value>
+  </data>
+  <data name="CreatedDateLabel" xml:space="preserve">
+      <value>Created date</value>
+  </data>
+  <data name="CompletedDateLabel" xml:space="preserve">
+      <value>Completion date</value>
+  </data>
+  <data name="CanceledDateLabel" xml:space="preserve">
+      <value>Canceled date</value>
+  </data>
+  <data name="StartDateLabel" xml:space="preserve">
+      <value>Start date</value>
+  </data>
+  <data name="EndDateLabel" xml:space="preserve">
+      <value>End date</value>
+  </data>
+  <data name="View" xml:space="preserve">
+      <value>View</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+      <value>Language</value>
+  </data>
+  <data name="OrdersShown" xml:space="preserve">
+      <value>Orders shown</value>
+  </data>
+  <data name="HowManyOrdersShouldBeShown" xml:space="preserve">
+      <value>How many orders should be shown</value>
+  </data>
+  <data name="LocalizationWillChangeAfterRestartingTheApp" xml:space="preserve">
+      <value>Localization will change after restarting the app</value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+      <value>Theme</value>
+  </data>
+  <data name="SystemDefault" xml:space="preserve">
+      <value>Auto</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+      <value>Dark</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+      <value>Light</value>
   </data>
 </root>

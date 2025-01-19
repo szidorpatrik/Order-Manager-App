@@ -1,18 +1,48 @@
 ﻿@page "/orders"
-@using System.Globalization
-@inject LiteDbService DBService
+@inject NavigationManager NavManager
+@inject LiteDbService     DBService
 
-<div class="d-flex justify-space-between">
+<div class="d-flex justify-space-between align-center">
     <h1>@Localizer["Orders"]</h1>
-
-    @if (_orders.Any()) {
-        <MudButton Variant="Variant.Text"
-                   EndIcon="@(_shouldExpandAll ? Icons.Material.Filled.ExpandLess : Icons.Material.Filled.ExpandMore)"
-                   OnClick="ToggleExpandAll">
-            @(Localizer[_shouldExpandAll ? "CollapseAll" : "ExpandAll"])
-        </MudButton>
-    }
+    <MudButton OnClick="OnExpandFilters" EndIcon="@Icons.Material.Filled.FilterAlt">
+        @(_expandedFilters ? Localizer["HideFilters"] : Localizer["ShowFilters"])
+    </MudButton>
 </div>
+
+<MudPaper @ref="_filterPaper" Elevation="2">
+    <MudStack Spacing="2">
+        <MudCollapse @ref="_mudCollapse" Expanded="_expandedFilters" ExpandedChanged="OnExpandedChanged">
+            <div class="d-flex flex-wrap gap-3 mb-3">
+                <MudSelect T="string" Label="@Localizer["SortBy"]" Value="_selectedSortField"
+                           ValueChanged="ApplySorting">
+                    <MudSelectItem Value="@("OrderNumber")">@Localizer["OrderNumber"]</MudSelectItem>
+                    <MudSelectItem Value="@("Duration")">@Localizer["DurationLabel"]</MudSelectItem>
+                    <MudSelectItem Value="@("CreatedDate")">@Localizer["CreatedDateLabel"]</MudSelectItem>
+                    <MudSelectItem Value="@("CompletedDate")">@Localizer["CompletedDateLabel"]</MudSelectItem>
+                    <MudSelectItem Value="@("CanceledDate")">@Localizer["CanceledDateLabel"]</MudSelectItem>
+                    <MudSelectItem Value="@("StartDate")">@Localizer["StartDateLabel"]</MudSelectItem>
+                    <MudSelectItem Value="@("EndDate")">@Localizer["EndDateLabel"]</MudSelectItem>
+                </MudSelect>
+
+                <MudButton Variant="Variant.Outlined" OnClick="ToggleSortDirection">
+                    @(_isSortAscending ? Localizer["Ascending"] : Localizer["Descending"])
+                </MudButton>
+            </div>
+
+            <div class="d-flex flex-wrap gap-3 ml-n2">
+                <MudCheckBox T="bool" Color="Color.Success" Dense="true" Label="@Localizer["Completed"]"
+                             Value="@(_filter["completed"])"
+                             ValueChanged="@(() => OnFilterChange("completed"))"/>
+                <MudCheckBox T="bool" Color="Color.Warning" Dense="true" Label="@Localizer["Pending"]"
+                             Value="@(_filter["pending"])"
+                             ValueChanged="@(() => OnFilterChange("pending"))"/>
+                <MudCheckBox T="bool" Color="Color.Secondary" Dense="true" Label="@Localizer["Canceled"]"
+                             Value="@(_filter["canceled"])"
+                             ValueChanged="@(() => OnFilterChange("canceled"))"/>
+            </div>
+        </MudCollapse>
+    </MudStack>
+</MudPaper>
 
 @if (!_orders.Any()) {
     <div class="d-flex flex-grow-1 align-center justify-center mud-width-full">
@@ -21,56 +51,14 @@
 }
 else {
     <div class="d-flex flex-column gap-3 mb-16">
-        @foreach (var order in _orders) {
-            <MudPaper Elevation="2" Class="pa-3">
-                <MudStack Spacing="0">
-                    <div class="d-flex justify-space-between align-center">
-                        <MudText Typo="Typo.h6">@order</MudText>
-                        <div class="d-flex gap-2">
-                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
-                                           OnClick="@(() => OpenOrderEditDialog(order))"/>
-                            <MudToggleIconButton Toggled="_expandedStates[order.Id]"
-                                                 ToggledChanged="@(() => ToggleExpand(order.Id))"
-                                                 Icon="@Icons.Material.Filled.ExpandMore"
-                                                 ToggledIcon="@Icons.Material.Filled.ExpandLess"/>
-                        </div>
-                    </div>
+        @foreach (var order in _pagedOrders) {
+            <OrderCard @key="order.Id" Order="order" OnOrderChange="RefreshOrders"/>
+        }
 
-                    <MudCollapse Expanded="_expandedStates[order.Id]">
-                        <MudDivider Class="my-1"/>
-
-                        <MudText
-                            Typo="Typo.caption">@Localizer["CreatedAt", order.DateCreated.ToLocalTime().ToString("g")]</MudText>
-                        <MudDivider Class="my-1"/>
-
-                        <MudText Typo="Typo.caption">
-                            <div>@Localizer["StartDate", order.DateStart.ToLocalTime().ToString("g")]</div>
-                            <div>@Localizer["EndDate", order.DateEnd.ToLocalTime().ToString("g")]</div>
-                            <div>@Localizer["Duration", GetDuration(order.DateStart, order.DateEnd)]</div>
-                        </MudText>
-                        <MudDivider Class="my-1"/>
-
-                        @if (!order.OrderItems.Any()) {
-                            <MudText Typo="Typo.caption"><b>@Localizer["ThereAreNoItems"]</b></MudText>
-                        }
-                        else {
-                            @foreach (var orderItem in order.OrderItems) {
-                                <MudText Typo="Typo.caption" Class="d-block">
-                                    <span>@orderItem.Quantity</span>
-                                    <span><b>@orderItem.Item.Name</b></span>
-                                    <span>(@(Utils.GetFormattedPrice(Localizer, orderItem.Quantity * orderItem.Item.Price)))</span>
-                                </MudText>
-                            }
-                            <MudDivider Class="my-1"/>
-
-                            <MudText Typo="Typo.caption">
-                                @Localizer["TotalPrice"]:
-                                <b>@(Utils.GetFormattedPrice(Localizer, order.OrderItems.Sum(x => x.Item.Price * x.Quantity)))</b>
-                            </MudText>
-                        }
-                    </MudCollapse>
-                </MudStack>
-            </MudPaper>
+        @if (_orders.Count >= _pageSize) {
+            <MudPagination BoundaryCount="1" MiddleCount="1"
+                           Count="@((int)Math.Ceiling((double)_orders.Count / _pageSize))"
+                           Selected="_selectedPage" SelectedChanged="PaginateOrders" Class="justify-center"/>
         }
     </div>
 }
@@ -81,29 +69,116 @@ else {
 </div>
 
 @code {
-    private List<Order>           _orders         = new();
-    private Dictionary<int, bool> _expandedStates = new();
-    private bool                  _shouldExpandAll;
+    private List<Order> _orders      = new();
+    private List<Order> _allOrders   = new();
+    private List<Order> _pagedOrders = new();
+
+    private MudCollapse _mudCollapse       = default!;
+    private MudPaper    _filterPaper       = default!;
+    private string      _selectedSortField = "OrderNumber";
+    private bool        _isSortAscending   = false;
+    private bool        _expandedFilters   = false;
+
+    private int _selectedPage = 1;
+    private int _pageSize     = Preferences.Get("OrderPageSize", 20);
+
+    private Dictionary<string, bool> _filter = new() {
+        { "completed", false },
+        { "pending", false },
+        { "canceled", false }
+    };
 
     protected override void OnInitialized() {
+        var paramValue = GetQueryParam("status");
+
+        if (paramValue.Length > 0) {
+            _expandedFilters = true;
+        }
+        if (paramValue == "completed") {
+            _filter["completed"] = true;
+        }
+        if (paramValue == "pending") {
+            _filter["pending"] = true;
+        }
+        if (paramValue == "canceled") {
+            _filter["canceled"] = true;
+        }
+
         RefreshOrders();
     }
 
-    private void RefreshOrders() {
-        _orders = DBService.GetOrders();
-        foreach (var order in _orders) {
-            if (!_expandedStates.ContainsKey(order.Id)) {
-                _expandedStates[order.Id] = false;
-            }
+    private void OnFilterChange(string status) {
+        _filter[status] = !_filter[status];
+        ApplyFilters();
+    }
+
+    private void ApplyFilters() {
+        var filteredOrders = _allOrders.Where(order =>
+                                                  (_filter["completed"] && order.IsCompleted) ||
+                                                  (_filter["pending"] && order.IsPending) ||
+                                                  (_filter["canceled"] && order.IsCanceled))
+            .ToList();
+
+        // If no filter is selected, show all orders
+        if (!_filter["completed"] && !_filter["pending"] && !_filter["canceled"]) {
+            filteredOrders = _allOrders;
         }
+
+        // Apply sorting to the filtered orders
+        _orders = ApplySortingToOrders(filteredOrders, _selectedSortField);
+        PaginateOrders(_selectedPage);
+        StateHasChanged();
+    }
+
+    private void ToggleSortDirection() {
+        _isSortAscending = !_isSortAscending;
+        ApplySorting(_selectedSortField);
+    }
+
+    private void ApplySorting(string value) {
+        _selectedSortField = value;
+        _orders = ApplySortingToOrders(_orders, _selectedSortField);
+        PaginateOrders(_selectedPage);
+        StateHasChanged();
+    }
+
+    private List<Order> ApplySortingToOrders(List<Order> orders, string sortField) {
+        return sortField switch {
+            "OrderNumber"   => SortOrders(orders, order => order.OrderNumber),
+            "Duration"      => SortOrders(orders, order => order.Duration),
+            "CreatedDate"   => SortOrders(orders, order => order.DateCreated),
+            "CompletedDate" => SortOrders(orders, order => order.DateCompleted),
+            "CanceledDate"  => SortOrders(orders, order => order.DateCanceled),
+            "StartDate"     => SortOrders(orders, order => order.DateStart),
+            "EndDate"       => SortOrders(orders, order => order.DateEnd),
+            _               => orders
+        };
+    }
+
+    private List<Order> SortOrders<TKey>(List<Order> orders, Func<Order, TKey?> keySelector) {
+        return _isSortAscending
+            ? orders.OrderBy(order => keySelector(order) ?? default).ToList()
+            : orders.OrderByDescending(order => keySelector(order) ?? default).ToList();
+    }
+
+    private void PaginateOrders(int page) {
+        _selectedPage = page;
+        _pagedOrders = _orders.Skip((_selectedPage - 1) * _pageSize).Take(_pageSize).ToList();
+    }
+
+    private string GetQueryParam(string paramName) {
+        var uriBuilder = new UriBuilder(NavManager.Uri);
+        var q = System.Web.HttpUtility.ParseQueryString(uriBuilder.Query);
+        return q[paramName] ?? "";
+    }
+
+    private void RefreshOrders() {
+        _allOrders = DBService.GetOrders();
+        ApplyFilters();
     }
 
     private async Task OpenOrderAddDialog() {
         await DialogService.ShowAsync<OrderDialog>(Localizer["AddOrder"], GetOrderDialogParameters(new Order()), GetOrderDialogOptions());
-    }
-
-    private async Task OpenOrderEditDialog(Order order) {
-        await DialogService.ShowAsync<OrderDialog>(Localizer["EditOrder"], GetOrderDialogParameters(order), GetOrderDialogOptions());
     }
 
     private DialogParameters GetOrderDialogParameters(Order order) {
@@ -122,32 +197,20 @@ else {
         };
     }
 
-    private string GetDuration(DateTime start, DateTime end) {
-        if (start == default || end == default || end < start) {
-            return Localizer["InvalidDuration"];
-        }
-
-        var duration = end - start;
-        if (duration.Days == 0) {
-            return Localizer["DurationFormatHourMinutes", duration.Hours, duration.Minutes];
-        }
-        return Localizer["DurationFormatDayHourMinutes", duration.Days, duration.Hours, duration.Minutes];
+    private void OnExpandFilters() {
+        _expandedFilters = !_expandedFilters;
     }
 
-    private void ToggleExpand(int id) {
-        _expandedStates[id] = !_expandedStates[id];
-        _shouldExpandAll = _expandedStates.Values.All(value => value);
+    private void OnExpandedChanged() {
+        if (!_expandedFilters) {
+            _mudCollapse.OnAnimationEnd = EventCallback.Factory.Create(this, ChangeClass);
+        }
+        else {
+            ChangeClass();
+        }
     }
 
-    private void ToggleExpandAll() {
-        _shouldExpandAll = !_shouldExpandAll;
-        foreach (var order in _orders) {
-            if (_shouldExpandAll) {
-                _expandedStates[order.Id] = true;
-            }
-            else {
-                _expandedStates[order.Id] = false;
-            }
-        }
+    private void ChangeClass() {
+        _filterPaper.Class = !_expandedFilters ? "collapsing" : "pa-4";
     }
 }

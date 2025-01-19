@@ -220,7 +220,7 @@
     <value>A záró dátumnak a kezdő dátum után kell lennie</value>
   </data>
   <data name="SelectTimeStart" xml:space="preserve">
-    <value>Válassza ki a kezdési időt</value>
+    <value>Válassza ki a kezdeti időt</value>
   </data>
   <data name="SelectTimeEnd" xml:space="preserve">
     <value>Válassza ki a zárási időt</value>
@@ -283,18 +283,141 @@
     <value>Biztosan törli a(z) #{0} rendelést?</value>
   </data>
   <data name="OrderNumberIsRequired" xml:space="preserve">
-      <value>A rendelés száma nem lehet üres</value>
+    <value>A rendelés száma nem lehet üres</value>
   </data>
   <data name="ItemNameIsRequired" xml:space="preserve">
-      <value>A név nem lehet üres</value>
+    <value>A név nem lehet üres</value>
   </data>
   <data name="ItemPriceIsRequired" xml:space="preserve">
-      <value>Az ár nem lehet üres</value>
+    <value>Az ár nem lehet üres</value>
   </data>
   <data name="ItemPriceMustBeGreaterOrEqualToZero" xml:space="preserve">
-      <value>Az árnak legalább 0-nak kell lennie</value>
+    <value>Az árnak legalább 0-nak kell lennie</value>
   </data>
   <data name="ListIsEmptyClickHereToAddItem" xml:space="preserve">
-      <value>A lista üres, koppintson ide a tételek létrehozásához</value>
+    <value>A lista üres, koppintson ide a tételek létrehozásához</value>
+  </data>
+  <data name="TotalOrders" xml:space="preserve">
+      <value>Összesen</value>
+  </data>
+  <data name="PendingOrders" xml:space="preserve">
+      <value>Függőben lévő</value>
+  </data>
+  <data name="CanceledOrders" xml:space="preserve">
+      <value>Törölt</value>
+  </data>
+  <data name="CompletedOrders" xml:space="preserve">
+      <value>Teljesített</value>
+  </data>
+  <data name="CompletedDate" xml:space="preserve">
+    <value>Teljesítés ideje: {0}</value>
+  </data>
+  <data name="CanceledDate" xml:space="preserve">
+    <value>Törlés ideje: {0}</value>
+  </data>
+  <data name="OrderMarkedAsCompleted" xml:space="preserve">
+    <value>A(z) #{0} rendelés teljesítettként megjelölve</value>
+  </data>
+  <data name="MarkAsCompleted" xml:space="preserve">
+    <value>Megjelölés teljesítettként</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+      <value>Teljesítve</value>
+  </data>
+  <data name="Canceled" xml:space="preserve">
+      <value>Törölve</value>
+  </data>
+  <data name="Pending" xml:space="preserve">
+      <value>Függőben lévő</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+      <value>Státusz</value>
+  </data>
+  <data name="DurationFormatMinutes" xml:space="preserve">
+      <value>{0}p</value>
+  </data>
+  <data name="EndTimeMustBeAfterStartTime" xml:space="preserve">
+      <value>A záró időnek a kezdő idő után kell lennie</value>
+  </data>
+  <data name="TotalRevenue" xml:space="preserve">
+      <value>Bevétel</value>
+  </data>
+  <data name="NoComparisonAvailable" xml:space="preserve">
+      <value>Nincs mivel összehasonlítani</value>
+  </data>
+  <data name="RevenueUpBy" xml:space="preserve">
+      <value>{0}%-kal nőtt a bevétel</value>
+  </data>
+  <data name="RevenueDownBy" xml:space="preserve">
+      <value>{0}%-kal csökkent a bevétel</value>
+  </data>
+  <data name="RevenueSame" xml:space="preserve">
+      <value>Ugyanolyan a bevétel</value>
+  </data>
+  <data name="PendingRevenue" xml:space="preserve">
+      <value>Függőben lévő bevétel</value>
+  </data>
+  <data name="TotalRevenueThisMonth" xml:space="preserve">
+      <value>Aktuális hónap bevétele</value>
+  </data>
+  <data name="DurationLabel" xml:space="preserve">
+      <value>Időtartam</value>
+  </data>
+  <data name="Ascending" xml:space="preserve">
+      <value>Növekvő</value>
+  </data>
+  <data name="Descending" xml:space="preserve">
+      <value>Csökkenő</value>
+  </data>
+  <data name="SortBy" xml:space="preserve">
+      <value>Rendezés</value>
+  </data>
+  <data name="ShowFilters" xml:space="preserve">
+      <value>Szűrők megjelenítése</value>
+  </data>
+  <data name="HideFilters" xml:space="preserve">
+      <value>Szűrők elrejtése</value>
+  </data>
+  <data name="CreatedDateLabel" xml:space="preserve">
+      <value>Létrehozás ideje</value>
+  </data>
+  <data name="CompletedDateLabel" xml:space="preserve">
+      <value>Teljesítés ideje</value>
+  </data>
+  <data name="CanceledDateLabel" xml:space="preserve">
+      <value>Törlés ideje</value>
+  </data>
+  <data name="StartDateLabel" xml:space="preserve">
+      <value>Kezdő dátum</value>
+  </data>
+  <data name="EndDateLabel" xml:space="preserve">
+      <value>Záró dátum</value>
+  </data>
+  <data name="View" xml:space="preserve">
+      <value>Megtekintés</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+      <value>Nyelv</value>
+  </data>
+  <data name="OrdersShown" xml:space="preserve">
+      <value>Rendelések száma</value>
+  </data>
+  <data name="HowManyOrdersShouldBeShown" xml:space="preserve">
+      <value>Hány rendelés legyen megjelenítve</value>
+  </data>
+  <data name="LocalizationWillChangeAfterRestartingTheApp" xml:space="preserve">
+      <value>A nyelv alkalmazás újraindítása után megváltozik </value>
+  </data>
+  <data name="Theme" xml:space="preserve">
+      <value>Téma</value>
+  </data>
+  <data name="SystemDefault" xml:space="preserve">
+      <value>Automatikus</value>
+  </data>
+  <data name="Dark" xml:space="preserve">
+      <value>Sötét</value>
+  </data>
+  <data name="Light" xml:space="preserve">
+      <value>Világos</value>
   </data>
 </root>

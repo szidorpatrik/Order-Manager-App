@@ -29,6 +29,22 @@
     z-index: 1000;
 }
 
+.collapsing {
+	overflow: hidden;
+	animation: collapseHeight 0.33s ease-out forwards;
+}
+
+@keyframes collapseHeight {
+	from {
+		height: 32px;
+		opacity: 1;
+	}
+	to {
+		height: 0;
+		opacity: 0;
+	}
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

@@ -111,5 +111,30 @@ namespace DatabaseLibrary.Tests {
 
 			Assert.AreEqual(2, items.Count);
 		}
+
+		[TestMethod]
+		public void GetItems_ShouldReturnAllItems() {
+			Item[] items = [
+				new() {
+					Name = "Item 1",
+					Price = 9.99
+				},
+				new() {
+					Name = "Item 2",
+					Price = 10.99
+				},
+				new() {
+					Name = "Item 3",
+					Price = 8.99
+				}
+			];
+
+			foreach (Item item in items) {
+				LiteDbService.AddItem(item);
+			}
+
+			var retrievedItems = LiteDbService.GetItems();
+			Assert.AreEqual(items.Length, retrievedItems.Count);
+		}
 	}
 }

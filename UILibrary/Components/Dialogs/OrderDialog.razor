@@ -261,6 +261,15 @@
             return false;
         }
 
+        if (_dateStart == _dateEnd && _timeStart == _timeEnd) {
+            return true;
+        }
+
+        if (_dateStart == _dateEnd && _timeStart > _timeEnd) {
+            ShowSnackbar(Localizer["EndTimeMustBeAfterStartTime"], Severity.Error);
+            return false;
+        }
+        
         return true;
     }
 
@@ -301,7 +310,10 @@
     }
 
     private async Task DeleteOrder() {
-        var isDeleted = DBService.Orders.Delete(_localOrder.Id);
+        _localOrder.IsCanceled = true;
+        _localOrder.DateCanceled = DateTime.Now;
+
+        var isDeleted = DBService.UpdateOrder(_localOrder);
         if (isDeleted) {
             ShowSnackbar(Localizer["OrderDeletedSuccessfully", _localOrder.OrderNumber], Severity.Success);
             MudDialog.Close();

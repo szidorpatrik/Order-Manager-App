@@ -1,0 +1,164 @@
+﻿@using System.Text
+@inject LiteDbService DBService
+
+<MudPaper Elevation="2" Class="@GetPaperStyle(Order)">
+    <MudStack Spacing="0">
+        <div class="d-flex justify-space-between align-center gap-2">
+            <MudText Typo="Typo.h6">@Order</MudText>
+            <div class="d-flex">
+                @if (Order.IsPending) {
+                    <MudButton EndIcon="@Icons.Material.Filled.Check" IconSize="Size.Large"
+                               IconColor="Color.Success"
+                               Size="Size.Small" Style="text-transform:none;" Class="mr-2"
+                               OnClick="@(() => CompleteOrder(Order))">
+                        @Localizer["MarkAsCompleted"]
+                    </MudButton>
+
+                    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary"
+                                   OnClick="@(() => OpenOrderEditDialog(Order))"/>
+                }
+                <MudToggleIconButton Toggled="_expandedState"
+                                     ToggledChanged="@(() => ToggleExpand(Order.Id))"
+                                     Icon="@Icons.Material.Filled.ExpandMore"
+                                     ToggledIcon="@Icons.Material.Filled.ExpandLess"/>
+            </div>
+        </div>
+
+        <MudCollapse Expanded="_expandedState">
+            <MudDivider Class="my-1"/>
+
+            <MudText Typo="Typo.caption">
+                @Localizer["CreatedAt", Order.DateCreated.ToLocalTime().ToString("g")]
+            </MudText>
+            <MudFlexBreak/>
+
+            <MudText Typo="Typo.caption">
+                @Localizer["Status"]:
+                @if (Order.IsCompleted) {
+                    @Localizer["Completed"]
+                }
+                else if (Order.IsPending) {
+                    @Localizer["Pending"]
+                }
+                else if (Order.IsCanceled) {
+                    @Localizer["Canceled"]
+                }
+            </MudText>
+            <MudDivider Class="my-1"/>
+
+            <MudText Typo="Typo.caption" Class="d-block">
+                @Localizer["StartDate", Order.DateStart.ToLocalTime().ToString("g")]</MudText>
+            <MudText Typo="Typo.caption" Class="d-block">
+                @Localizer["EndDate", Order.DateEnd.ToLocalTime().ToString("g")]</MudText>
+            <MudDivider Class="my-1"/>
+
+            @if (!Order.IsCanceled) {
+                <MudText Typo="Typo.caption" Class="d-block">
+                    @Localizer["CompletedDate", Order.IsPending ? "-" : Order.DateCompleted.ToLocalTime().ToString("g")]</MudText>
+            }
+            else {
+                <MudText Typo="Typo.caption" Class="d-block">
+                    @Localizer["CanceledDate", Order.DateCanceled.ToLocalTime().ToString("g")]</MudText>
+            }
+
+            <MudText Typo="Typo.caption" Class="d-block">
+                @Localizer["Duration", GetDurationFormatted(Order.Duration)]</MudText>
+            <MudDivider Class="my-1"/>
+
+            @if (!Order.OrderItems.Any()) {
+                <MudText Typo="Typo.caption"><b>@Localizer["ThereAreNoItems"]</b></MudText>
+            }
+            else {
+                @foreach (var orderItem in Order.OrderItems) {
+                    <MudText Typo="Typo.caption" Class="d-block">
+                        <span>@(orderItem.Quantity)x</span>
+                        <span><b>@orderItem.Item.Name</b></span>
+                        <span>(@(Utils.GetFormattedPrice(Localizer, orderItem.Quantity * orderItem.Item.Price)))</span>
+                    </MudText>
+                }
+                <MudDivider Class="my-1"/>
+
+                <MudText Typo="Typo.caption">
+                    @Localizer["TotalPrice"]:
+                    <b>@(Utils.GetFormattedPrice(Localizer, Order.OrderItems.Sum(x => x.Item.Price * x.Quantity)))</b>
+                </MudText>
+            }
+        </MudCollapse>
+    </MudStack>
+</MudPaper>
+
+@code {
+    [Parameter, EditorRequired]
+    public Order Order { get; set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback OnOrderChange { get; set; }
+
+    private bool _expandedState;
+
+    private void CompleteOrder(Order order) {
+        order.IsCompleted = true;
+        order.DateCompleted = DateTime.Now;
+
+        var result = DBService.UpdateOrder(order);
+        if (result) {
+            Snackbar.Add(Localizer["OrderMarkedAsCompleted", order.OrderNumber], Severity.Success);
+        }
+        else {
+            Snackbar.Add(Localizer["SomethingWentWrong"], Severity.Error);
+        }
+    }
+
+    private async Task OpenOrderEditDialog(Order order) {
+        await DialogService.ShowAsync<OrderDialog>(Localizer["EditOrder"], GetOrderDialogParameters(order), GetOrderDialogOptions());
+    }
+
+    private DialogParameters GetOrderDialogParameters(Order order) {
+        return new DialogParameters {
+            ["Order"] = order,
+            ["OnOrderChanged"] = EventCallback.Factory.Create(this, OnOrderChange)
+        };
+    }
+
+    private DialogOptions GetOrderDialogOptions() {
+        return new DialogOptions {
+            BackdropClick = false,
+            FullScreen = true,
+            CloseOnEscapeKey = true,
+            CloseButton = true
+        };
+    }
+
+    private string GetPaperStyle(Order order) {
+        StringBuilder builder = new("pa-3 border-l-4 border-solid");
+
+        if (order.IsCompleted) {
+            builder.Append(" mud-border-success");
+        }
+        else if (order.IsCanceled) {
+            builder.Append(" mud-border-secondary");
+        }
+        else {
+            builder.Append(" mud-border-warning");
+        }
+
+        return builder.ToString();
+    }
+
+    private void ToggleExpand(int id) {
+        _expandedState = !_expandedState;
+    }
+
+    private string GetDurationFormatted(TimeSpan duration) {
+        if (duration == TimeSpan.MinValue) {
+            return "-";
+        }
+
+        return duration.Days switch {
+            0 when duration.Hours is 0 => Localizer["DurationFormatMinutes", duration.Minutes],
+            0                          => Localizer["DurationFormatHourMinutes", duration.Hours, duration.Minutes],
+            _                          => Localizer["DurationFormatDayHourMinutes", duration.Days, duration.Hours, duration.Minutes]
+        };
+
+    }
+}

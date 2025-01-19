@@ -22,8 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Components\Buttons\" />
-      <Folder Include="Components\Layout\" />
       <Folder Include="Components\Cards\" />
       <Folder Include="Components\Dialogs\" />
     </ItemGroup>

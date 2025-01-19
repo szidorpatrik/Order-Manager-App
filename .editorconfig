@@ -1,10 +1,11 @@
+root = true
 
 [*]
-charset = utf-8-bom
-end_of_line = crlf
-trim_trailing_whitespace = false
-insert_final_newline = false
-indent_style = space
+charset = utf-8
+end_of_line = lf
+trim_trailing_whitespace = true
+insert_final_newline = true
+indent_style = tab
 indent_size = 4
 
 # Microsoft .NET properties
@@ -113,16 +114,11 @@ indent_size = 2
 indent_style = space
 indent_size = 2
 
-[*.map]
-indent_style = space
-indent_size = 2
-
-[*.cs]
-indent_style = tab
-indent_size = tab
-tab_width = 4
-
 [*.{appxmanifest,asax,ascx,aspx,axaml,blockshader,build,c,c++,c++m,cc,ccm,cginc,compute,cp,cpp,cppm,cshtml,cu,cuh,cxx,cxxm,dtd,fs,fsi,fsscript,fsx,fx,fxh,h,h++,hh,hlsl,hlsli,hlslinc,hp,hpp,hxx,icc,inc,inl,ino,ipp,ixx,master,ml,mli,mpp,mq4,mq5,mqh,mxx,nuspec,paml,razor,resw,resx,shader,shaderFoundry,skin,tcc,tpp,urtshader,usf,ush,uxml,vb,xaml,xamlx,xoml,xsd}]
 indent_style = space
 indent_size = 4
 tab_width = 4
+
+[*.{yaml,yml}]
+indent_style = space
+indent_size = 2
